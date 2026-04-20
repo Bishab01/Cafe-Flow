@@ -1,13 +1,13 @@
 import { Routes, Route } from 'react-router-dom'
-import UserLogin from './login.jsx'
-import LoginScreen from './loginScreen.jsx'
+import Login from './login/selectRole.jsx'
+import LoginScreen from './login/loginScreen.jsx'
 import Sidebar from './sidebar.jsx'
 
 function App() {
   return (
     <>
       <Routes>
-      <Route path="/" element={<UserLogin />} />
+      <Route path="/" element={<Login />} />
       <Route path="/login" element={<LoginScreen />} />
       <Route path="/sidebar" element={<Sidebar />} />
     </Routes>
