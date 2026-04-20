@@ -8,7 +8,7 @@ import {
   UserCog,
 } from "lucide-react"
 import coffee from './assets/coffee.jpg'
-import { useAuth } from "./AuthContext"
+import { useAuth } from "./login/authContext"
 
 function Sidebar() {
   const {role}=useAuth();
@@ -79,4 +79,4 @@ function Sidebar() {
   );
 }
 
-export default Sidebar;
+export default Sidebar
