@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ChefHat, XCircle, X, Percent, QrCode, Banknote } from "lucide-react";
 import { CafeProvider } from "../../context/cafeContext.jsx";
-import { useCafe } from "../../hooks/useCafe.js";
+import { useCafe } from "../context/cafeContext.jsx";
 
 // Simple inline QR-code SVG (visual placeholder — represents a cafe payment QR)
 function QRCodeImage() {
