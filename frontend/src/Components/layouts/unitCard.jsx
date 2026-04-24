@@ -1,13 +1,15 @@
 import { X, UtensilsCrossed } from "lucide-react";
 
-function TableCard({ table, onDelete, openStatusForm}) {
-  const status = table.status;
+function UnitCard({ unit, onDelete, openStatusForm}) {
+  const status = unit.status;
+  const type = unit.type;
+
   return (
     <div className="relative group">
 
       {/* Delete button */}
       <button
-        onClick={() => onDelete(table.id)}
+        onClick={() => onDelete(unit.id)}
         className="absolute -top-2 -right-2 z-10 bg-red-400 hover:bg-red-500 text-white 
         rounded-full w-5 h-5 flex items-center justify-center 
         opacity-0 group-hover:opacity-100 transition-opacity shadow-md"
@@ -26,21 +28,23 @@ function TableCard({ table, onDelete, openStatusForm}) {
         `}>
 
         <p className="text-white font-medium text-sm mb-1">
-          {table.customerName}
+          {unit.customerName}
         </p>
 
         <UtensilsCrossed className="w-6 h-6 text-white" />
 
         <p className="text-white font-medium mt-1">
-          Table {table.tableNumber}
+          {type === "room" ? "Room" : "Table"} {unit.number}
         </p>
 
         <p className="text-gray-50 font-medium text-[14px]">
-          {table.seats} seats
+          {type === "room"
+            ? `${unit.capacity} guests`
+            : `${unit.capacity} seats`}
         </p>
 
         <p className="text-white mt-2 mb-2 font-medium text-sm">
-          {table.status}
+          {unit.status}
         </p>
 
       </div>
@@ -49,4 +53,4 @@ function TableCard({ table, onDelete, openStatusForm}) {
   );
 }
 
-export default TableCard;
+export default UnitCard
