@@ -1,49 +1,39 @@
-import { useState } from "react";
 import { Plus } from "lucide-react";
-import AddTable from "./addtable.jsx";
-import TableCard from "./tablecard.jsx";
-import StatusForm from "./statusform.jsx";
+import AddUnit from "../layouts/addunit.jsx";
+import UnitCard from "../layouts/unitCard.jsx";
+import StatusForm from "../layouts/statusform.jsx";
+import { useState, useContext } from "react";
+import { UnitContext } from "../../context/cafeContext.jsx";
 
 function Tables() {
   const [showForm, setShowForm] = useState(false);
-  const [tables, setTables] = useState([]);
   const [activeTable, setActiveTable] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
 
-  const handleAddTable = (tableNumber, seats) => {
-    const exists = tables.some(t => t.tableNumber === tableNumber);
-    if (exists) {
-      setShowPopup(true);
-      return;
+  const { units, addUnit, updateUnit, deleteUnit } = useContext(UnitContext);
+
+  const handleAddTable = (type, number, capacity) => {
+    const success = addUnit({
+    type: type,
+    number: number,
+    capacity: capacity,
+    });
+
+    if (!success) {
+      alert("Table already exists");
     }
-
-    const newTable = {
-      id: Date.now(),
-      tableNumber,
-      seats,
-      customerName: "",
-      status: "Available",
-    };
-
-    setTables(prev => [...prev, newTable]);
-    setShowForm(false);
   };
 
-  const updateTable = (id, newStatus, newCustomerName) => {
-    setTables((prev) =>
-      prev.map((t) =>
-        t.id === id
-          ? { ...t, status: newStatus, customerName: newCustomerName }
-          : t
-      )
-    );
-
-    setActiveTable(null);
+  const handleUpdate = (id, status, customerName) => {
+    updateUnit(id, status, customerName);
   };
 
   const handleDelete = (id) => {
-    setTables((prev) => prev.filter((t) => t.id !== id));
+    deleteUnit(id);
   };
+
+  //for filtering tables from units
+  const tables = units.filter((u) => u.type === "table");
 
   return (
     <div className="flex-1 min-h-screen p-8 bg-gray-50">
@@ -96,18 +86,25 @@ function Tables() {
 
       {/* Table Info Form */}
       {showForm && (
-        <AddTable
+        <AddUnit
+          type="table"
           onClose={() => setShowForm(false)}
-          onConfirm={handleAddTable}
+          onConfirm={(type, number, capacity) => {
+          handleAddTable(type, number, capacity);
+          setShowForm(false);
+          }}
         />
       )}
 
       {/* Status Inquiry Form */}
       {activeTable && (
         <StatusForm
-          table={activeTable}
+          unit={activeTable}
           onClose={() => setActiveTable(null)}
-          onConfirm={updateTable}
+          onConfirm={(status, customerName) => {
+          handleUpdate(activeTable.id, status, customerName);
+          setActiveTable(null);
+          }}
         />
       )}
 
@@ -143,12 +140,12 @@ function Tables() {
             </p>
           ) : (
             [...tables]
-            .sort((a, b) => a.tableNumber - b.tableNumber)
+            .sort((a, b) => a.number - b.number)
             .map((table) => (
-              <TableCard
+              <UnitCard
                 key={table.id}
-                table={table}
-                onDelete={handleDelete}
+                unit={table}
+                onDelete={()=>handleDelete(table.id)}
                 openStatusForm={() => setActiveTable(table)}
               />
             ))

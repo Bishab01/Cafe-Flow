@@ -10,7 +10,7 @@ import {
 import { MdTableRestaurant } from "react-icons/md";
 import coffee from "../../assets/images/coffee.jpg";
 import { useAuth } from "../../context/authContext.jsx";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink} from "react-router-dom";
 
 function AdminDashboard() {
   const { role } = useAuth();
@@ -67,7 +67,7 @@ function AdminDashboard() {
               to={`/dashboard/${item.id}`} // important
               end={item.id === ""} // for dashboard root
               className={({ isActive }) =>
-                `w-full flex items-center gap-3 p-3 rounded-lg transition-colors ${
+                `w-full flex items-center gap-3 p-3 rounded-lg transition ${
                   isActive
                     ? "bg-[#F5E6D3] font-medium text-[#4B2E2A]"
                     : "text-[#6A4A45] font-medium hover:bg-[#fff4e9]"

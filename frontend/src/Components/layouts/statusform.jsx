@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-function StatusForm({ table, onClose, onConfirm }) {
-  const [status, setStatus] = useState(table.status);
-  const [customerName, setCustomerName] = useState(table.customerName);
+function StatusForm({ unit, onClose, onConfirm }) {
+  const [status, setStatus] = useState(unit.status);
+  const [customerName, setCustomerName] = useState(unit.customerName);
   const [msg, setMsg] = useState("");
 
   const customerRegex=/^[a-zA-Z\s]+$/;
@@ -12,7 +12,7 @@ function StatusForm({ table, onClose, onConfirm }) {
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
 
       <div className="bg-white p-6 rounded-2xl w-80">
-        <h2 className="text-xl font-bold mb-4">Select Table Status</h2>
+        <h2 className="text-xl font-bold mb-4">Select {unit.type==="room"?"Room":"Table"} Status</h2>
 
         <div className="flex items-center gap-3 mb-5"> 
             <div className="flex items-center gap-1">
@@ -79,7 +79,7 @@ function StatusForm({ table, onClose, onConfirm }) {
                 setMsg("Must enter a valid name");
                 return;
               }
-            onConfirm(table.id, status, customerName);
+            onConfirm(status, customerName);
             setMsg("");
             setCustomerName("");
             setStatus("Available");

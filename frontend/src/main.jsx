@@ -4,14 +4,16 @@ import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./App.jsx";
 import { AuthProvider } from "./context/authContext.jsx";
-import { CafeProvider } from "./context/cafeContext.jsx";
+import { CafeProvider, UnitProvider } from "./context/cafeContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
         <CafeProvider>
-          <App />
+          <UnitProvider>
+            <App />
+          </UnitProvider>
         </CafeProvider>
       </AuthProvider>
     </BrowserRouter>
