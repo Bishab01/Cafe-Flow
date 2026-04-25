@@ -11,6 +11,7 @@ import Tables from "./Components/dashboard/tables.jsx";
 import Rooms from "./Components/dashboard/room.jsx";
 import Inventory from "./Components/dashboard/inventory.jsx";
 import Finance from "./Components/dashboard/finance.jsx";
+import MenuView from "./Components/dashboard/menu"
 
 function App() {
   return (
@@ -24,13 +25,14 @@ function App() {
           <Route index element={<Overview />} />
           <Route path="overview" element={<Overview />} />
           <Route path="orders" element={<OrdersView />} />
+          <Route path="menu" element={<MenuView />} />
           <Route path="tables" element={<Tables />} />
           <Route path="rooms" element={<Rooms />} />
           <Route path="staff" element={<Staff />} />
           <Route path="inventory" element={<Inventory />} />
           <Route path="finance" element={<Finance />} />
         </Route>
-          {/* <Route path="menu" element={<Menu />} />
+          {/* 
           <Route path="tables" element={<Tables />} />
           <Route path="rooms" element={<Rooms />} /> */}
         
