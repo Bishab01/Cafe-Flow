@@ -1,6 +1,8 @@
-import { useState } from "react";
-import { Coffee, UtensilsCrossed, Plus, Minus, Trash2, X } from "lucide-react";
-import { useCafe } from "../../context/cafeContext";
+import { useState } from 'react'
+import { Coffee, Plus, Minus, Trash2, CircleX, CircleCheck, } from 'lucide-react'
+import { useCafe } from '../../context/cafeContext' 
+import { MdRoomService } from 'react-icons/md'
+import { FaUtensilSpoon } from "react-icons/fa";
 
 function MenuView() {
   const {
@@ -124,240 +126,157 @@ function MenuView() {
   };
 
   return (
-    <div className="flex-1 bg-gray-50 overflow-auto">
-      <div className="p-8">
-        <div className="mb-6 flex items-center justify-between">
-          <div>
-            <h1>Menu Management</h1>
-            <p className="text-gray-500">Add items to create new orders</p>
-          </div>
-          <button
-            onClick={() => setShowAddModal(true)}
-            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
-          >
-            <Plus className="w-4 h-4" />
-            Add New Item
-          </button>
+    <div className="flex-1 bg-gray-50 min-h-screen p-8">
+      {/* Header */}
+      <div className="flex justify-between gap-3 mb-6">
+        <div>
+          <h1 className="text-xl md:text-2xl font-bold">
+            Menu View
+          </h1>
+
+          <p className="text-sm md:text-[15px] text-gray-400 font-medium mt-1">
+            Create your perfect order  
+          </p>      
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* LEFT */}
-          <div className="lg:col-span-2">
-            <div className="mb-6 flex gap-3">
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  className={`px-4 py-2 rounded-lg ${
-                    selectedCategory === category
-                      ? "bg-red-500 text-white"
-                      : "bg-white text-gray-700"
-                  }`}
-                >
-                  {category}
+        <div className="flex items-center justify-center">
+          <button
+            onClick={() => setShowForm(true)}
+            className="bg-blue-600 text-white px-3 py-2 rounded-lg flex items-center
+            gap-1 hover:bg-blue-700">
+            <Plus className="w-5 h-5" />
+            <p className="font-medium text-sm md:text-[16px]">Add New Item</p>
+          </button>
+        </div>
+      </div>
+
+      {/* Menu items */}
+      <div className="flex flex-col mb-6">
+        <div className="mb-6 flex gap-3">
+          {categories.map((category) => (
+            <button
+              key={category}
+              onClick={() => setSelectedCategory(category)}
+              className={`px-3 py-2 rounded-lg font-medium text-[16px] ${
+                selectedCategory === category
+                  ? 'bg-red-500 text-white'
+                  : 'bg-white text-gray-700'
+              }`}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-150 overflow-y-auto p-2">
+          {filteredItems.map((item) => (
+            <div key={item.id} className="bg-white rounded-xl h-fit p-4 shadow-sm">
+              <div className="flex justify-between mb-3">
+                <div className="flex gap-3">
+                  <div className="bg-red-50 p-2 rounded-lg flex items-center justify-center">
+                    {item.category === 'Coffee' ? (
+                      <Coffee className="w-5 h-5 text-red-500" />
+                    ) : item.category === 'Food'? (
+                      <MdRoomService className="w-5 h-5 text-red-500" />
+                    ) : 
+                      <FaUtensilSpoon className="w-5 h-5 text-red-500" />
+                    }
+                  </div>
+                  <div>
+                    <h3>{item.name}</h3>
+                    <p className="text-sm text-gray-500">{item.category}</p>
+                  </div>
+                </div>
+
+                <button onClick={() => removeMenuItem(item.id)}>
+                  <Trash2 className="w-5 h-5 text-red-400 hover:text-red-600" />
                 </button>
-              ))}
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {filteredItems.map((item) => (
-                <div
-                  key={item.id}
-                  className="bg-white rounded-xl p-4 shadow-sm"
-                >
-                  <div className="flex justify-between mb-3">
-                    <div className="flex gap-3">
-                      <div className="bg-red-50 p-2 rounded-lg">
-                        {item.category === "Coffee" ? (
-                          <Coffee className="w-5 h-5 text-red-500" />
-                        ) : (
-                          <UtensilsCrossed className="w-5 h-5 text-red-500" />
-                        )}
-                      </div>
-                      <div>
-                        <h3>{item.name}</h3>
-                        <p className="text-sm text-gray-500">{item.category}</p>
-                      </div>
-                    </div>
-
-                    <button onClick={() => removeMenuItem(item.id)}>
-                      <Trash2 className="w-4 h-4 text-red-500" />
-                    </button>
-                  </div>
-
-                  <div className="flex justify-between mb-3">
-                    <span>Rs {item.price}</span>
-                    <button onClick={() => toggleMenuItemAvailability(item.id)}>
-                      {item.available ? "Available" : "Unavailable"}
-                    </button>
-                  </div>
-
-                  <button
-                    onClick={() => addToCart(item)}
-                    disabled={!item.available}
-                    className={`w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-                      item.available
-                        ? "bg-red-500 hover:bg-red-600 text-white"
-                        : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                    }`}
-                  >
-                    <Plus className="w-4 h-4" />
-                    Add to Order
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* RIGHT */}
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-xl p-6 shadow-sm sticky top-6">
-              <h3 className="mb-4">Current Order</h3>
-
-              <div className="space-y-4 mb-6">
-                <div>
-                  <label className="block text-gray-700 text-sm mb-2">
-                    Table Number
-                  </label>
-                  <input
-                    type="text"
-                    value={tableNumber}
-                    onChange={(e) => setTableNumber(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-                    placeholder="Enter table number"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-gray-700 text-sm mb-2">
-                    Customer Name
-                  </label>
-                  <input
-                    type="text"
-                    value={customerName}
-                    onChange={(e) => setCustomerName(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-                    placeholder="Enter customer name"
-                  />
-                </div>
               </div>
 
-              {cart.length === 0 ? (
-                <div className="text-center py-8 text-gray-400">
-                  <p>No items added yet</p>
-                </div>
-              ) : (
-                <>
-                  <div className="space-y-3 mb-6 max-h-64 overflow-y-auto">
-                    {cart.map((item) => (
-                      <div key={item.id} className="bg-gray-50 p-3 rounded-lg">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-gray-900">{item.name}</span>
-                          <button
-                            onClick={() => removeFromCart(item.id)}
-                            className="text-red-500 hover:text-red-600"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <button
-                              onClick={() => updateQuantity(item.id, -1)}
-                              className="bg-white p-1 rounded hover:bg-gray-100"
-                            >
-                              <Minus className="w-4 h-4 text-gray-600" />
-                            </button>
-                            <span className="text-gray-700 px-2">
-                              {item.quantity}
-                            </span>
-                            <button
-                              onClick={() => updateQuantity(item.id, 1)}
-                              className="bg-white p-1 rounded hover:bg-gray-100"
-                            >
-                              <Plus className="w-4 h-4 text-gray-600" />
-                            </button>
-                          </div>
-                          <span className="text-gray-700">
-                            Rs {item.price * item.quantity}
-                          </span>
-                        </div>
-                      </div>
-                    ))}
+              <div className="flex justify-between mb-3">
+                <span>Rs {item.price}</span>
+  
+                <button 
+                  onClick={() => toggleMenuItemAvailability(item.id)}
+                  className={`flex items-center gap-2 shadow-sm shadow-slate-300 rounded-2xl px-2.5 py-1.5
+                  hover:bg-gray-50
+                    ${
+                    item.available?'text-green-500':'text-red-500'
+                  }`}
+                > 
+                  <div>
+                  {item.available ? (
+                    <CircleCheck className="w-5 h-5 text-green-500" />
+                  ) : (
+                    <CircleX className="w-5 h-5 text-red-500" />
+                  )}
                   </div>
+                  {item.available ? 'Available' : 'Unavailable'}
+                </button>
+              </div>
 
-                  <div className="border-t border-gray-200 pt-4 mb-4">
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-700">Total Amount</span>
-                      <span className="text-red-500">
-                        Rs {calculateTotal()}
-                      </span>
-                    </div>
-                  </div>
+              <button onClick={() => addToCart(item)} disabled={!item.available}
+                className='bg-red-500 flex items-center justify-center gap-1 
+                rounded-lg px-3 py-1 text-slate-50 font-medium hover:bg-red-600'>
+                Add to Order
+                <Plus className='w-5 h-5'/>
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
 
-                  <button
-                    onClick={handleFinalizeOrder}
-                    className="w-full bg-red-500 hover:bg-red-600 text-white py-3 rounded-lg transition-colors"
-                  >
-                    Finalize Order
+      {/* Order Placing */}
+      <div className='grid grid-cols-1 md:grid-cols-2'>
+        <div className='bg-white rounded-2xl shadow-sm p-6'>
+          <div className='flex flex-col '>
+            <h3 className='font-semibold text-xl mb-3'>Current Order</h3>
+
+            <p className='mb-1 text-lg'>Table Number</p>
+            <input
+              type="text"
+              placeholder="Enter Table Number"
+              value={tableNumber}
+              onChange={(e) => setTableNumber(e.target.value)}
+              className='border rounded-lg p-2 mb-2'
+            />
+
+            <p className='mb-1 text-lg'>Customer Name</p>
+            <input
+              type="text"
+              placeholder="Enter Customer's Name"
+              value={customerName}
+              onChange={(e) => setCustomerName(e.target.value)}
+              className='border rounded-lg p-2 mb-2 w-full'
+            />
+
+            {cart.map((item) => (
+              <div key={item.id} className='mt-2 mb-2 flex items-center gap-8 text-lg text-slate-800'>
+                {item.name} x {item.quantity}
+                <div className='flex items-center gap-4'>
+                  <button onClick={() => updateQuantity(item.id, -1)}>
+                    <Minus className='w-5 h-5'/>
                   </button>
-                </>
-              )}
+                  <button onClick={() => updateQuantity(item.id, 1)}>
+                    <Plus className='w-5 h-5'/>
+                  </button>
+                </div>
+              </div>
+            ))}
+
+            <p className='mt-2 mb-2'>Total: Rs {calculateTotal()}</p>
+
+            <div className='flex items-center justify-center'>                
+              <button onClick={handleFinalizeOrder}
+              className='bg-green-400 font-medium rounded-lg text-white w-fit px-4 py-1.5
+              hover:bg-green-500 text-lg'>
+                Finalize
+              </button>
             </div>
           </div>
         </div>
       </div>
-
-      {/* MODAL */}
-      {showAddModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-xl w-80">
-            <div className="flex justify-between items-center mb-4">
-              <h3>Add New Item</h3>
-              <button onClick={() => setShowAddModal(false)}>
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            <input
-              type="text"
-              placeholder="Item name"
-              value={newItem.name}
-              onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
-              className="w-full mb-3 px-3 py-2 border rounded"
-            />
-
-            <select
-              value={newItem.category}
-              onChange={(e) =>
-                setNewItem({ ...newItem, category: e.target.value })
-              }
-              className="w-full mb-3 px-3 py-2 border rounded"
-            >
-              <option>Coffee</option>
-              <option>Food</option>
-              <option>Dessert</option>
-            </select>
-
-            <input
-              type="number"
-              placeholder="Price"
-              value={newItem.price}
-              onChange={(e) =>
-                setNewItem({ ...newItem, price: Number(e.target.value) })
-              }
-              className="w-full mb-4 px-3 py-2 border rounded"
-            />
-
-            <button
-              onClick={handleAddNewItem}
-              className="w-full bg-red-500 text-white py-2 rounded"
-            >
-              Add Item
-            </button>
-          </div>
-        </div>
-      )}
+      
     </div>
   );
 }
