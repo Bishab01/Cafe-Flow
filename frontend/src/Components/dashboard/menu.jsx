@@ -5,23 +5,29 @@ import { MdRoomService } from 'react-icons/md'
 import { FaUtensilSpoon } from "react-icons/fa";
 
 function MenuView() {
-  const { menuItems, addMenuItem, removeMenuItem, toggleMenuItemAvailability, addOrder } = useCafe();
+  const {
+    menuItems,
+    addMenuItem,
+    removeMenuItem,
+    toggleMenuItemAvailability,
+    addOrder,
+  } = useCafe();
 
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const [cart, setCart] = useState([]);
-  const [tableNumber, setTableNumber] = useState('');
-  const [customerName, setCustomerName] = useState('');
+  const [tableNumber, setTableNumber] = useState("");
+  const [customerName, setCustomerName] = useState("");
   const [showAddModal, setShowAddModal] = useState(false);
   const [newItem, setNewItem] = useState({
-    name: '',
-    category: 'Coffee',
+    name: "",
+    category: "Coffee",
     price: 0,
   });
 
-  const categories = ['All', 'Coffee', 'Food', 'Dessert'];
+  const categories = ["All", "Coffee", "Food", "Dessert"];
 
   const filteredItems =
-    selectedCategory === 'All'
+    selectedCategory === "All"
       ? menuItems
       : menuItems.filter((item) => item.category === selectedCategory);
 
@@ -33,11 +39,14 @@ function MenuView() {
         cart.map((cartItem) =>
           cartItem.id === item.id
             ? { ...cartItem, quantity: cartItem.quantity + 1 }
-            : cartItem
-        )
+            : cartItem,
+        ),
       );
     } else {
-      setCart([...cart, { id: item.id, name: item.name, price: item.price, quantity: 1 }]);
+      setCart([
+        ...cart,
+        { id: item.id, name: item.name, price: item.price, quantity: 1 },
+      ]);
     }
   };
 
@@ -51,7 +60,7 @@ function MenuView() {
           }
           return item;
         })
-        .filter((item) => item.quantity > 0)
+        .filter((item) => item.quantity > 0),
     );
   };
 
@@ -65,15 +74,15 @@ function MenuView() {
 
   const handleFinalizeOrder = () => {
     if (cart.length === 0) {
-      alert('Please add items to the cart');
+      alert("Please add items to the cart");
       return;
     }
     if (!tableNumber) {
-      alert('Please enter table number');
+      alert("Please enter table number");
       return;
     }
     if (!customerName) {
-      alert('Please enter customer name');
+      alert("Please enter customer name");
       return;
     }
 
@@ -95,13 +104,13 @@ function MenuView() {
 
     alert(result.message);
     setCart([]);
-    setTableNumber('');
-    setCustomerName('');
+    setTableNumber("");
+    setCustomerName("");
   };
 
   const handleAddNewItem = () => {
     if (!newItem.name || newItem.price <= 0) {
-      alert('Please enter valid item details');
+      alert("Please enter valid item details");
       return;
     }
 
@@ -112,7 +121,7 @@ function MenuView() {
       available: true,
     });
 
-    setNewItem({ name: '', category: 'Coffee', price: 0 });
+    setNewItem({ name: "", category: "Coffee", price: 0 });
     setShowAddModal(false);
   };
 
