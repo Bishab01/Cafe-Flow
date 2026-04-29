@@ -28,10 +28,10 @@ function Overview() {
         
         {/* Header */}
         <div className="mb-6">
-          <h1 className="text-xl md:text-2xl font-bold whitespace-nowrap"> 
+          <h1 className="text-xl md:text-2xl font-bold"> 
             Dashboard Overview
           </h1>
-          <p className="text-sm md:text-[15px] text-gray-400 font-medium mt-1 whitespace-nowrap">
+          <p className="text-sm md:text-[15px] text-gray-400 font-medium mt-1">
             Monitor your cafe performance
           </p>
         </div>

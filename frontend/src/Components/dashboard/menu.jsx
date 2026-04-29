@@ -10,15 +10,10 @@ import {
 import { useCafe } from "../../context/cafeContext";
 import { MdRoomService } from "react-icons/md";
 import { FaUtensilSpoon } from "react-icons/fa";
+import NewItemForm from '../layouts/newitemform';
 
 function MenuView() {
-  const {
-    menuItems,
-    addMenuItem,
-    removeMenuItem,
-    toggleMenuItemAvailability,
-    addOrder,
-  } = useCafe();
+  const {menuItems, addMenuItem, removeMenuItem, toggleMenuItemAvailability, addOrder} = useCafe();
 
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [cart, setCart] = useState([]);
@@ -27,7 +22,7 @@ function MenuView() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [newItem, setNewItem] = useState({
     name: "",
-    category: "Coffee",
+    category: "",
     price: 0,
   });
 
@@ -115,20 +110,15 @@ function MenuView() {
     setCustomerName("");
   };
 
-  const handleAddNewItem = () => {
-    if (!newItem.name || newItem.price <= 0) {
-      alert("Please enter valid item details");
-      return;
-    }
-
+  const handleAddNewItem = (itemName,itemCategory,price) => {
     addMenuItem({
-      name: newItem.name,
-      category: newItem.category,
-      price: newItem.price,
+      name: itemName,
+      category: itemCategory,
+      price: price,
       available: true,
     });
 
-    setNewItem({ name: "", category: "Coffee", price: 0 });
+    setSelectedCategory("All");
     setShowAddModal(false);
   };
 
@@ -146,7 +136,7 @@ function MenuView() {
 
         <div className="flex items-center justify-center">
           <button
-            onClick={() => setShowForm(true)}
+            onClick={() => setShowAddModal(true)}
             className="bg-blue-600 text-white px-3 py-2 rounded-lg flex items-center
             gap-1 hover:bg-blue-700"
           >
@@ -237,60 +227,65 @@ function MenuView() {
       </div>
 
       {/* Order Placing */}
-      <div className="grid grid-cols-1 md:grid-cols-2">
-        <div className="bg-white rounded-2xl shadow-sm p-6">
-          <div className="flex flex-col ">
-            <h3 className="font-semibold text-xl mb-3">Current Order</h3>
+      <div className='grid grid-cols-1 md:grid-cols-2'>
+        <div className='bg-white rounded-2xl shadow-sm p-6'>
+          <div className='flex flex-col '>
+            <h3 className='font-semibold text-xl mb-6'>Current Order</h3>
 
-            <p className="mb-1 text-lg">Table Number</p>
+            <p className='mb-2 text-lg'>Table Number</p>
             <input
-              type="text"
+              type="number"
               placeholder="Enter Table Number"
               value={tableNumber}
               onChange={(e) => setTableNumber(e.target.value)}
-              className="border rounded-lg p-2 mb-2"
+              className='border rounded-lg p-2 mb-4'
             />
 
-            <p className="mb-1 text-lg">Customer Name</p>
+            <p className='mb-2 text-lg'>Customer Name</p>
             <input
               type="text"
               placeholder="Enter Customer's Name"
               value={customerName}
               onChange={(e) => setCustomerName(e.target.value)}
-              className="border rounded-lg p-2 mb-2 w-full"
+              className='border rounded-lg mb-4 p-2 w-full'
             />
 
             {cart.map((item) => (
-              <div
-                key={item.id}
-                className="mt-2 mb-2 flex items-center gap-8 text-lg text-slate-800"
-              >
+              <div key={item.id} className='mt-3 mb-3 flex items-center font-medium gap-8 text-[16.5px] justify-between text-gray-700'>
                 {item.name} x {item.quantity}
                 <div className="flex items-center gap-4">
                   <button onClick={() => updateQuantity(item.id, -1)}>
-                    <Minus className="w-5 h-5" />
+                    <Minus className='w-4.5 h-4.5'/>
                   </button>
                   <button onClick={() => updateQuantity(item.id, 1)}>
-                    <Plus className="w-5 h-5" />
+                    <Plus className='w-4.5 h-4.5'/>
                   </button>
                 </div>
               </div>
             ))}
 
-            <p className="mt-2 mb-2">Total: Rs {calculateTotal()}</p>
+            <p className='mt-4 text-lg font-semibold mb-4 border-t border-dashed border-gray-700 pt-3'>
+              Total: Rs {calculateTotal()}
+            </p>
 
-            <div className="flex items-center justify-center">
-              <button
-                onClick={handleFinalizeOrder}
-                className="bg-green-400 font-medium rounded-lg text-white w-fit px-4 py-1.5
-              hover:bg-green-500 text-lg"
-              >
-                Finalize
+            <div className='flex items-center justify-center'>                
+              <button onClick={handleFinalizeOrder}
+              className='bg-green-400 font-medium rounded-xl text-white w-fit px-5 py-1.5
+              hover:bg-green-500 text-lg'>
+                Finalize Order
               </button>
             </div>
           </div>
         </div>
       </div>
+
+      {showAddModal &&
+        <NewItemForm
+          onCancel={()=>setShowAddModal(false)}
+          onConfirm={(itemName, itemCategory, price )=>handleAddNewItem(itemName,itemCategory,price)}
+        />
+      }
+      
     </div>
   );
 }

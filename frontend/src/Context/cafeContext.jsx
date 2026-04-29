@@ -17,20 +17,7 @@ export function CafeProvider({ children }) {
     { id: 11, name: "Ice Cream", category: "Dessert", price: 120, available: true },
   ]);
 
-  const [orders, setOrders] = useState([
-    {
-      id: 1,
-      tableNumber: "3",
-      customerName: "John Doe",
-      items: [
-        { name: "Cappuccino", quantity: 2, price: 150 },
-        { name: "Club Sandwich", quantity: 1, price: 280 },
-      ],
-      total: 580,
-      status: "preparing",
-      time: "10:30 AM",
-    },
-  ]);
+  const [orders, setOrders] = useState([]);
 
   const [tables, setTables] = useState([
     { id: 1, number: 1, capacity: 2, isOccupied: false },
@@ -99,6 +86,16 @@ export function CafeProvider({ children }) {
     );
 
     return { success: true, message: "Order placed" };
+  };
+
+  const updateOrderStatus = (id,status)=>{
+     setOrders((prev) =>
+      prev.map((o) =>
+        o.id === parseInt(id)
+          ? { ...o, status: status}
+          : o
+      )
+    );
   };
 
   const completeOrder = (id, discountPercent, paymentMethod) => {
@@ -202,6 +199,7 @@ export function CafeProvider({ children }) {
         addMenuItem,
         removeMenuItem,
         toggleMenuItemAvailability,
+        updateOrderStatus,
         updateMenuItem,
         addOrder,
         completeOrder,

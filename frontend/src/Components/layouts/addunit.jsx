@@ -11,7 +11,7 @@ function AddUnit({ type, onClose, onConfirm }) {
       <div className="bg-white p-6 rounded-2xl w-80">
         <h2 className="text-xl font-bold mb-4">Add New {type === "room" ? "Room" : "Table"}</h2>
 
-        <p className="font-medium mb-2 text-gray-600">{type === "room" ? "Room" : "Table"} Number</p>
+        <p className="font-medium mb-2 text-lg text-gray-600">{type === "room" ? "Room" : "Table"} Number</p>
 
         <input
           type="number"
@@ -20,7 +20,7 @@ function AddUnit({ type, onClose, onConfirm }) {
           className="w-full border-2 p-2 mb-3 rounded-lg"
         />
         
-        <p className="font-medium mb-2 text-gray-600">{type === "room" ? "Number of beds" : "Seating Capacity"}</p>
+        <p className="font-medium mb-2 text-lg text-gray-600">{type === "room" ? "Number of beds" : "Seating Capacity"}</p>
 
         <input
           type="number"

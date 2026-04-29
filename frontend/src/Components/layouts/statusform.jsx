@@ -7,6 +7,25 @@ function StatusForm({ unit, onClose, onConfirm }) {
 
   const customerRegex=/^[a-zA-Z\s]+$/;
 
+  const validateStatusForm = () => {
+    if(!customerName.trim())
+      {
+        setMsg("All fields are required");
+        return;
+      }
+
+    if (!customerRegex.test(customerName))
+      {
+        setMsg("Must enter a valid name");
+        return;
+      }
+      
+    onConfirm(status, customerName);
+    setMsg("");
+    setCustomerName("");
+    setStatus("Available");
+  }
+
 
   return (
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
@@ -73,17 +92,7 @@ function StatusForm({ unit, onClose, onConfirm }) {
           </button>
 
           <button
-            onClick={()=>{
-              if ((status==="Reserved" || status==="Occupied") && (!customerName || !customerRegex.test(customerName))) 
-              {
-                setMsg("Must enter a valid name");
-                return;
-              }
-            onConfirm(status, customerName);
-            setMsg("");
-            setCustomerName("");
-            setStatus("Available");
-            }}
+            onClick={validateStatusForm}
             className="px-3 py-2 bg-green-400 text-white font-medium 
             rounded-xl hover:bg-green-500">
             Confirm

@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { ChefHat, XCircle, X, Percent, QrCode, Banknote } from "lucide-react";
+import { ChefHat, XCircle, X, Percent, QrCode, Banknote, CircleCheck } from "lucide-react";
 import { useCafe } from "../../context/cafeContext";
 
 function OrdersView() {
-  const { orders, completeOrder, cancelOrder } = useCafe();
+  const { orders, completeOrder, cancelOrder, updateOrderStatus} = useCafe();
   const [showBillModal, setShowBillModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [discount, setDiscount] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState(null);
 
-  const activeOrders = orders.filter((o) => o.status === "preparing");
+  const activeOrders = orders.filter((o) => o.status === "preparing" || o.status==='ready');
   const cancelledOrders = orders.filter((o) => o.status === "cancelled");
 
   const handleCompleteOrder = (order) => {
@@ -39,6 +39,7 @@ function OrdersView() {
     const discountAmount = Math.round((total * discountPercent) / 100);
     return total - discountAmount;
   };
+
 
   return (
     <div className="flex-1 min-h-screen bg-gray-50 p-8">
@@ -136,17 +137,35 @@ function OrdersView() {
 
                 {/* Status badge + actions */}
                 <div className="flex items-center justify-between">
-                  <span className="px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-700 flex items-center gap-1">
+                  {order.status==='preparing' &&
+                  (<span className="px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-700 flex items-center gap-1">
                     <ChefHat className="w-4 h-4" />
                     Preparing
+                  </span>)}
+                  
+                  {order.status==='ready' &&
+                  (<span className="px-3 py-1 rounded-full text-sm bg-blue-100 text-green-700 flex items-center gap-1">
+                    <CircleCheck className="w-4 h-4" />
+                    Order Ready
                   </span>
+                  )}
+
                   <div className="flex gap-2">
-                    <button
-                      onClick={() => handleCompleteOrder(order)}
+                    {order.status==="preparing" &&
+                    (<button
+                      onClick={()=>updateOrderStatus(order.id,'ready')}
                       className="bg-green-500 hover:bg-green-600 text-white px-4 py-1 rounded text-sm transition-colors"
                     >
-                      Mark Complete
-                    </button>
+                      Mark Ready
+                    </button>)}
+
+                    {order.status==="ready" &&
+                    (<button
+                      onClick={() => handleCompleteOrder(order)}
+                      className="bg-[#6f288e] hover:bg-[#57206f] text-white px-4 py-1 rounded text-sm transition-colors"
+                    >
+                      Pay
+                    </button>)}
                     <button
                       onClick={() => cancelOrder(order.id)}
                       className="text-red-500 hover:text-red-600 border border-red-500 hover:bg-red-50 px-4 py-1 rounded text-sm transition-colors"
@@ -217,7 +236,7 @@ function OrdersView() {
             <div className="p-5 space-y-4">
               {/* Order summary */}
               <div className="bg-gray-50 rounded-lg p-4">
-                <p className="text-gray-500 text-sm">
+                <p className="text-gray-500 text-sm border-b border-gray-200 pb-2 mb-1">
                   Order #{selectedOrder.id}
                 </p>
                 <p className="text-gray-900 mb-3">
@@ -229,7 +248,7 @@ function OrdersView() {
                   {selectedOrder.items.map((item, index) => (
                     <div
                       key={index}
-                      className="flex items-center justify-between text-sm"
+                      className="flex items-center justify-between text-[15.5px]"
                     >
                       <span className="text-gray-700">
                         {item.name} × {item.quantity}
@@ -268,7 +287,7 @@ function OrdersView() {
                   </div>
 
                   {discount > 0 && (
-                    <div className="flex items-center justify-between text-sm text-green-600">
+                    <div className="flex items-center justify-between text-sm text-slate-600">
                       <span>Discount ({discount}%)</span>
                       <span>
                         − Rs{" "}
@@ -324,7 +343,7 @@ function OrdersView() {
                     <span
                       className={`text-sm ${paymentMethod === "QR" ? "text-purple-700" : "text-gray-600"}`}
                     >
-                      QR / UPI
+                      QR
                     </span>
                   </button>
                 </div>
@@ -334,7 +353,7 @@ function OrdersView() {
               {paymentMethod === "QR" && (
                 <div className="border border-purple-100 rounded-xl bg-purple-50">
                   {/* put img for qr here */}
-                  <div className="px-4 pb-4 text-center">
+                  <div className="px-4 py-4 text-center">
                     <p className="text-purple-700 text-sm">
                       Amount to collect:{" "}
                       <span className="text-purple-900">
@@ -347,7 +366,9 @@ function OrdersView() {
 
               {/* Confirm payment button */}
               <button
-                onClick={handleGenerateBill}
+                onClick={()=>{handleGenerateBill();
+                  updateOrderStatus(selectedOrder.id,'paid');
+                }}
                 disabled={!paymentMethod}
                 className={`w-full py-3 rounded-lg transition-colors text-white ${
                   paymentMethod
