@@ -14,7 +14,6 @@ import coffee from "../../assets/images/coffee.jpg";
 import { NavLink} from "react-router-dom";
 
 function AdminDashboard() {
-  const { role } = useAuth();
   const isAdmin = "admin";
 
   const adminMenuItems = [
