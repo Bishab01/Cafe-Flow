@@ -11,12 +11,11 @@ import {
 } from "lucide-react";
 import { MdTableRestaurant } from "react-icons/md";
 import coffee from "../../assets/images/coffee.jpg";
-import { useAuth } from "../../context/authContext.jsx";
 import { NavLink} from "react-router-dom";
 
 function AdminDashboard() {
   const { role } = useAuth();
-  const isAdmin = role === "admin";
+  const isAdmin = "admin";
 
   const adminMenuItems = [
     { id: "overview", label: "Dashboard", icon: LayoutDashboard },

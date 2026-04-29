@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
-import Login from "./pages/auth/selectRole.jsx";
 import LoginScreen from "./pages/auth/loginScreen.jsx";
-import Signin from "./pages/auth/signin.jsx";
+import Signup from "./pages/auth/signup.jsx";
 import Staff from "./Components/dashboard/staff.jsx";
 import AdminDashboard from "./Components/dashboard/sidebar.jsx";
 import DashboardLayout from "./Components/dashboard/layout.jsx";
@@ -11,7 +10,7 @@ import Tables from "./Components/dashboard/tables.jsx";
 import Rooms from "./Components/dashboard/room.jsx";
 import Inventory from "./Components/dashboard/inventory.jsx";
 import Finance from "./Components/dashboard/finance.jsx";
-import MenuView from "./Components/dashboard/menu"
+import MenuView from "./Components/dashboard/menu.jsx"
 import Reservations from "./Components/dashboard/reservations.jsx";
 import History from "./Components/dashboard/history.jsx";
 
@@ -19,9 +18,8 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/login" element={<LoginScreen />} />
-        <Route path="/signin" element={<Signin />} />
+        <Route path="/" element={<LoginScreen />} />
+        <Route path="/signup" element={<Signup />} />
 
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<Overview />} />

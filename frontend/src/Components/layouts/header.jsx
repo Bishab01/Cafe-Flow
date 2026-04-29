@@ -1,10 +1,8 @@
-import { useAuth } from "../../context/authContext.jsx";
 import { useNavigate } from "react-router-dom";
 import { LogOut, Sun, CloudSun, SunMoon, Moon } from "lucide-react";
 import { useEffect, useState } from "react";
 
 function Header() {
-  const { logout } = useAuth();
   const navigate = useNavigate();
   const [hour, setHour] = useState(new Date().getHours());
 
@@ -53,10 +51,7 @@ function Header() {
           <p className="text-gray-500 font-medium text-xs md:text-sm">{message}</p>
         </div>
         <button
-          onClick={() => {
-            logout();
-            navigate("/");
-          }}
+          onClick={() => navigate("/")}
           className="flex items-center font-medium gap-2 px-3.5 py-2 text-red-600
           hover:bg-red-50 rounded-lg text-[15px] md:text-[18px] transition-colors">
           <LogOut className="w-5 h-5" />

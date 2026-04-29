@@ -2,7 +2,7 @@ import { UserRoundPlus } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Signin() {
+function Signup() {
   const navigate = useNavigate();
 
   const titles = ["Manager", "Barista", "Waiter", "Chef"];
@@ -15,7 +15,7 @@ function Signin() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [msg, setMsg] = useState("");
 
-  const handleSignin = () => {
+  const handleSignup = () => {
     // Trim inputs
     const name = fullname.trim();
     const user = username.trim();
@@ -47,7 +47,9 @@ function Signin() {
     // Password match validation
     else if (password !== confirmPassword) {
       setMsg("Passwords do not match");
-    } else {
+    } 
+    
+    else {
       setMsg("");
       navigate("/");
     }
@@ -82,10 +84,8 @@ function Signin() {
           <select
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full h-9 mb-3 border border-[#4B2E2A] rounded-lg px-2 
-          bg-white "
-          >
-            <option value="">Select title</option>
+            className="w-full mb-3 border border-[#4B2E2A] rounded-lg bg-white p-2">
+            <option value="" hidden>Select Job title</option>
             {titles.map((title) => (
               <option key={title} value={title.toLowerCase()}>
                 {title}
@@ -122,7 +122,7 @@ function Signin() {
 
           <div className="flex justify-between items-center">
             <button
-              onClick={handleSignin}
+              onClick={handleSignup}
               className="inline-flex w-20 h-9 px-4 py-3 text-[15px] font-medium items-center justify-center 
             bg-[#4B2E2A] text-white rounded-lg hover:bg-green-400"
             >
@@ -142,4 +142,4 @@ function Signin() {
     </div>
   );
 }
-export default Signin;
+export default Signup
