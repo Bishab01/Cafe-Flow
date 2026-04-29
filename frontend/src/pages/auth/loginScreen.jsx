@@ -11,7 +11,7 @@ function LoginScreen() {
 
   const handleLogin = () => {
     // admin validation
-    if (username === "admin" && password === "password") {
+    if (username === "admin" && password.toLowerCase().trim() === "password") {
       navigate("/dashboard");
     }
 
