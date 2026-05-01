@@ -82,7 +82,7 @@ function Overview() {
 
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-8">
           {/* graph */}
-          <div className="bg-white rounded-lg shadow-sm p-4 md:p-6">
+          <div className="bg-white rounded-lg shadow-sm p-4">
             <div className="flex items-start justify-between mb-6 gap-1">
               <div>
                 <h3 className="text-[15px] md:text-lg font-semibold text-slate-900">
@@ -136,31 +136,37 @@ function Overview() {
           </div>
 
           {/* Pie-chart */}
-          <div className="bg-white rounded-2xl shadow-md p-4 md:p-6">
-            <div className="flex items-start justify-between mb-1">
+          <div className="bg-white rounded-2xl shadow-md p-4">
+            <div className="flex items-start justify-between mb-1 gap-1">
               <div>
-                <h3 className="text-[14px] md:text-lg font-semibold text-slate-900">
+                <h3 className="text-[14px] md:text-[16px] font-semibold text-slate-900">
                   Menu Category Popularity
                 </h3>
-                <p className="mb-6 text-sm md:text-[15px] text-gray-500">
+                <p className="mb-6 text-sm md:text-[14px] text-gray-500">
                   Identify the categories customers prefer most
                 </p>
               </div>
-              <div className="flex flex-wrap gap-2 lg:gap-4 pt-2">
+              <div className="flex flex-wrap gap-2 pt-2">
                 <div className="flex items-center gap-1">
                   <div className="w-3 h-3 rounded-sm bg-[#F59E0B]"></div>
-                  <span className="text-[#0F172A] text-xs lg:text-sm">Food</span>
+                  <span className="text-[#0F172A] text-[11px]">Food</span>
                 </div>
 
                 <div className="flex items-center gap-1">
                   <div className="w-3 h-3 rounded-sm bg-[#FACC15]"></div>
-                  <span className="text-[#0F172A] text-xs lg:text-sm">Dessert</span>
+                  <span className="text-[#0F172A] text-[11px]">Dessert</span>
+                </div>
+
+                <div className="flex items-center gap-1">
+                  <div className="w-3 h-3 rounded-sm bg-[#F6AD55]"></div>
+                  <span className="text-[#0F172A] text-[11px]">Drinks</span>
                 </div>
 
                 <div className="flex items-center gap-1">
                   <div className="w-3 h-3 rounded-sm bg-[#EAB676]"></div>
-                  <span className="text-[#0F172A] text-xs lg:text-sm">Coffee</span>
+                  <span className="text-[#0F172A] text-[11px]">Hot Beverage</span>
                 </div>
+
               </div>
             </div>
 

@@ -6,6 +6,7 @@ import {
   Trash2,
   CircleX,
   CircleCheck,
+  GlassWater,
 } from "lucide-react";
 import { UnitContext, useCafe } from "../../context/cafeContext";
 import { MdRoomService } from "react-icons/md";
@@ -20,6 +21,7 @@ function MenuView() {
   const [cart, setCart] = useState([]);
   const [tableNumber, setTableNumber] = useState("");
   const [customerName, setCustomerName] = useState("");
+  const [customization,setCustomization]=useState("");
   const [showAddModal, setShowAddModal] = useState(false);
   const [newItem, setNewItem] = useState({
     name: "",
@@ -27,7 +29,7 @@ function MenuView() {
     price: 0,
   });
 
-  const categories = ["All", "Coffee", "Food", "Dessert"];
+  const categories = ["All", "Food", "Dessert", "Hot Beverage", "Drinks"];
 
   const filteredItems =
     selectedCategory === "All"
@@ -93,6 +95,7 @@ function MenuView() {
       locationType: unitType,
       tableNumber,
       customerName,
+      customization,
       items: cart.map((item) => ({
         name: item.name,
         quantity: item.quantity,
@@ -150,7 +153,7 @@ function MenuView() {
 
       {/* Menu items */}
       <div className="flex flex-col mb-6">
-        <div className="mb-6 flex gap-3">
+        <div className="mb-6 flex gap-3 w-full overflow-x-auto">
           {categories.map((category) => (
             <button
               key={category}
@@ -175,12 +178,13 @@ function MenuView() {
               <div className="flex justify-between mb-3">
                 <div className="flex gap-3">
                   <div className="bg-red-50 p-2 rounded-lg flex items-center justify-center">
-                    {item.category === "Coffee" ? (
+                    {item.category === "Hot Beverage" ? (
                       <Coffee className="w-5 h-5 text-red-500" />
                     ) : item.category === "Food" ? (
                       <MdRoomService className="w-5 h-5 text-red-500" />
-                    ) : (
-                      <FaUtensilSpoon className="w-5 h-5 text-red-500" />
+                    ) : item.category === "Drinks"? (
+                      <GlassWater className="w-5 h-5 text-red-500" />
+                    ) : (<FaUtensilSpoon className="w-5 h-5 text-red-500" />
                     )}
                   </div>
                   <div>
@@ -229,7 +233,7 @@ function MenuView() {
       </div>
 
       {/* Order Placing */}
-      <div className='grid grid-cols-1 md:grid-cols-2'>
+      <div className='grid grid-cols-1 md:grid-cols-3'>
         <div className='bg-white rounded-2xl shadow-sm p-6'>
           <div className='flex flex-col '>
             
@@ -268,6 +272,14 @@ function MenuView() {
               placeholder="Enter Customer Name"
               value={customerName}
               onChange={(e) => setCustomerName(e.target.value)}
+              className='border rounded-lg mb-4 p-2 w-full'
+            />
+
+            <p className='mb-2 text-lg'>Customization:</p>
+            <textarea
+              placeholder="Food customization request here (optional)"
+              value={customization}
+              onChange={(e) => setCustomization(e.target.value)}
               className='border rounded-lg mb-4 p-2 w-full'
             />
 

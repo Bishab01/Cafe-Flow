@@ -9,6 +9,7 @@ function OrdersView() {
   const [discount, setDiscount] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState(null);
   const [view,setView]=useState("kitchen");//kitchen or waiter
+  const role="admin";
 
   const kitchenOrders = orders.filter((o) => o.status === "preparing");
   const readyOrders = orders.filter((o) => o.status === "ready");
@@ -57,25 +58,8 @@ function OrdersView() {
         </p>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
-        <div className="bg-blue-50 p-4 rounded-lg font-medium shadow-sm">
-          <p className="text-blue-700 text-[17px] mb-1">Preparing</p>
-          <p className="text-blue-900 text-[17px]">{kitchenOrders.length}</p>
-        </div>
-
-        <div className="bg-red-50 p-4 rounded-lg font-medium shadow-sm">
-          <p className="text-red-700 text-[17px] mb-1">Cancelled</p>
-          <p className="text-red-900 text-[17px]">{cancelledOrders.length}</p>
-        </div>
-        
-        <div className="bg-green-50 p-4 rounded-lg font-medium shadow-sm">
-          <p className="text-green-700 text-[17px] mb-1">Completed</p>
-          <p className="text-green-900 text-[17px]">{orders.filter(o => o.status === "completed").length}</p>
-        </div>
-      </div>
-
       {/* View Selection */}
+      {role==="admin" && (
         <div className="flex items-center gap-5 w-50 md:w-100 mb-6">
           <button 
           onClick={()=>setView("kitchen")}
@@ -90,122 +74,131 @@ function OrdersView() {
             Waiter
           </button>
         </div>
+      )}
 
       {/* kitchen View */}
       {view==="kitchen" && (
-        kitchenOrders.length === 0 ? (
-        <div className="bg-white rounded-xl shadow-sm p-14 text-center">
-          <ChefHat className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-          <p className="text-gray-500">No active orders right now</p>
-          <p className="text-gray-400 text-sm mt-1">
-            New order will appear here when customers place order
-          </p>
+        <>
+        {/* Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+          <div className="bg-blue-50 p-4 rounded-lg font-medium shadow-sm">
+            <p className="text-blue-700 text-[17px] mb-1">Preparing</p>
+            <p className="text-blue-900 text-[17px]">{kitchenOrders.length}</p>
+          </div>
+
+          <div className="bg-red-50 p-4 rounded-lg font-medium shadow-sm">
+            <p className="text-red-700 text-[17px] mb-1">Cancelled</p>
+            <p className="text-red-900 text-[17px]">{cancelledOrders.length}</p>
+          </div>
+          
+          <div className="bg-green-50 p-4 rounded-lg font-medium shadow-sm">
+            <p className="text-green-700 text-[17px] mb-1">Completed</p>
+            <p className="text-green-900 text-[17px]">{orders.filter(o => o.status === "completed").length}</p>
+          </div>
         </div>
-      ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {kitchenOrders.map((order) => (
-            <div
-              key={order.id}
-              className="bg-white rounded-xl shadow-sm overflow-hidden"
-            >
-              {/* Card header */}
-              <div className="bg-red-500 text-white p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-white opacity-90 text-sm">
-                      Order #{order.id}
-                    </p>
-                    <p className="text-white">{order.locationType==="table"?"Table":"Room"} {order.tableNumber}</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-white opacity-90 text-sm">
-                      {order.time}
-                    </p>
-                    <p className="text-white text-sm">{order.customerName}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-4">
-                {/* Items */}
-                <p className="text-gray-600 text-sm mb-2">Order Items:</p>
-                <div className="space-y-2 mb-4">
-                  {order.items.map((item, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center justify-between bg-gray-50 p-2 rounded"
-                    >
-                      <span className="text-gray-700">{item.name}</span>
-                      <div className="flex items-center gap-3">
-                        <span className="text-gray-500 text-sm">
-                          x{item.quantity}
-                        </span>
-                        <span className="text-gray-700">Rs {item.price}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Total */}
-                <div className="border-t border-gray-200 pt-3 mb-4">
+          {kitchenOrders.length === 0 ? (
+          <div className="bg-white rounded-xl shadow-sm p-14 text-center">
+            <ChefHat className="w-12 h-12 text-gray-300 mx-auto mb-3" />
+            <p className="text-gray-500">No active orders right now</p>
+            <p className="text-gray-400 text-sm mt-1">
+              New order will appear here when customers place order
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {kitchenOrders.map((order) => (
+              <div
+                key={order.id}
+                className="bg-white rounded-xl shadow-sm overflow-hidden"
+              >
+                {/* Card header */}
+                <div className="bg-red-500 text-white p-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-gray-700">Total Amount</span>
-                    <span className="text-red-500">Rs {order.total}</span>
+                    <div>
+                      <p className="text-white opacity-90 text-sm">
+                        Order #{order.id}
+                      </p>
+                      <p className="text-white">{order.locationType==="table"?"Table":"Room"} {order.tableNumber}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-white opacity-90 text-sm">
+                        {order.time}
+                      </p>
+                      <p className="text-white text-sm">{order.customerName}</p>
+                    </div>
                   </div>
                 </div>
 
-                {/* Status badge + actions */}
-                <div className="flex items-center justify-between">
-                  <span className="px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-700 flex items-center gap-1">
-                    <ChefHat className="w-4 h-4" />
-                    Preparing
-                  </span>
+                <div className="p-4">
+                  {/* Items */}
+                  <p className="text-gray-600 text-sm mb-2">Order Items:</p>
+                  <div className="space-y-2 mb-4">
+                    {order.items.map((item, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center justify-between bg-gray-50 p-2 rounded"
+                      >
+                        <span className="text-gray-700">{item.name}</span>
+                        <div className="flex items-center gap-3">
+                          <span className="text-gray-500 text-sm">
+                            x{item.quantity}
+                          </span>
+                          <span className="text-gray-700">Rs {item.price}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Total */}
+                  <div className="border-t border-gray-200 pt-3 mb-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-700">Total Amount</span>
+                      <span className="text-red-500">Rs {order.total}</span>
+                    </div>
+                  </div>
+
+                  {/* Status badge + actions */}
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-700 flex items-center gap-1">
+                      <ChefHat className="w-4 h-4" />
+                      Preparing
+                    </span>
+
+                    <div className="flex gap-2">
+                      <button
+                        onClick={()=>updateOrderStatus(order.id,'ready')}
+                        className="bg-green-500 hover:bg-green-600 text-white px-4 py-1 rounded text-sm transition-colors"
+                      >
+                        Mark Ready
+                      </button>
+
+                      <button
+                        onClick={() => cancelOrder(order.id)}
+                        className="text-red-500 hover:text-red-600 border border-red-500 hover:bg-red-50 px-4 py-1 rounded text-sm transition-colors"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
                   
-                  {/* {order.status==='ready' &&
-                  (<span className="px-3 py-1 rounded-full text-sm bg-blue-100 text-green-700 flex items-center gap-1">
-                    <CircleCheck className="w-4 h-4" />
-                    Order Ready
-                  </span>
-                  )} */}
+                  {/*Customizations */}
+                  {order.customization && (
+                    <>
+                      <h1 className="text-gray-700 border-t pt-3 border-gray-200">Customization Request: </h1>
+                      <p className="p-2 pt-1 text-gray-700">
+                        {order.customization}
+                      </p>
+                    </>
+                  )}
 
-                  <div className="flex gap-2">
-                    <button
-                      onClick={()=>updateOrderStatus(order.id,'ready')}
-                      className="bg-green-500 hover:bg-green-600 text-white px-4 py-1 rounded text-sm transition-colors"
-                    >
-                      Mark Ready
-                    </button>
-
-                    {/* {order.status==="ready" && order.locationType==="table" &&
-                    (<button
-                      onClick={() => handleCompleteOrder(order)}
-                      className="bg-[#6f288e] hover:bg-[#57206f] text-white px-4 py-1 rounded text-sm transition-colors"
-                    >
-                      Pay
-                    </button>)} */}
-
-                    {/* {order.status==="ready" && order.locationType==="room" &&
-                    (<button
-                      onClick={() => handleCompleteOrder(order)}
-                      className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded text-sm transition-colors"
-                    >
-                      Room Service
-                    </button>)} */}
-
-                    <button
-                      onClick={() => cancelOrder(order.id)}
-                      className="text-red-500 hover:text-red-600 border border-red-500 hover:bg-red-50 px-4 py-1 rounded text-sm transition-colors"
-                    >
-                      Cancel
-                    </button>
-                  </div>
                 </div>
-              </div>
 
-            </div>
-          ))}
-        </div>
-      ))}
+              </div>
+            ))}
+          </div>
+        )}
+      </>
+      )}
 
       {/*waiter view */}
       {view==="waiter" && (
@@ -214,7 +207,7 @@ function OrdersView() {
           <ChefHat className="w-12 h-12 text-gray-300 mx-auto mb-3" />
           <p className="text-gray-500">Orders will appear here when ready</p>
         </div>
-      ) : (
+       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {readyOrders.map((order) => (
             <div
@@ -239,7 +232,7 @@ function OrdersView() {
                 </div>
               </div>
 
-              <div className="p-4">
+              <div className="p-4 ">
                 {/* Items */}
                 <p className="text-gray-600 text-sm mb-2">Order Items:</p>
                 <div className="space-y-2 mb-4">
@@ -268,7 +261,7 @@ function OrdersView() {
                 </div>
 
                 {/* Status badge + actions */}
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between mb-4">
                 
                   <span className="px-3 py-1 rounded-full text-sm bg-blue-100 text-green-700 flex items-center gap-1">
                     <CircleCheck className="w-4 h-4" />
@@ -301,8 +294,18 @@ function OrdersView() {
                     </button>
                   </div>
                 </div>
-              </div>
 
+                {/*Customizations */}
+                {order.customization && (
+                  <>
+                    <h1 className="text-gray-700 border-t pt-3 border-gray-200">Customization Request: </h1>
+                    <p className="p-2 pt-1 text-gray-700">
+                      {order.customization}
+                    </p>
+                  </>
+                )}
+              </div>
+            
             </div>
           ))}
         </div>
