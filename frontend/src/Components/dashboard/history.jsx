@@ -106,7 +106,10 @@ return(
                             Date
                         </th>
                         <th className="px-6 py-3 text-left text-gray-600 font-medium text-[14.5px]">
-                            Coffee orders
+                            Hot Beverage orders
+                        </th>
+                         <th className="px-6 py-3 text-left text-gray-600 font-medium text-[14.5px]">
+                            Drinks orders
                         </th>
                         <th className="px-6 py-3 text-left text-gray-600 font-medium text-[14.5px] ">
                             Food orders
@@ -129,6 +132,10 @@ return(
 
                         <td className="px-6 py-3 text-gray-600 text-[14.5px]">
                             146
+                        </td>
+
+                        <td className="px-6 py-3 text-gray-600 text-[14.5px]">
+                            100
                         </td>
 
                         <td className="px-6 py-3 text-gray-600 text-[14.5px]">

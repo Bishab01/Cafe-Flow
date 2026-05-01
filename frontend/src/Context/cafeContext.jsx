@@ -4,10 +4,10 @@ const CafeContext = createContext();
 
 export function CafeProvider({ children }) {
   const [menuItems, setMenuItems] = useState([
-    { id: 1, name: "Espresso", category: "Coffee", price: 120, available: true },
-    { id: 2, name: "Cappuccino", category: "Coffee", price: 150, available: true },
-    { id: 3, name: "Latte", category: "Coffee", price: 160, available: true },
-    { id: 4, name: "Americano", category: "Coffee", price: 130, available: true },
+    { id: 1, name: "Espresso", category: "Hot Beverage", price: 120, available: true },
+    { id: 2, name: "Cappuccino", category: "Hot Beverage", price: 150, available: true },
+    { id: 3, name: "Latte", category: "Hot Beverage", price: 160, available: true },
+    { id: 4, name: "Americano", category: "Hot Beverage", price: 130, available: true },
     { id: 5, name: "Club Sandwich", category: "Food", price: 280, available: true },
     { id: 6, name: "Pasta Carbonara", category: "Food", price: 320, available: true },
     { id: 7, name: "Caesar Salad", category: "Food", price: 250, available: true },
@@ -58,6 +58,7 @@ export function CafeProvider({ children }) {
   const addOrder = (order) => {
     const locationType = order.locationType;
     const tableNum = parseInt(order.tableNumber);
+    const customization=order.customization;
     const table = tables.find((t) => t.number === tableNum);
 
     if (!table) {

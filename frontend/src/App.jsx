@@ -13,16 +13,16 @@ import Finance from "./Components/dashboard/finance.jsx";
 import MenuView from "./Components/dashboard/menu.jsx"
 import Reservations from "./Components/dashboard/reservations.jsx";
 import History from "./Components/dashboard/history.jsx";
+import { Navigate } from "react-router-dom";
 
 function App() {
   return (
-    <>
       <Routes>
         <Route path="/" element={<LoginScreen />} />
         <Route path="/signup" element={<Signup />} />
 
         <Route path="/dashboard" element={<DashboardLayout />}>
-          <Route index element={<Overview />} />
+          <Route index element={<Navigate to="overview" replace />} />
           <Route path="overview" element={<Overview />} />
           <Route path="orders" element={<OrdersView />} />
           <Route path="menu" element={<MenuView />} />
@@ -34,13 +34,7 @@ function App() {
           <Route path="reservations" element={<Reservations />}/>
           <Route path="history" element={<History />}/>
         </Route>
-          {/* 
-          <Route path="tables" element={<Tables />} />
-          <Route path="rooms" element={<Rooms />} /> */}
-        
       </Routes>
-      {/* <Tables/> */}
-    </>
   );
 }
 

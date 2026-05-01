@@ -6,7 +6,7 @@ function NewItemForm({onConfirm,onCancel})
   const [itemCategory, setItemCategory]=useState("");
   const [price, setPrice]=useState(0);
   const [msg, setMsg]=useState("");
-  const categories=["Food","Dessert","Coffee"]
+  const categories=["Food","Dessert","Hot Beverage","Drinks"]
   const nameRegx = /^[a-zA-Z\s]+$/;
 
   const validateItemForm = () => {

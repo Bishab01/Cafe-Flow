@@ -2,22 +2,28 @@ export const menuItemsData = [
   {
     id: 1,
     name: "Espresso",
-    category: "Coffee",
+    category: "Hot Beverage",
     price: 120,
     available: true,
   },
   {
     id: 2,
     name: "Cappuccino",
-    category: "Coffee",
+    category: "Hot Beverage",
     price: 150,
     available: true,
   },
-  { id: 3, name: "Latte", category: "Coffee", price: 160, available: true },
+  { 
+    id: 3, 
+    name: "Latte", 
+    category: "Hot Beverage", 
+    price: 160, 
+    available: true 
+  },
   {
     id: 4,
     name: "Americano",
-    category: "Coffee",
+    category: "Hot Beverage",
     price: 130,
     available: true,
   },
@@ -105,8 +111,9 @@ export const revenueData = [
 
 export const orderData = [
   { name: 'Food', value: 425 },
-  { name: 'Desserts', value: 185 },
-  { name: 'Coffee', value: 252 },
+  { name: 'Dessert', value: 185 },
+  { name: 'Hot Beverage', value: 252 },
+  { name: 'Drinks', value: 100 },
 ];
 
-export const COLORS = ['#F59E0B', '#FACC15', '#EAB676'];
+export const COLORS = ['#F59E0B', '#FACC15', '#EAB676','#F6AD55'];

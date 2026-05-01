@@ -134,10 +134,7 @@ function Finance() {
                                 Payment
                             </th>
                             <th className="px-6 py-3 text-left text-gray-600 font-medium text-sm ">
-                                Time
-                            </th>
-                            <th className="px-6 py-3 text-left text-gray-600 font-medium text-sm">
-                                Receipt
+                                Date
                             </th>
                         </tr>
                     </thead>
@@ -178,12 +175,6 @@ function Finance() {
 
                             <td className="px-6 py-3 text-gray-600 text-sm">
                                 2026-04-25
-                            </td>
-
-                            <td className="px-6 py-3">
-                                <button className="bg-red-50 hover:bg-red-100 p-1 rounded text-red-400 hover:text-red-600">
-                                <Printer className="w-4 h-4" />
-                                </button>
                             </td>
                         </tr>
                     </tbody>
