@@ -16,7 +16,7 @@ function StatusForm({ unit, onClose, onConfirm }) {
   const validateStatusForm = () => {
     if(status==="Occupied")
       {
-        if(!customerName.trim() || !guestArrivalDate || !guestArrivalTime || !contactNumber)
+        if(!customerName.trim() || !guestArrivalDate || !contactNumber)
           {
             setMsg("All fields are required");
             return;
@@ -30,6 +30,11 @@ function StatusForm({ unit, onClose, onConfirm }) {
         if (!contactRegex.test(contactNumber))
           {
             setMsg("Invalid contact number");
+            return;
+          }
+        if(unit.type==="room" && !guestArrivalTime)
+          {
+            setMsg("All fields are required");
             return;
           }
       }
@@ -127,7 +132,7 @@ function StatusForm({ unit, onClose, onConfirm }) {
             </>
             )}
 
-            <p className="font-medium"> {unit.type==="room"?"Check-in Date:":"Guest Arrival Date:"}</p>
+            <p className="font-medium"> {unit.type==="room"?"Check-in Date:":"Date:"}</p>
             <DatePicker
                 selected={guestArrivalDate}
                 onChange={(date) => setGuestArrivalDate(date)}

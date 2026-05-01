@@ -56,6 +56,7 @@ export function CafeProvider({ children }) {
 
   // ORDERS
   const addOrder = (order) => {
+    const locationType = order.locationType;
     const tableNum = parseInt(order.tableNumber);
     const table = tables.find((t) => t.number === tableNum);
 
@@ -223,6 +224,9 @@ export function useCafe() {
   }
   return context;
 }
+
+
+
 //for adding, updating and deleting units (tables and rooms)
 export const UnitContext = createContext();
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   Coffee,
   Plus,
@@ -7,14 +7,15 @@ import {
   CircleX,
   CircleCheck,
 } from "lucide-react";
-import { useCafe } from "../../context/cafeContext";
+import { UnitContext, useCafe } from "../../context/cafeContext";
 import { MdRoomService } from "react-icons/md";
 import { FaUtensilSpoon } from "react-icons/fa";
 import NewItemForm from '../layouts/newitemform';
 
 function MenuView() {
   const {menuItems, addMenuItem, removeMenuItem, toggleMenuItemAvailability, addOrder} = useCafe();
-
+  
+  const [unitType,setUnitType]=useState('table');
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [cart, setCart] = useState([]);
   const [tableNumber, setTableNumber] = useState("");
@@ -89,6 +90,7 @@ function MenuView() {
     }
 
     const result = addOrder({
+      locationType: unitType,
       tableNumber,
       customerName,
       items: cart.map((item) => ({
@@ -230,12 +232,31 @@ function MenuView() {
       <div className='grid grid-cols-1 md:grid-cols-2'>
         <div className='bg-white rounded-2xl shadow-sm p-6'>
           <div className='flex flex-col '>
+            
             <h3 className='font-semibold text-xl mb-6'>Current Order</h3>
 
-            <p className='mb-2 text-lg'>Table Number</p>
+            <div className="flex items-center gap-2 font-medium mb-4">
+              Order For:
+              <input 
+              type="radio"
+              name="location"
+              value="table"
+              checked={unitType==="table"}
+              onChange={(e)=>setUnitType(e.target.value)}
+              /> Table 
+              <input 
+              type="radio"
+              name="location"
+              value="room"
+              checked={unitType==="room"}
+              onChange={(e)=>setUnitType(e.target.value)}
+              /> Room 
+            </div>
+
+            <p className='mb-2 text-lg'>{unitType==="table"?"Table":"Room"} Number</p>
             <input
               type="number"
-              placeholder="Enter Table Number"
+              placeholder={unitType==="table"?"Enter Table Number":"Enter room number"}
               value={tableNumber}
               onChange={(e) => setTableNumber(e.target.value)}
               className='border rounded-lg p-2 mb-4'
@@ -244,7 +265,7 @@ function MenuView() {
             <p className='mb-2 text-lg'>Customer Name</p>
             <input
               type="text"
-              placeholder="Enter Customer's Name"
+              placeholder="Enter Customer Name"
               value={customerName}
               onChange={(e) => setCustomerName(e.target.value)}
               className='border rounded-lg mb-4 p-2 w-full'
@@ -279,6 +300,7 @@ function MenuView() {
         </div>
       </div>
 
+      {/* Adding new item */}
       {showAddModal &&
         <NewItemForm
           onCancel={()=>setShowAddModal(false)}
