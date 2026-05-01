@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BookCheck, SlidersHorizontal, Minus, Plus, Check} from 'lucide-react'
+import { BookCheck, SlidersHorizontal, Minus, Plus, LogIn} from 'lucide-react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
@@ -116,10 +116,7 @@ return(
                             Reservation Date
                         </th>
                         <th className="px-6 py-5 text-left text-gray-600 font-medium text-sm ">
-                            Start time
-                        </th>
-                        <th className="px-6 py-5 text-left text-gray-600 font-medium text-sm ">
-                            End time
+                            Arrival time
                         </th>
                         <th className="px-6 py-5 text-left text-gray-600 font-medium text-sm ">
                             Contact No.
@@ -153,18 +150,14 @@ return(
                         </td>
 
                         <td className="px-6 py-3 text-gray-600 text-sm">
-                            <Minus className="w-5 h-5"/>
-                        </td>
-
-                        <td className="px-6 py-3 text-gray-600 text-sm">
                             1111111111
                         </td>
                         
                         <td className="px-6 py-3 text-gray-600 text-sm">
-                            <button className='flex items-center justify-center text-green-500 gap-1
-                            hover:bg-green-400 hover:text-white py-1 px-2 md:py-2 md:px-3 rounded-4xl'>
-                                <Check className='w-6 h-6 xl:w-5 xl:h-5'/>
-                                Free Table
+                            <button className='flex items-center justify-center text-blue-500 gap-1
+                            hover:text-blue-700 rounded-4xl'>
+                                <LogIn className='w-6 h-6 xl:w-5 xl:h-5'/>
+                                Assign
                             </button>
                         </td>
                     </tr>
@@ -212,9 +205,6 @@ return(
                             Check-out Date
                         </th>
                         <th className="px-6 py-5 text-left text-gray-600 font-medium text-sm ">
-                            Check-out time
-                        </th>
-                        <th className="px-6 py-5 text-left text-gray-600 font-medium text-sm ">
                             Contact No.
                         </th>
                         <th className="px-6 py-5 text-left text-gray-600 font-medium text-sm ">
@@ -250,18 +240,14 @@ return(
                         </td>
 
                         <td className="px-6 py-3 text-gray-600 text-sm">
-                            <Minus className="w-5 h-5"/>
-                        </td>
-
-                        <td className="px-6 py-3 text-gray-600 text-sm">
                             1111111111
                         </td>
                         
                         <td className="px-6 py-3 text-gray-600 text-sm">
-                            <button className='flex items-center justify-center text-green-500 gap-1
-                            hover:bg-green-400 hover:text-white py-1 px-2 md:py-2 md:px-3 rounded-4xl'>
-                                <Check className='w-6 h-6 xl:w-5 xl:h-5'/>
-                                Free Room
+                            <button className='flex items-center justify-center text-blue-500 gap-1
+                            hover:text-blue-700 rounded-4xl'>
+                                <LogIn className='w-6 h-6 xl:w-5 xl:h-5'/>
+                                Assign
                             </button>
                         </td>
                     </tr>
@@ -360,7 +346,7 @@ return(
                         onChange={(e) => setArrivalTime(e.target.value)}
                         />
 
-                    <p className="font-medium ">{reservationType==="room"?"Check-in Date:":"Guest Arrival Date:"}</p>
+                    <p className="font-medium ">{reservationType==="room"?"Check-in Date:":"Date:"}</p>
                     <DatePicker
                         selected={arrivalDate}
                         onChange={(date) => setArrivalDate(date)}

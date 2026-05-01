@@ -158,12 +158,12 @@ function Rooms() {
        {showPopup && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
           <div className="bg-white p-5 rounded-xl shadow-lg text-center h-40 w-80 flex flex-col items-center justify-center">
-            <p className="font-medium text-lg md:text-xl mb-4">
+            <p className="font-medium text-lg mb-6">
               Room already exists
             </p>
             <button
               onClick={() => setShowPopup(false)}
-              className="bg-blue-500 text-white text-sm mt-1 font-medium px-4 py-2 rounded-lg"
+              className="bg-slate-500 hover:bg-slate-600 text-white text-sm mt-1 font-medium px-4 py-2 rounded-lg"
             >
               OK
             </button>

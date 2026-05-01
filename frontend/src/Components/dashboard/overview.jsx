@@ -146,20 +146,20 @@ function Overview() {
                   Identify the categories customers prefer most
                 </p>
               </div>
-              <div className="flex gap-2 md:gap-4 pt-2">
+              <div className="flex flex-wrap gap-2 lg:gap-4 pt-2">
                 <div className="flex items-center gap-1">
                   <div className="w-3 h-3 rounded-sm bg-[#F59E0B]"></div>
-                  <span className="text-[#0F172A] text-xs md:text-sm">Food</span>
+                  <span className="text-[#0F172A] text-xs lg:text-sm">Food</span>
                 </div>
 
                 <div className="flex items-center gap-1">
                   <div className="w-3 h-3 rounded-sm bg-[#FACC15]"></div>
-                  <span className="text-[#0F172A] text-xs md:text-sm">Dessert</span>
+                  <span className="text-[#0F172A] text-xs lg:text-sm">Dessert</span>
                 </div>
 
                 <div className="flex items-center gap-1">
                   <div className="w-3 h-3 rounded-sm bg-[#EAB676]"></div>
-                  <span className="text-[#0F172A] text-xs md:text-sm">Coffee</span>
+                  <span className="text-[#0F172A] text-xs lg:text-sm">Coffee</span>
                 </div>
               </div>
             </div>

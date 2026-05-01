@@ -8,11 +8,13 @@ function OrdersView() {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [discount, setDiscount] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState(null);
+  const [view,setView]=useState("kitchen");//kitchen or waiter
 
-  const activeOrders = orders.filter((o) => o.status === "preparing" || o.status==='ready');
+  const kitchenOrders = orders.filter((o) => o.status === "preparing");
+  const readyOrders = orders.filter((o) => o.status === "ready");
   const cancelledOrders = orders.filter((o) => o.status === "cancelled");
 
-  const handleCompleteOrder = (order) => {
+ /*  const handleCompleteOrder = (order) => {
     setSelectedOrder(order);
     setPaymentMethod(null);
     setDiscount(0);
@@ -38,7 +40,7 @@ function OrdersView() {
   const calculateFinalAmount = (total, discountPercent) => {
     const discountAmount = Math.round((total * discountPercent) / 100);
     return total - discountAmount;
-  };
+  }; */
 
 
   return (
@@ -59,7 +61,7 @@ function OrdersView() {
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
         <div className="bg-blue-50 p-4 rounded-lg font-medium shadow-sm">
           <p className="text-blue-700 text-[17px] mb-1">Preparing</p>
-          <p className="text-blue-900 text-[17px]">{activeOrders.length}</p>
+          <p className="text-blue-900 text-[17px]">{kitchenOrders.length}</p>
         </div>
 
         <div className="bg-red-50 p-4 rounded-lg font-medium shadow-sm">
@@ -73,18 +75,35 @@ function OrdersView() {
         </div>
       </div>
 
-      {/* Active orders */}
-      {activeOrders.length === 0 ? (
+      {/* View Selection */}
+        <div className="flex items-center gap-5 w-50 md:w-100 mb-6">
+          <button 
+          onClick={()=>setView("kitchen")}
+          clicked
+          className="bg-white shadow-sm rounded-lg w-full py-3 text-lg font-medium hover:bg-gray-100">
+            Kitchen
+          </button>
+
+          <button 
+          onClick={()=>setView("waiter")}
+          className="bg-white shadow-sm rounded-lg w-full py-3 text-lg font-medium hover:bg-gray-100">
+            Waiter
+          </button>
+        </div>
+
+      {/* kitchen View */}
+      {view==="kitchen" && (
+        kitchenOrders.length === 0 ? (
         <div className="bg-white rounded-xl shadow-sm p-14 text-center">
           <ChefHat className="w-12 h-12 text-gray-300 mx-auto mb-3" />
           <p className="text-gray-500">No active orders right now</p>
           <p className="text-gray-400 text-sm mt-1">
-            New order will appear here when a customer places an order
+            New order will appear here when customers place order
           </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {activeOrders.map((order) => (
+          {kitchenOrders.map((order) => (
             <div
               key={order.id}
               className="bg-white rounded-xl shadow-sm overflow-hidden"
@@ -96,7 +115,7 @@ function OrdersView() {
                     <p className="text-white opacity-90 text-sm">
                       Order #{order.id}
                     </p>
-                    <p className="text-white">Table {order.tableNumber}</p>
+                    <p className="text-white">{order.locationType==="table"?"Table":"Room"} {order.tableNumber}</p>
                   </div>
                   <div className="text-right">
                     <p className="text-white opacity-90 text-sm">
@@ -137,35 +156,42 @@ function OrdersView() {
 
                 {/* Status badge + actions */}
                 <div className="flex items-center justify-between">
-                  {order.status==='preparing' &&
-                  (<span className="px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-700 flex items-center gap-1">
+                  <span className="px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-700 flex items-center gap-1">
                     <ChefHat className="w-4 h-4" />
                     Preparing
-                  </span>)}
+                  </span>
                   
-                  {order.status==='ready' &&
+                  {/* {order.status==='ready' &&
                   (<span className="px-3 py-1 rounded-full text-sm bg-blue-100 text-green-700 flex items-center gap-1">
                     <CircleCheck className="w-4 h-4" />
                     Order Ready
                   </span>
-                  )}
+                  )} */}
 
                   <div className="flex gap-2">
-                    {order.status==="preparing" &&
-                    (<button
+                    <button
                       onClick={()=>updateOrderStatus(order.id,'ready')}
                       className="bg-green-500 hover:bg-green-600 text-white px-4 py-1 rounded text-sm transition-colors"
                     >
                       Mark Ready
-                    </button>)}
+                    </button>
 
-                    {order.status==="ready" &&
+                    {/* {order.status==="ready" && order.locationType==="table" &&
                     (<button
                       onClick={() => handleCompleteOrder(order)}
                       className="bg-[#6f288e] hover:bg-[#57206f] text-white px-4 py-1 rounded text-sm transition-colors"
                     >
                       Pay
-                    </button>)}
+                    </button>)} */}
+
+                    {/* {order.status==="ready" && order.locationType==="room" &&
+                    (<button
+                      onClick={() => handleCompleteOrder(order)}
+                      className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded text-sm transition-colors"
+                    >
+                      Room Service
+                    </button>)} */}
+
                     <button
                       onClick={() => cancelOrder(order.id)}
                       className="text-red-500 hover:text-red-600 border border-red-500 hover:bg-red-50 px-4 py-1 rounded text-sm transition-colors"
@@ -179,10 +205,111 @@ function OrdersView() {
             </div>
           ))}
         </div>
-      )}
+      ))}
+
+      {/*waiter view */}
+      {view==="waiter" && (
+        readyOrders.length === 0 ? (
+        <div className="bg-white rounded-xl shadow-sm p-14 text-center">
+          <ChefHat className="w-12 h-12 text-gray-300 mx-auto mb-3" />
+          <p className="text-gray-500">Orders will appear here when ready</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {readyOrders.map((order) => (
+            <div
+              key={order.id}
+              className="bg-white rounded-xl shadow-sm overflow-hidden"
+            >
+              {/* Card header */}
+              <div className="bg-red-500 text-white p-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-white opacity-90 text-sm">
+                      Order #{order.id}
+                    </p>
+                    <p className="text-white">{order.locationType==="table"?"Table":"Room"} {order.tableNumber}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-white opacity-90 text-sm">
+                      {order.time}
+                    </p>
+                    <p className="text-white text-sm">{order.customerName}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-4">
+                {/* Items */}
+                <p className="text-gray-600 text-sm mb-2">Order Items:</p>
+                <div className="space-y-2 mb-4">
+                  {order.items.map((item, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between bg-gray-50 p-2 rounded"
+                    >
+                      <span className="text-gray-700">{item.name}</span>
+                      <div className="flex items-center gap-3">
+                        <span className="text-gray-500 text-sm">
+                          x{item.quantity}
+                        </span>
+                        <span className="text-gray-700">Rs {item.price}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Total */}
+                <div className="border-t border-gray-200 pt-3 mb-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-700">Total Amount</span>
+                    <span className="text-red-500">Rs {order.total}</span>
+                  </div>
+                </div>
+
+                {/* Status badge + actions */}
+                <div className="flex items-center justify-between">
+                
+                  <span className="px-3 py-1 rounded-full text-sm bg-blue-100 text-green-700 flex items-center gap-1">
+                    <CircleCheck className="w-4 h-4" />
+                    Order Ready
+                  </span>
+
+                  <div className="flex gap-2">
+
+                    {order.locationType==="table" &&
+                    (<button
+                      onClick={() => handleCompleteOrder(order)}
+                      className="bg-[#6f288e] hover:bg-[#57206f] text-white px-4 py-1 rounded text-sm transition-colors"
+                    >
+                      Pay
+                    </button>)}
+
+                    {order.locationType==="room" &&
+                    (<button
+                      onClick={() => handleCompleteOrder(order)}
+                      className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded text-sm transition-colors"
+                    >
+                      Room Service
+                    </button>)}
+
+                    <button
+                      onClick={() => cancelOrder(order.id)}
+                      className="text-red-500 hover:text-red-600 border border-red-500 hover:bg-red-50 px-4 py-1 rounded text-sm transition-colors"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          ))}
+        </div>
+      ))}
 
       {/* Cancelled orders section */}
-      {cancelledOrders.length > 0 && (
+      {/* {cancelledOrders.length > 0 && (
         <div className="mt-8">
           <h3 className="text-gray-500 mb-3">Cancelled Orders</h3>
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -216,13 +343,13 @@ function OrdersView() {
             ))}
           </div>
         </div>
-      )}
+      )} */}
 
       {/* ── Bill & Payment Modal ── */}
-      {showBillModal && selectedOrder && (
+      {/* {showBillModal && selectedOrder && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl w-full max-w-md shadow-2xl max-h-[90vh] overflow-y-auto">
-            {/* Header */}
+            {/* Header *}
             <div className="flex items-center justify-between p-5 border-b border-gray-100">
               <h3>Generate Bill</h3>
               <button
@@ -234,7 +361,7 @@ function OrdersView() {
             </div>
 
             <div className="p-5 space-y-4">
-              {/* Order summary */}
+              {/* Order summary *}
               <div className="bg-gray-50 rounded-lg p-4">
                 <p className="text-gray-500 text-sm border-b border-gray-200 pb-2 mb-1">
                   Order #{selectedOrder.id}
@@ -268,7 +395,7 @@ function OrdersView() {
                     </span>
                   </div>
 
-                  {/* Discount */}
+                  {/* Discount *}
                   <div className="flex items-center gap-2">
                     <Percent className="w-4 h-4 text-gray-400 shrink-0" />
                     <input
@@ -305,7 +432,7 @@ function OrdersView() {
                 </div>
               </div>
 
-              {/* Payment method */}
+              {/* Payment method *}
               <div>
                 <p className="text-gray-700 text-sm mb-3">
                   Select Payment Method:
@@ -349,10 +476,10 @@ function OrdersView() {
                 </div>
               </div>
 
-              {/* QR Code display */}
+              {/* QR Code display *}
               {paymentMethod === "QR" && (
                 <div className="border border-purple-100 rounded-xl bg-purple-50">
-                  {/* put img for qr here */}
+                  {/* put img for qr here *}
                   <div className="px-4 py-4 text-center">
                     <p className="text-purple-700 text-sm">
                       Amount to collect:{" "}
@@ -364,7 +491,7 @@ function OrdersView() {
                 </div>
               )}
 
-              {/* Confirm payment button */}
+              {/* Confirm payment button *}
               <button
                 onClick={()=>{handleGenerateBill();
                   updateOrderStatus(selectedOrder.id,'completed');
@@ -383,7 +510,7 @@ function OrdersView() {
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
