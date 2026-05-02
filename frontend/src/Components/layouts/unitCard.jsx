@@ -1,6 +1,6 @@
 import { X, UtensilsCrossed, DoorClosed, DoorClosedLocked, DoorOpen} from "lucide-react";
 import { useState } from "react";
-import Bill from "./billmodel";
+import Bill from "./roombillmodel";
 
 function UnitCard({ unit, onDelete, openStatusForm}) {
   const status = unit.status;

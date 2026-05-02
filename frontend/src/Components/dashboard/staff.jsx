@@ -5,6 +5,22 @@ function Staff(){
   const [salary,setSalary]=useState(0);
   const [editSalary,setEditSalary]=useState(false);
   const [msg,setMsg]=useState("");
+  const [selectedStaff, setSelectedStaff] = useState(null);
+  const [showPopUp, setShowPopUp] = useState(false);
+
+  // Initial data
+  const [staff, setStaff] = useState([
+    { id: 1, name: "Ram Sharma", jobTitle: "Receptionist", salary:0 },
+    { id: 2, name: "Sita Gurung", jobTitle: "Manager", salary:0 },
+    { id: 3, name: "Hari Thapa", jobTitle: "Cleaner",salary:0 },
+  ]);
+
+  // Stats
+  const totalStaff = staff.length;
+  const totalPayroll = staff.reduce(
+    (sum, s) => sum + (s.salary || 0),
+    0
+  );
 
   const validateSalary = () => {
     if(!salary || salary<=0)
@@ -12,8 +28,22 @@ function Staff(){
       setMsg("Enter valid salary");
       return;
     }
+
+    setStaff((prev) =>
+      prev.map((s) =>
+        s.id === selectedStaff.id
+          ? { ...s, salary: Number(salary) }
+          : s
+    ));
+
     setEditSalary(false);
     setMsg("");
+  }
+
+  const handleDeleteStaff = (id) => {
+    setStaff((prev) =>
+      prev.filter((s) => s.id !== id)
+    )
   }
 
 return(
@@ -33,16 +63,12 @@ return(
     <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
       <div className="bg-white p-4 rounded-lg shadow-sm font-medium">
         <p className="text-gray-600 text-[17px] mb-2 ">Total Staff</p>
-        <p className="text-gray-900 text-[17px]">1</p>
+        <p className="text-gray-900 text-[17px]">{totalStaff}</p>
       </div>
-      
+
       <div className="bg-blue-50 p-4 rounded-lg shadow-sm font-medium">
-        <p className="text-blue-700 text-[17px] mb-2">Roles Filled</p>
-        <p className="text-blue-900 text-[17px]">1/x</p>
-      </div>
-      <div className="bg-orange-50 p-4 rounded-lg shadow-sm font-medium">
-        <p className="text-orange-700 text-[17px] mb-2">Monthly Payroll</p>
-        <p className="text-orange-900 text-[17px]">Rs 12500</p>
+        <p className="text-blue-700 text-[17px] mb-2">Monthly Payroll</p>
+        <p className="text-blue-900 text-[17px]">Rs {totalPayroll.toLocaleString()}</p>
       </div>
     </div>
 
@@ -55,13 +81,6 @@ return(
         </h3>
       </div>
 
-      {/*  {staff.length === 0 ? (
-          <div className="py-16 text-center">
-            <UserCog className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-            <p className="text-gray-500">No staff members yet.</p>
-            <p className="text-gray-400 text-sm mt-1">Use the Sign Up button on the login page to add employees.</p>
-          </div>
-        ) : ( */}
       <div className="w-full overflow-x-auto">
         <table className="min-w-full table-auto">
           <thead>
@@ -85,30 +104,39 @@ return(
           </thead>
 
           <tbody>
-            <tr className="border-b border-gray-100 hover:bg-gray-50">
-              <td className="px-6 py-3 text-gray-600 text-sm md:text-lg">1</td>
+            {staff.map((member,index)=>(
+              <tr key={member.id} className="border-b border-gray-100 hover:bg-gray-50">
+                <td  className="px-6 py-3 text-gray-600 text-sm md:text-lg">
+                  {index + 1}
+                </td>
+                <td className="px-6 py-3 text-gray-600 text-sm md:text-lg">
+                  {member.name}
+                </td>
+                <td className="px-6 py-3 text-gray-600 text-sm md:text-lg">
+                  {member.jobTitle}
+                </td>
+                <td className="px-6 py-3 flex justify-between items-center text-gray-600 text-sm md:text-lg"> 
+                  <p>Rs {member.salary.toLocaleString()}</p>
+                  <SquarePen 
+                   onClick={() => {
+                      setSelectedStaff(member);
+                      setSalary(member.salary);
+                      setEditSalary(true);
+                    }}
+                  className='w-4 h-4 text-red-400 hover:text-red-500'/>
+                </td>
 
-              <td className="px-6 py-3 text-gray-600 text-sm md:text-lg">
-                Name 
-              </td>
-
-              <td className="px-6 py-3 text-gray-600 text-sm md:text-lg">
-                Manager
-              </td>
-
-              <td className="px-6 py-3 flex justify-between items-center text-gray-600 text-sm md:text-lg"> 
-                <p>Rs {Number(salary).toLocaleString()}</p>
-                <SquarePen 
-                onClick={()=>setEditSalary(true)}
-                className='w-4 h-4 text-red-400 hover:text-red-500'/>
-              </td>
-
-              <td className="px-6 py-3">
-                <button className="text-red-400 hover:text-red-500">
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </td>
-            </tr>
+                <td className="px-6 py-3">
+                  <button 
+                   onClick={()=>{setShowPopUp(true);
+                    setSelectedStaff(member);
+                   }}
+                  className="text-red-400 hover:text-red-500">
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
@@ -142,6 +170,33 @@ return(
           </div>
         </div>
       </div>
+    )}
+
+    {showPopUp && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
+          <div className="bg-white p-7 rounded-xl shadow-lg text-center w-100 flex flex-col items-center justify-center">
+            <p className="font-medium text-lg mb-6">
+              Do you want to remove {selectedStaff.name} from the system?
+            </p>
+            <div className='flex items-center justify-center gap-5'>
+              <button
+                onClick={() => setShowPopUp(false)}
+                className="bg-red-500 hover:bg-red-600 text-white text-sm mt-1 font-medium px-4 py-2 rounded-lg"
+              >
+                Cancel
+              </button>
+
+              <button
+                onClick={() => {setShowPopUp(false);
+                  handleDeleteStaff(selectedStaff.id);
+                }}
+                className="bg-slate-500 hover:bg-slate-600 text-white text-sm mt-1 font-medium px-4 py-2 rounded-lg"
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
     )}
 
   </div>
