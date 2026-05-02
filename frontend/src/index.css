@@ -1,1 +1,30 @@
 @import "tailwindcss";
+
+/* PRINT STYLES */
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+
+  #print-area,
+  #print-area * {
+    visibility: visible !important;
+  }
+
+  #print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    width: 80mm;
+    padding: 5px;
+
+    font-family: monospace;
+    font-size: 12px;
+  }
+
+  @page {
+    size: 80mm auto;
+    margin: 0;
+  }
+}
