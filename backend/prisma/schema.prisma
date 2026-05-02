@@ -1,0 +1,206 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+  // output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model Role {
+  role_id    Int      @id @default(autoincrement())
+  role_name  String   @unique
+  description String?
+  users      User[]
+  created_at DateTime @default(now())
+}
+
+model User {
+  user_id     Int      @id @default(autoincrement())
+  full_name   String
+  email       String   @unique
+  password    String
+  phone       String?
+  role_id     Int
+  status      String   @default("active")
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  role        Role     @relation(fields: [role_id], references: [role_id])
+
+  billings    Billing[]
+  payments    Payment[]
+}
+
+model Guest {
+  guest_id   Int      @id @default(autoincrement())
+  full_name  String
+  phone      String?
+  created_at DateTime @default(now())
+
+  stays      Stay[]
+  food_orders FoodOrder[]
+  billings   Billing[]
+}
+
+model Room {
+  room_id           Int      @id @default(autoincrement())
+  room_number       String   @unique
+  category          String?
+  price_per_night   Float
+  status            String   @default("available")
+  created_at        DateTime @default(now())
+
+  stays             Stay[]
+}
+
+model Stay {
+  stay_id        Int      @id @default(autoincrement())
+  guest_id       Int
+  room_id        Int
+  check_in       DateTime
+  check_out      DateTime?
+  status         String   @default("active")
+  created_at     DateTime @default(now())
+
+  guest          Guest    @relation(fields: [guest_id], references: [guest_id])
+  room           Room     @relation(fields: [room_id], references: [room_id])
+
+  billings       Billing[]
+}
+
+model Table {
+  table_id     Int      @id @default(autoincrement())
+  table_number String   @unique
+  capacity     Int      @default(2)
+  status       String   @default("available")
+
+  food_orders  FoodOrder[]
+  billings     Billing[]
+}
+
+model MenuCategory {
+  category_id   Int      @id @default(autoincrement())
+  name          String
+  menu_items    MenuItem[]
+}
+
+model MenuItem {
+  menu_item_id  Int      @id @default(autoincrement())
+  name          String
+  price         Float
+  category_id   Int
+
+  category      MenuCategory @relation(fields: [category_id], references: [category_id])
+  order_items   FoodOrderItem[]
+}
+
+model FoodOrder {
+  food_order_id Int      @id @default(autoincrement())
+  table_id      Int
+  guest_id      Int?
+  status        String   @default("pending")
+  created_at    DateTime @default(now())
+
+  table         Table    @relation(fields: [table_id], references: [table_id])
+  guest         Guest?   @relation(fields: [guest_id], references: [guest_id])
+
+  items         FoodOrderItem[]
+  billings      Billing[]
+}
+
+model FoodOrderItem {
+  id             Int      @id @default(autoincrement())
+  food_order_id  Int
+  menu_item_id   Int
+  quantity       Int
+  unit_price     Float
+
+  food_order     FoodOrder @relation(fields: [food_order_id], references: [food_order_id])
+  menu_item      MenuItem  @relation(fields: [menu_item_id], references: [menu_item_id])
+}
+
+model Billing {
+  bill_id        Int      @id @default(autoincrement())
+
+  bill_type      BillType
+
+  stay_id        Int?
+  food_order_id  Int?
+  table_id       Int?
+  guest_id       Int?
+
+  generated_by_user_id Int
+
+  bill_status    BillStatus @default(PENDING)
+
+  room_charges   Float @default(0)
+  food_charges   Float @default(0)
+  tax_amount     Float @default(0)
+  discount_amount Float @default(0)
+  total_amount   Float
+
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+
+  stay        Stay?      @relation(fields: [stay_id], references: [stay_id])
+  food_order  FoodOrder? @relation(fields: [food_order_id], references: [food_order_id])
+  table       Table?     @relation(fields: [table_id], references: [table_id])
+  guest       Guest?     @relation(fields: [guest_id], references: [guest_id])
+
+  generated_by User @relation(fields: [generated_by_user_id], references: [user_id])
+
+  payments    Payment[]
+}
+
+model Payment {
+  payment_id Int      @id @default(autoincrement())
+
+  bill_id    Int
+  received_by_user_id Int
+
+  payment_method PaymentMethod
+  amount     Float
+
+  reference_number String?
+  notes      String?
+
+  payment_status PaymentStatus @default(COMPLETED)
+
+  paid_at    DateTime @default(now())
+
+  billing    Billing @relation(fields: [bill_id], references: [bill_id])
+  user       User    @relation(fields: [received_by_user_id], references: [user_id])
+}
+
+enum BillType {
+  food
+  room
+  combined
+}
+
+enum BillStatus {
+  PENDING
+  PARTIALLY_PAID
+  PAID
+  CANCELLED
+}
+
+enum PaymentMethod {
+  cash
+  card
+  bank_transfer
+  complimentary
+}
+
+enum PaymentStatus {
+  COMPLETED
+  PENDING
+  FAILED
+  REFUNDED
+}
