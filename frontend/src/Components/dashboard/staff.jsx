@@ -5,7 +5,6 @@ function Staff(){
   const [salary,setSalary]=useState(0);
   const [editSalary,setEditSalary]=useState(false);
   const [msg,setMsg]=useState("");
-  const [displaySalary,setDisplaySalary]=useState(0);
 
   const validateSalary = () => {
     if(!salary || salary<=0)
@@ -13,10 +12,8 @@ function Staff(){
       setMsg("Enter valid salary");
       return;
     }
-    setDisplaySalary(Number(salary));
     setEditSalary(false);
     setMsg("");
-    setSalary(0);
   }
 
 return(
@@ -79,7 +76,7 @@ return(
                 Job title
               </th>
               <th className="px-6 py-3 text-left text-gray-600 font-medium text-sm md:text-lg ">
-                Salary (Rs)
+                Salary
               </th>
               <th className="px-6 py-3 text-left text-gray-600 font-medium text-sm md:text-lg">
                 Action
@@ -100,7 +97,7 @@ return(
               </td>
 
               <td className="px-6 py-3 flex justify-between items-center text-gray-600 text-sm md:text-lg"> 
-                <p>{displaySalary}</p>
+                <p>Rs {Number(salary).toLocaleString()}</p>
                 <SquarePen 
                 onClick={()=>setEditSalary(true)}
                 className='w-4 h-4 text-red-400 hover:text-red-500'/>
@@ -124,7 +121,7 @@ return(
           <p className='font-medium mb-3'>New Salary:</p>
           <input 
             type="number"
-            placeholder='Enter new salary here'
+            value={salary}
             className='w-full border rounded-lg p-2 mb-3'
             onChange={(e)=>setSalary(e.target.value)}
           />

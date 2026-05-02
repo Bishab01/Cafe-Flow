@@ -1,17 +1,21 @@
 import { X, UtensilsCrossed, DoorClosed, DoorClosedLocked, DoorOpen} from "lucide-react";
 import { useState } from "react";
+import Bill from "./billmodel";
 
 function UnitCard({ unit, onDelete, openStatusForm}) {
   const status = unit.status;
   const type = unit.type;
   const [showPopUp,setShowPopUp]=useState(false);
+  const [confirmation,setConfirmation]=useState(false);
+  const [showBillModal,setShowBillModal]=useState(false);
 
   return (
     <div className="relative group">
 
       {/* Delete button */}
       <button
-        onClick={() => setShowPopUp(true)}
+        onClick={(e) => {e.stopPropagation();
+          setShowPopUp(true);}}
         className="absolute -top-2.5 -right-2.5 z-10 
         w-6 h-6 rounded-full bg-gray-700 hover:bg-red-500 text-white
         opacity-0 group-hover:opacity-100 transition-opacity shadow-md
@@ -30,6 +34,16 @@ function UnitCard({ unit, onDelete, openStatusForm}) {
               : status === "Occupied" ? "bg-red-400" : "bg-orange-400"}
         `}>
 
+        {unit.type==="room" && unit.status==="Occupied" && (
+          <div 
+          onClick={(e)=>{e.stopPropagation();
+            setConfirmation(true);}}
+          className="bg-white rounded-xl font-medium text-sm mb-1.5 py-0.5 px-2 
+          text-gray-800 hover:bg-gray-50 hover:text-gray-600">
+            Check-out
+          </div>
+        )}
+
         {type === "room" && (
           status === "Available" ?
           <DoorOpen className="w-8 h-8 text-white" />: 
@@ -42,9 +56,8 @@ function UnitCard({ unit, onDelete, openStatusForm}) {
             <UtensilsCrossed className="w-8 h-8 text-white" />
           )
         }
-        
 
-        <p className="text-white font-medium mt-1">
+        <p className="text-white font-medium mt-0.5">
           {type === "room" ? "Room" : "Table"} {unit.number}
         </p>
 
@@ -116,6 +129,39 @@ function UnitCard({ unit, onDelete, openStatusForm}) {
         </div>
       )}
 
+      {confirmation && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
+          <div className="bg-white p-5 rounded-xl shadow-lg text-center h-40 w-80 flex flex-col items-center justify-center">
+            <p className="font-medium text-lg mb-6">
+              Want to extend stay?
+            </p>
+
+            <div className="flex items-center gap-6"> 
+              <button
+                onClick={() => {setShowBillModal(true);
+                  setConfirmation(false);
+                }}
+                className="bg-red-500 text-white text-sm mt-1 font-medium px-4 py-2 rounded-lg hover:bg-red-600"
+              >
+                Decline
+              </button>
+
+              <button
+                onClick={() => setConfirmation(false)}
+                className="bg-green-500 text-white text-sm mt-1 font-medium px-4 py-2 rounded-lg hover:bg-green-600"
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showBillModal && unit.type==="room" &&
+      <Bill
+        onClose={()=>setShowBillModal(false)}
+      />
+      }
     </div>
   );
 }
