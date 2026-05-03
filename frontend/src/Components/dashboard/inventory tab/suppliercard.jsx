@@ -8,7 +8,14 @@ function SupplierCard({suppliers, deleteSupplier}){
 
     return(
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
-            {suppliers.map((supplier,index) => (
+            {suppliers.length===0 ? (
+                <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+                    <div className='text-gray-500 text-center font-medium text-lg p-4 mb-3'>
+                    Click Add Supplier to add a new supplier to the system.
+                    </div>
+                </div>
+            ):
+            (suppliers.map((supplier) => (
             <div key={supplier.id} className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
                 <div className="flex items-start justify-between">
                     <div className="flex flex-col">
@@ -53,8 +60,10 @@ function SupplierCard({suppliers, deleteSupplier}){
                         <Trash2 className='w-4.5 h-4.5 md:w-5.5 md:h-5.5'/>
                     </button>
                 </div>
-
-                {popUp && (
+            </div>
+            )))}
+           
+           {popUp && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
                     <div className="bg-white p-7 rounded-xl shadow-lg text-center w-100 flex flex-col items-center justify-center">
                         <p className="font-medium text-lg mb-6">
@@ -79,10 +88,8 @@ function SupplierCard({suppliers, deleteSupplier}){
                         </div>
                     </div>
                 </div>
-                )}
-            </div>
-            ))}
-           
+            )}
+
         </div>
     )
 }

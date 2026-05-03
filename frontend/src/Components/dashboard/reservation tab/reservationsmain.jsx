@@ -132,13 +132,17 @@ return(
         {/* View Selection */}
         <div className='flex items-center gap-4 mb-6'>
             <button 
-            onClick={()=>setView("table")}
-            className='bg-white rounded-2xl px-8 py-3 text-xl font-medium shadow-sm border border-slate-100'>
+                onClick={()=>setView("table")}
+                className={`px-8 py-3 rounded-2xl shadow-sm border border-slate-200 text-xl font-medium
+                ${view === "table" ? "bg-blue-100 border-blue-200" : "bg-white hover:bg-gray-200"}`}
+            >
                 Table
             </button>
             <button 
-            onClick={()=>setView("room")}
-            className='bg-white rounded-2xl px-8 py-3 text-xl font-medium shadow-sm border border-slate-100'>
+                onClick={()=>setView("room")}
+                className={`px-8 py-3 rounded-2xl shadow-sm border border-slate-200 text-xl font-medium
+                ${view === "room" ? "bg-blue-100 border-blue-200" : "bg-white hover:bg-gray-200"}`}
+            >
                 Room
             </button>
         </div>

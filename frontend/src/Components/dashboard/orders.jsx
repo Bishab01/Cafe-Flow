@@ -62,14 +62,18 @@ function OrdersView() {
       {role==="admin" && (
         <div className="flex items-center gap-5 w-50 md:w-100 mb-6">
           <button 
-          onClick={()=>setView("kitchen")}
-          className='bg-white rounded-2xl px-8 py-3 text-xl font-medium shadow-sm border border-slate-100'>
+            onClick={()=>setView("kitchen")}
+            className={`px-8 py-3 rounded-2xl shadow-sm border border-slate-200 text-xl font-medium
+            ${view === "kitchen" ? "bg-blue-100 border-blue-200" : "bg-white hover:bg-gray-200"}`}
+          >
             Kitchen
           </button>
 
           <button 
-          onClick={()=>setView("waiter")}
-          className='bg-white rounded-2xl px-8 py-3 text-xl font-medium shadow-sm border border-slate-100'>
+            onClick={()=>setView("waiter")}
+            className={`px-8 py-3 rounded-2xl shadow-sm border border-slate-200 text-xl font-medium
+            ${view === "waiter" ? "bg-blue-100 border-blue-200" : "bg-white hover:bg-gray-200"}`}
+          >
             Waiter
           </button>
         </div>
@@ -96,7 +100,7 @@ function OrdersView() {
           </div>
         </div>
           {kitchenOrders.length === 0 ? (
-          <div className="bg-white rounded-xl shadow-sm p-14 text-center">
+          <div className="bg-white font-medium rounded-xl shadow-sm p-14 text-center">
             <ChefHat className="w-12 h-12 text-gray-300 mx-auto mb-3" />
             <p className="text-gray-500">No active orders right now</p>
             <p className="text-gray-400 text-sm mt-1">
@@ -202,7 +206,7 @@ function OrdersView() {
       {/*waiter view */}
       {view==="waiter" && (
         readyOrders.length === 0 ? (
-        <div className="bg-white rounded-xl shadow-sm p-14 text-center">
+        <div className="bg-white rounded-xl font-medium shadow-sm p-14 text-center">
           <ChefHat className="w-12 h-12 text-gray-300 mx-auto mb-3" />
           <p className="text-gray-500">Orders will appear here when ready</p>
         </div>
