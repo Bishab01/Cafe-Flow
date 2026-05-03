@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import LoginScreen from "./pages/auth/loginScreen.jsx";
 import Signup from "./pages/auth/signup.jsx";
-import Staff from "./Components/dashboard/staff.jsx";
+import Staff from "./Components/dashboard/staff tab/staffmain.jsx";
 import AdminDashboard from "./Components/dashboard/sidebar.jsx";
 import DashboardLayout from "./Components/dashboard/layout.jsx";
 import Overview from "./Components/dashboard/overview.jsx";
@@ -11,7 +11,7 @@ import Rooms from "./Components/dashboard/room.jsx";
 import Inventory from "./Components/dashboard/inventory.jsx";
 import Finance from "./Components/dashboard/finance.jsx";
 import MenuView from "./Components/dashboard/menu.jsx"
-import Reservations from "./Components/dashboard/reservations.jsx";
+import Reservations from "./Components/dashboard/reservation tab/reservationsmain.jsx";
 import History from "./Components/dashboard/history.jsx";
 import { Navigate } from "react-router-dom";
 

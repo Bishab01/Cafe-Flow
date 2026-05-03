@@ -63,14 +63,13 @@ function OrdersView() {
         <div className="flex items-center gap-5 w-50 md:w-100 mb-6">
           <button 
           onClick={()=>setView("kitchen")}
-          clicked
-          className="bg-white shadow-sm rounded-lg w-full py-3 text-lg font-medium hover:bg-gray-100">
+          className='bg-white rounded-2xl px-8 py-3 text-xl font-medium shadow-sm border border-slate-100'>
             Kitchen
           </button>
 
           <button 
           onClick={()=>setView("waiter")}
-          className="bg-white shadow-sm rounded-lg w-full py-3 text-lg font-medium hover:bg-gray-100">
+          className='bg-white rounded-2xl px-8 py-3 text-xl font-medium shadow-sm border border-slate-100'>
             Waiter
           </button>
         </div>
