@@ -128,9 +128,9 @@ function Tables() {
 
         <div className="flex flex-wrap gap-5">
           {tables.length === 0 ? (
-            <p className="text-gray-500 w-full text-center pb-3">
+            <div className='text-gray-500 w-full font-medium text-center text-lg p-4 mb-3'>
               No tables added yet
-            </p>
+            </div>
           ) : (
             [...tables]
             .sort((a, b) => a.number - b.number)

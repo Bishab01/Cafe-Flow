@@ -10,14 +10,24 @@ function Bill({onClose})
     const [paymentMethod, setPaymentMethod]=useState("");
     const [showQR, setShowQR]=useState(false);
     const [checkOutDate,setCheckOutDate]=useState(null);
-    const [nights,setNights]=useState('');
-    const [rate,setRate]=useState('');
+    const [nights,setNights]=useState(0);
+    const [rate,setRate]=useState(0);
     const [editDate,setEditDate]=useState(false);
     const [editNights,setEditNights]=useState(false);
     const [editRate,setEditRate]=useState(false);
     
     const handlePrint = () => {
       window.print();
+    };
+
+    const formatDate = (date) => {
+      if (!date) return "Enter date";
+
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+
+      return `${year}/${month}/${day}`;
     };
 
     return(
@@ -41,7 +51,7 @@ function Bill({onClose})
                   Guest - Name
                 </p>
                 <p className="text-gray-900 mb-3">
-                  Table/Room 1
+                  Room 1
                 </p>
 
                 {/* date and time */}
@@ -65,7 +75,7 @@ function Bill({onClose})
                       </span>
                       <div className="flex items-center gap-1">
                         <span className="text-gray-700">
-                          {checkOutDate ? checkOutDate.toLocaleDateString("en-GB") : "Select date"}
+                          {formatDate(checkOutDate)}
                         </span>
                         <SquarePen onClick={()=>setEditDate(true)} 
                         className="w-4 h-4"/>
@@ -73,12 +83,11 @@ function Bill({onClose})
                         {editDate && (
                           <div className="fixed inset-0 flex items-center justify-center z-50"> 
                             <div className="bg-white rounded-lg p-4 shadow-sm border border-slate-200">
-                              <p className="font-medium">Enter New Date:</p>
+                              <p className="font-medium">Enter date:</p>
                               <DatePicker
                                 selected={checkOutDate}
-                                onChange={(date) => {setCheckOutDate(date);
-                                setEditDate(false);}
-                                }
+                                onChange={(date) => setCheckOutDate(date)}
+                                onBlur={()=>setEditDate(false)}
                                 dateFormat="yyyy-MM-dd"
                                 placeholderText="Select date"
                                 className="border-2 p-2 mt-2 mb-3 rounded-lg w-full"
@@ -100,8 +109,23 @@ function Bill({onClose})
                         <span className="text-gray-700">
                           {nights}
                         </span>
-                        <SquarePen className="w-4 h-4"/>
+                        <SquarePen onClick={()=>setEditNights(true)}
+                        className="w-4 h-4"/>
                       </div>
+
+                      {editNights && (
+                          <div className="fixed inset-0 flex items-center justify-center z-50"> 
+                            <div className="bg-white rounded-lg p-4 shadow-sm border border-slate-200">
+                              <p className="font-medium">Enter nights stayed:</p>
+                              <input
+                                value={nights}
+                                onChange={(e) => setNights(e.target.value)}
+                                onBlur={() => setEditNights(false)}
+                                className="border-2 p-2 mt-2 mb-3 rounded-lg w-full"
+                              />
+                            </div>
+                          </div>
+                        )}
                     </div>
 
                     <div
@@ -112,10 +136,26 @@ function Bill({onClose})
                       </span>
                       <div className="flex items-center gap-1">
                         <span className="text-gray-700">
-                          {rate}
+                          Rs {rate}
                         </span>
-                        <SquarePen className="w-4 h-4"/>
+                        <SquarePen 
+                        onClick={()=>setEditRate(true)}
+                        className="w-4 h-4"/>
                       </div>
+
+                      {editRate && (
+                          <div className="fixed inset-0 flex items-center justify-center z-50"> 
+                            <div className="bg-white rounded-lg p-4 shadow-sm border border-slate-200">
+                              <p className="font-medium">Enter rate per night:</p>
+                              <input
+                                value={rate}
+                                onChange={(e) => setRate(e.target.value)}
+                                onBlur={() => setEditRate(false)}
+                                className="border-2 p-2 mt-2 mb-3 rounded-lg w-full"
+                              />
+                            </div>
+                          </div>
+                        )}
                     </div>
                 </div>
 
@@ -179,7 +219,7 @@ function Bill({onClose})
                     <div className="flex items-center justify-between text-sm text-slate-600">
                       <span>Discount ({discount}%)</span>
                       <span>
-                        − Rs 
+                        Rs{" "}
                         {Math.round((2000 * discount) / 100)}
                       </span>
                     </div>

@@ -137,9 +137,9 @@ function Rooms() {
 
         <div className="flex flex-wrap gap-5">
           {rooms.length === 0 ? (
-            <p className="text-gray-500 w-full text-center pb-3">
+            <div className='text-gray-500 font-medium w-full text-center text-lg p-4 mb-3'>
               No rooms added yet
-            </p>
+            </div>
           ) : (
             [...rooms]
             .sort((a, b) => a.number - b.number)
