@@ -95,6 +95,13 @@ function Reservations(){
         }
 
         setMsg("");
+        setContactNumber("");
+        setCustomerName("");
+        setRoomNumber("");
+        setTableNumber("");
+        setArrivalDate("");
+        setArrivalTime("");
+        setReservationType("");
         setReservationForm(false);
     };
 
@@ -122,6 +129,7 @@ return(
             </div>
         </div>
 
+        {/* View Selection */}
         <div className='flex items-center gap-4 mb-6'>
             <button 
             onClick={()=>setView("table")}
@@ -188,8 +196,8 @@ return(
                         </div>
                     </div>
 
-                {/*Customer details */}
-                {(reservationType==="room" || reservationType==="table") && (
+                    {/*Customer details */}
+                    {(reservationType==="room" || reservationType==="table") && (
                     <div>
                         <p className="font-medium ">Reserved by:</p>
                         <input
@@ -214,7 +222,7 @@ return(
                             <p className="font-medium"> Room Number:</p>
                             <input
                             type="number"
-                            placeholder='X'
+                            placeholder='Enter the room number'
                             className="border-2 p-2 mt-2 mb-3 rounded-lg w-full"
                             value={roomNumber}
                             onChange={(e) => setRoomNumber(Number(e.target.value))}
@@ -227,7 +235,7 @@ return(
                             <p className="font-medium"> Table Number:</p>
                                 <input
                                 type="number"
-                                placeholder='X'
+                                placeholder='Enter the table number'
                                 className="border-2 p-2 mt-2 mb-3 rounded-lg w-full"
                                 value={tableNumber}
                                 onChange={(e) => setTableNumber(Number(e.target.value))}
@@ -253,7 +261,7 @@ return(
                             className="border-2 p-2 mt-2 mb-3 rounded-lg w-full"
                         />
                     </div>
-                )}
+                    )}
 
                     <p className="text-red-500 font-medium text-sm mt-2 mb-5">{msg}</p>
 

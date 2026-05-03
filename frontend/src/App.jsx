@@ -8,7 +8,7 @@ import Overview from "./Components/dashboard/overview.jsx";
 import OrdersView from "./Components/dashboard/orders.jsx";
 import Tables from "./Components/dashboard/tables.jsx";
 import Rooms from "./Components/dashboard/room.jsx";
-import Inventory from "./Components/dashboard/inventory.jsx";
+import Inventory from "./Components/dashboard/inventory tab/inventory.jsx";
 import Finance from "./Components/dashboard/finance.jsx";
 import MenuView from "./Components/dashboard/menu.jsx"
 import Reservations from "./Components/dashboard/reservation tab/reservationsmain.jsx";

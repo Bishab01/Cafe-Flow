@@ -78,3 +78,5 @@ function StaffTable({
     </div>
   )
 }
+
+export default StaffTable
