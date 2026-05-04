@@ -1,6 +1,16 @@
 import { ClipboardClock, SlidersHorizontal, Minus} from 'lucide-react'
+import Filter from '../../layouts/filter'
+import { useState, useEffect } from 'react'
 
 function MenuHistory({menuCategoryHistory}){
+
+    const [showFilter, setShowFilter] = useState(false);
+    const [filteredData, setFilteredData] = useState(menuCategoryHistory);
+
+    useEffect(() => {
+        setFilteredData(menuCategoryHistory);
+    }, [menuCategoryHistory]);
+
     return(
         <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-slate-200">
             <div className='flex justify-between p-6 border-b border-gray-100 '>
@@ -11,14 +21,17 @@ function MenuHistory({menuCategoryHistory}){
                     </h3>
                 </div>
 
-                <button className='flex items-center gap-1 text-gray-600 hover:text-black'>
+                <button 
+                className='flex items-center gap-1 text-gray-600 hover:text-black' 
+                onClick={() => setShowFilter(!showFilter)}
+                >
                     Filter
                     <SlidersHorizontal className='w-5 h-5'/>
                 </button>
             </div>
 
             <div className="w-full overflow-x-auto">
-                {menuCategoryHistory.length===0?(
+                {filteredData.length===0?(
                     <div className='text-gray-500 font-medium text-center text-lg p-4 mb-3'>
                         No history to display
                     </div>):
@@ -47,7 +60,7 @@ function MenuHistory({menuCategoryHistory}){
                 </thead>
 
                 <tbody>
-                    {[...menuCategoryHistory].reverse().map((mHistory,index)=>(
+                    {[...filteredData].reverse().map((mHistory,index)=>(
                     <tr key={mHistory.mid} className="border-b border-gray-100 hover:bg-gray-50">
                         <td className="px-6 py-3 text-gray-600 text-[14.5px]">
                             {index + 1}
@@ -77,6 +90,14 @@ function MenuHistory({menuCategoryHistory}){
                 </tbody>
                 </table>)}
             </div>
+
+            {showFilter &&
+            <Filter 
+                data={menuCategoryHistory} 
+                onApply={setFilteredData} 
+                onReset={()=>setShowFilter(false)} 
+                dateField="date"
+            />}
         </div>
     )
 }

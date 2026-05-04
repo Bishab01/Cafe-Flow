@@ -19,15 +19,15 @@ function Reservations(){
     const [msg,setMsg]=useState("");
     
     const [tableReservations, setTableReservations] = useState([
-        { id: 1, tableNo: 2, name: "Ram Bahadur", contact: "9812345678", date: "2026-05-05", time: "18:30" },
-        { id: 2, tableNo: 4, name: "Sita Sharma", contact: "9823456789", date: "2026-05-06", time: "19:00" },
-        { id: 3, tableNo: 1, name: "Hari Prasad", contact: "9801234567", date: "2026-05-07", time: "20:15" }
+        { id: 1, tableNo: 2, name: "Ram Bahadur", contact: "9812345678", resvDate: "2026-05-05", time: "18:30" },
+        { id: 2, tableNo: 4, name: "Sita Sharma", contact: "9823456789", resvDate: "2026-05-06", time: "19:00" },
+        { id: 3, tableNo: 1, name: "Hari Prasad", contact: "9801234567", resvDate: "2026-05-07", time: "20:15" }
     ]);
 
     const [roomReservations, setRoomReservations] = useState([
-        { id: 1, roomNo: 101, name: "Gita Koirala", contact: "9811111111", date: "2026-05-10", time: "08:00" },
-        { id: 2, roomNo: 203, name: "Shyam Thapa", contact: "9822222222", date: "2026-05-11", time: "09:30" },
-        { id: 3, roomNo: 305, name: "Bina Rai", contact: "9833333333", date: "2026-05-12", time: "07:45" }
+        { id: 1, roomNo: 101, name: "Gita Koirala", contact: "9811111111", checkInDate: "2026-05-10", time: "08:00" },
+        { id: 2, roomNo: 203, name: "Shyam Thapa", contact: "9822222222", checkInDate: "2026-05-11", time: "09:30" },
+        { id: 3, roomNo: 305, name: "Bina Rai", contact: "9833333333", checkInDate: "2026-05-12", time: "07:45" }
     ]);
 
     const deleteTableReservation = (id) => {
@@ -263,6 +263,7 @@ return(
                             dateFormat="yyyy-MM-dd"
                             placeholderText="Select date"
                             className="border-2 p-2 mt-2 mb-3 rounded-lg w-full"
+                            wrapperClassName="w-full"
                         />
                     </div>
                     )}

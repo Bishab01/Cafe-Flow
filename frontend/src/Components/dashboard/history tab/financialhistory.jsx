@@ -1,6 +1,16 @@
 import { ClipboardClock, SlidersHorizontal, Minus} from 'lucide-react'
+import Filter from '../../layouts/filter'
+import { useState, useEffect } from 'react'
 
 function FinancialHistory({financialHistory}){
+
+    const [showFilter, setShowFilter] = useState(false);
+    const [filteredData, setFilteredData] = useState(financialHistory);
+
+    useEffect(() => {
+        setFilteredData(financialHistory);
+    }, [financialHistory]);
+
     return (
         <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-slate-200 mb-6">
             <div className='flex justify-between p-6 border-b border-gray-100 '>
@@ -11,14 +21,17 @@ function FinancialHistory({financialHistory}){
                     </h3>
                 </div>
 
-                <button className='flex items-center gap-1 text-gray-600 hover:text-black'>
+                <button 
+                className='flex items-center gap-1 text-gray-600 hover:text-black' 
+                onClick={() => setShowFilter(!showFilter)}
+                >
                     Filter
                     <SlidersHorizontal className='w-5 h-5'/>
                 </button>
             </div>
 
             <div className="w-full overflow-x-auto">
-            {financialHistory.length===0?(
+            {filteredData.length===0?(
                 <div className='text-gray-500 font-medium text-center text-lg p-4 mb-3'>
                     No history to display
                 </div>):
@@ -44,7 +57,7 @@ function FinancialHistory({financialHistory}){
                 </thead>
 
                 <tbody>
-                    {[...financialHistory].reverse().map((fHistory,index)=>(
+                    {[...filteredData].reverse().map((fHistory,index)=>(
                     <tr key={fHistory.fid} className="border-b border-gray-100 hover:bg-gray-50">
                         <td className="px-6 py-3 text-gray-600 text-sm">
                             {index + 1}
@@ -70,6 +83,13 @@ function FinancialHistory({financialHistory}){
                 </tbody>
                 </table>)}
             </div>
+            {showFilter && 
+            <Filter 
+                data={financialHistory} 
+                onApply={setFilteredData} 
+                onReset={()=>setShowFilter(false)} 
+                dateField="date"
+            />}
         </div>
     )
 }

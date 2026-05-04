@@ -11,9 +11,9 @@ function Staff(){
 
   // Initial data
   const [staff, setStaff] = useState([
-    { id: 1, name: "Ram Sharma", jobTitle: "Receptionist", salary:0 },
-    { id: 2, name: "Sita Gurung", jobTitle: "Manager", salary:0 },
-    { id: 3, name: "Hari Thapa", jobTitle: "Cleaner",salary:0 },
+    { id: 1, name: "Ram Sharma", jobTitle: "Receptionist",  contact: "9872344678", salary:0 },
+    { id: 2, name: "Sita Gurung", jobTitle: "Manager",  contact: "9862345478", salary:0 },
+    { id: 3, name: "Hari Thapa", jobTitle: "Cleaner",contact: "9712343678", salary:0 },
   ]);
 
   // Stats
@@ -56,7 +56,7 @@ return(
         Staff Management
       </h1>
       <p className="text-sm md:text-[15px] text-gray-400 font-medium mt-1">
-        View and Manage all staffs
+        View and Manage all staffs and their payroll information
       </p>
     </div>
 

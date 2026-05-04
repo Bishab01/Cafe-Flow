@@ -1,7 +1,15 @@
 import { BookCheck, SlidersHorizontal, LogIn, Trash2, Minus } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Filter from "../../layouts/filter";
 
 function RoomReservations({ roomReservations, deleteRoomReservation, formatTime }) {
+
+    const [showFilter, setShowFilter] = useState(false);
+    const [filteredData, setFilteredData] = useState(roomReservations);
+
+    useEffect(() => {
+        setFilteredData(roomReservations);
+    }, [roomReservations]);
   
     const [popUp,setPopUp]=useState(false);
     const [selectedRoom, setSelectedRoom]=useState(null);
@@ -16,14 +24,21 @@ function RoomReservations({ roomReservations, deleteRoomReservation, formatTime 
                 </h3>
             </div>
 
-            <button className='flex items-center gap-1 text-gray-600 hover:text-black'>
+            <button 
+            onClick={()=>setShowFilter(true)}
+            className='flex items-center gap-1 text-gray-600 hover:text-black'>
                 Filter
                 <SlidersHorizontal className='w-5 h-5'/>
             </button>
         </div>
 
         <div className="w-full overflow-x-auto">
-            <table className="min-w-full table-auto">
+        {filteredData.length===0 ? (
+            <div className='text-gray-500 font-medium text-center text-lg p-4 mb-3'>
+                No reservations made yet.
+            </div>
+        ):(
+        <table className="min-w-full table-auto">
             <thead>
                 <tr className="bg-gray-50 border-b border-gray-200">
                     <th className="px-6 py-5 text-left text-gray-600 font-medium text-sm">
@@ -57,58 +72,59 @@ function RoomReservations({ roomReservations, deleteRoomReservation, formatTime 
             </thead>
 
             <tbody>
-                {roomReservations.map((room,index)=>(
-                    <tr key={room.id} className="border-b border-gray-100 hover:bg-gray-50">
-                        <td className="px-6 py-3 text-gray-600 text-sm">
-                            {index + 1}
-                        </td>
-                        <td className="px-6 py-3 text-gray-600 text-sm">
-                            Room {room.roomNo}
-                        </td>
+            {filteredData.map((room,index)=>(
+                <tr key={room.id} className="border-b border-gray-100 hover:bg-gray-50">
+                    <td className="px-6 py-3 text-gray-600 text-sm">
+                        {index + 1}
+                    </td>
+                    <td className="px-6 py-3 text-gray-600 text-sm">
+                        Room {room.roomNo}
+                    </td>
 
-                        <td className="px-6 py-3 text-gray-600 text-sm">
-                            {room.name}
-                        </td>
+                    <td className="px-6 py-3 text-gray-600 text-sm">
+                        {room.name}
+                    </td>
 
-                        <td className="px-6 py-3 text-gray-600 text-sm">
-                            {room.date}
-                        </td>
+                    <td className="px-6 py-3 text-gray-600 text-sm">
+                        {room.checkInDate}
+                    </td>
 
-                        <td className="px-6 py-3 text-gray-600 text-sm">
-                            {formatTime(room.time)}
-                        </td>
+                    <td className="px-6 py-3 text-gray-600 text-sm">
+                        {formatTime(room.time)}
+                    </td>
 
-                        <td className="px-6 py-3 text-gray-600 text-sm">
-                            <Minus className="w-5 h-5"/>
-                        </td>
+                    <td className="px-6 py-3 text-gray-600 text-sm">
+                        <Minus className="w-5 h-5"/>
+                    </td>
 
-                        <td className="px-6 py-3 text-gray-600 text-sm">
-                            {room.contact}
-                        </td>
-                        
-                        <td className="px-6 py-3 text-gray-600 text-sm">
-                            <button className='flex items-center justify-center text-blue-500 gap-1
-                            hover:text-blue-700 rounded-4xl'>
-                                <LogIn className='w-5 h-5'/>
-                                Assign
-                            </button>
-                        </td>
-                        <td className="px-6 py-3 text-gray-600 text-sm">
-                            <button 
-                            onClick={()=>{setPopUp(true);
-                                setSelectedRoom(room);
-                            }}
-                            className='flex items-center justify-center text-red-500 gap-1
-                            hover:text-red-700 rounded-4xl'>
-                                <Trash2 
-                                className='w-5 h-5'/>
-                                Delete
-                            </button>
-                        </td>
-                    </tr>
-                ))}
+                    <td className="px-6 py-3 text-gray-600 text-sm">
+                        {room.contact}
+                    </td>
+                    
+                    <td className="px-6 py-3 text-gray-600 text-sm">
+                        <button className='flex items-center justify-center text-blue-500 gap-1
+                        hover:text-blue-700 rounded-4xl'>
+                            <LogIn className='w-5 h-5'/>
+                            Assign
+                        </button>
+                    </td>
+                    <td className="px-6 py-3 text-gray-600 text-sm">
+                        <button 
+                        onClick={()=>{setPopUp(true);
+                            setSelectedRoom(room);
+                        }}
+                        className='flex items-center justify-center text-red-500 gap-1
+                        hover:text-red-700 rounded-4xl'>
+                            <Trash2 
+                            className='w-5 h-5'/>
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            ))}
             </tbody>
-            </table>
+        </table>
+        )}
         </div>
 
         {popUp && (
@@ -136,6 +152,16 @@ function RoomReservations({ roomReservations, deleteRoomReservation, formatTime 
                     </div>
                 </div>
             </div>
+        )}
+
+        {showFilter && (
+        <Filter
+            data={roomReservations}
+            nameField="name"
+            dateField="checkInDate"
+            onApply={setFilteredData}
+            onReset={() => setShowFilter(false)}
+        />
         )}
     </div>
   )}
