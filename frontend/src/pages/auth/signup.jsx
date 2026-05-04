@@ -9,6 +9,7 @@ function Signup() {
 
   const [fullname, setFullname] = useState("");
   const [username, setUsername] = useState("");
+  const [contact, setContact] = useState("");
   const [title, setTitle] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -24,9 +25,10 @@ function Signup() {
     // Regex rules
     const nameRegex = /^[A-Za-z\s]+$/;
     const usernameRegex = /^[A-Za-z0-9._]+$/;
+    const contactRegex = /^9\d{9}$/;
 
     // Required field check
-    if (!name || !user || !title || !password || !confirmPassword) {
+    if (!name || !user || !title || !password || !confirmPassword || !contact) {
       setMsg("All fields are required*");
     }
 
@@ -40,6 +42,11 @@ function Signup() {
       setMsg("Username can only contain letters, numbers, . and _");
     }
 
+    // Contact number validation
+    else if (!contactRegex.test(contact)) {
+      setMsg("Invalid contact number");
+    }
+
     // Password length validation
     else if (password.length < 6) {
       setMsg("Password must be at least 6 characters long");
@@ -48,7 +55,9 @@ function Signup() {
     // Password match validation
     else if (password !== confirmPassword) {
       setMsg("Passwords do not match");
-    } else {
+    } 
+    
+    else {
       setMsg("");
       navigate("/");
     }
@@ -103,6 +112,14 @@ function Signup() {
               </option>
             ))}
           </select>
+
+           <p className="mb-1 font-medium text-white">Phone*</p>
+          <input
+            type="tel"
+            placeholder="Eg: 9XXXXXXXXX"
+            onChange={(e) => setContact(e.target.value)}
+            className="w-full h-9 mb-3 border border-[#4B2E2A] bg-white rounded-lg p-2"
+          />
 
           <p className="mb-1 font-medium text-white">Password*</p>
 

@@ -139,6 +139,7 @@ function StatusForm({ unit, onClose, onConfirm }) {
                 dateFormat="yyyy-MM-dd"
                 placeholderText="Select date"
                 className="border-2 p-2 mt-2 mb-3 rounded-lg w-full"
+                wrapperClassName="w-full"
             />
 
             <p className="text-red-500 font-medium text-sm mt-2">{msg}</p>

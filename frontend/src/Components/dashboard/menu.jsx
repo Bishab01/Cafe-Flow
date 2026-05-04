@@ -237,7 +237,7 @@ function MenuView() {
         <div className='bg-white rounded-2xl shadow-sm p-6'>
           <div className='flex flex-col '>
             
-            <h3 className='font-semibold text-xl mb-6'>Current Order</h3>
+            <h3 className='font-semibold text-xl mb-6'>Create Order</h3>
 
             <div className="flex items-center gap-2 font-medium mb-4">
               Order For:

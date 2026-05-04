@@ -59,6 +59,7 @@ return(
         <p className="text-lg font-medium text-gray-600 mb-2">Price (Rs)</p>
         <input
           type="number"
+          placeholder="Set price of the item"
           className="border rounded-xl p-2 mb-3 w-full"
           onChange={(e)=>setPrice(Number(e.target.value))}
         />

@@ -26,6 +26,10 @@ function MetricCard(props) {
     StatusIcon = ArrowDown;
     statusColor = "text-red-600";
   }
+  else{
+    StatusIcon = Minus;
+    statusColor = "text-slate-600";
+  }
 
   return (
     <div className="bg-white rounded-xl shadow-sm p-4">

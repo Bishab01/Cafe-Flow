@@ -13,11 +13,16 @@ function StaffTable({
       <div className="p-6 border-b border-gray-100 flex items-center gap-2">
         <UserCog className="w-4.5 h-4.5 md:w-5 md:h-5 text-red-500" />
         <h3  className="font-bold text-[17px] md:text-[19px]">
-          Team Members
+          Staff Information
         </h3>
       </div>
 
       <div className="w-full overflow-x-auto">
+      {staff.length === 0 ? (
+        <div className='text-gray-500 font-medium text-center text-lg p-4 mb-3'>
+                No staff information to show.
+            </div>
+      ) : (
         <table className="min-w-full table-auto">
           <thead>
             <tr className="bg-gray-50 border-b border-gray-200">
@@ -29,6 +34,9 @@ function StaffTable({
               </th>
               <th className="px-6 py-3 text-left text-gray-600 font-medium text-sm md:text-lg">
                 Job title
+              </th>
+              <th className="px-6 py-3 text-left text-gray-600 font-medium text-sm md:text-lg">
+                Contact
               </th>
               <th className="px-6 py-3 text-left text-gray-600 font-medium text-sm md:text-lg ">
                 Salary
@@ -50,6 +58,9 @@ function StaffTable({
                 </td>
                 <td className="px-6 py-3 text-gray-600 text-sm md:text-lg">
                   {member.jobTitle}
+                </td>
+                <td className="px-6 py-3 text-gray-600 text-sm md:text-lg">
+                  {member.contact}
                 </td>
                 <td className="px-6 py-3 flex justify-between items-center text-gray-600 text-sm md:text-lg"> 
                   <p>Rs {member.salary.toLocaleString()}</p>
@@ -74,6 +85,7 @@ function StaffTable({
             ))}
           </tbody>
         </table>
+      )}
       </div>
     </div>
   )
