@@ -16,7 +16,7 @@ import { NavLink } from "react-router-dom";
 function AdminDashboard() {
   const isAdmin = "admin";
 
-  const adminMenuItems = [
+  const adminMenu = [
     { id: "overview", label: "Dashboard", icon: LayoutDashboard },
     { id: "orders", label: "Orders", icon: ShoppingCart },
     { id: "menu", label: "Menu", icon: NotepadText },
@@ -29,7 +29,7 @@ function AdminDashboard() {
     { id: "history", label: "History", icon: History },
   ];
 
-  const userMenuItems = [
+  const userMenu = [
     { id: "orders", label: "Orders", icon: ShoppingCart },
     { id: "menu", label: "Menu", icon: NotepadText },
     { id: "tables", label: "Tables", icon: MdTableRestaurant },
@@ -38,10 +38,10 @@ function AdminDashboard() {
     { id: "inventory", label: "Inventory", icon: Package },
   ];
 
-  const menuItems = isAdmin ? adminMenuItems : userMenuItems;
+  const menu = isAdmin ? adminMenu : userMenu;
 
   return (
-    <div className="w-45 md:w-64 bg-white h-screen border-r border-gray-200 flex flex-col sticky tip-0">
+    <div className="w-45 md:w-64 bg-white h-screen border-r border-gray-200 flex flex-col sticky top-0">
       {/* Header */}
       <div className="flex items-center gap-3 p-4 border-b border-gray-200">
         <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden">
@@ -53,30 +53,30 @@ function AdminDashboard() {
         </div>
 
         <div>
-          <h2 className="text-[#4B2E2A] text-[17px] md:text-xl font-semibold">
+          <h2 className="text-gray-900 text-[17px] md:text-xl font-semibold">
             Manager
           </h2>
-          <p className="text-[#6A4A45] text-xs md:text-sm p-0.5 font-medium">
+          <p className="text-gray-600 text-xs md:text-sm p-0.5 font-medium">
             Welcome back
           </p>
         </div>
       </div>
 
       {/* Menu */}
-      <div className="space-y-2 flex-1 p-4 ">
-        {menuItems.map((item) => {
+      <div className="space-y-1 flex-1 p-3.5 ">
+        {menu.map((item) => {
           const Icon = item.icon;
 
           return (
             <NavLink
               key={item.id}
-              to={`/dashboard/${item.id.toLowerCase().trim()}`} // important
+              to={`/dashboard/${item.id.toLowerCase().trim()}`}
               end={item.id === ""} // for dashboard root
               className={({ isActive }) =>
                 `w-full flex items-center gap-3 p-3 rounded-lg transition ${
                   isActive
-                    ? "bg-[#F5E6D3] font-medium text-[16px]  text-[#4B2E2A]"
-                    : "text-[#6A4A45] font-medium text-[16px]  hover:bg-[#fff4e9]"
+                    ? "bg-red-600 font-medium text-[16px]  text-white"
+                    : "text-gray-900 font-medium text-[16px]  hover:bg-red-100"
                 }`
               }
             >

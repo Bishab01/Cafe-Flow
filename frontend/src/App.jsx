@@ -10,7 +10,7 @@ import Tables from "./Components/dashboard/tables.jsx";
 import Rooms from "./Components/dashboard/room.jsx";
 import Inventory from "./Components/dashboard/inventory tab/inventory.jsx";
 import Finance from "./Components/dashboard/finance tab/finance.jsx";
-import MenuView from "./Components/dashboard/menu.jsx"
+import MenuView from "./Components/dashboard/menu tab/menu.jsx"
 import Reservations from "./Components/dashboard/reservation tab/reservationsmain.jsx";
 import History from "./Components/dashboard/history tab/mainhistory.jsx";
 import { Navigate } from "react-router-dom";

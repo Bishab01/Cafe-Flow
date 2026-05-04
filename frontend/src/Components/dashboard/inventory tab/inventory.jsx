@@ -14,7 +14,7 @@ function Inventory() {
     const [msg,setMsg]=useState("");
 
     const [suppliers, setSuppliers] = useState([
-    {id: 1, name: "Rajesh Sharma", category: "Electronics", company: "Himalayan Tech Supplies", contact: "9812345678", email: "rajesh.sharma@hts.com", address: "Kathmandu, Nepal"},
+    {id:1, name: "Rajesh Sharma", category: "Electronics", company: "Himalayan Tech Supplies", contact: "9812345678", email: "rajesh.sharma@hts.com", address: "Kathmandu, Nepal"},
     {id:2, name: "Kiran Rai", category: "Vegetables", company: "Himal Veggie House", contact: "9823456789", email: "kiran.rai@veggiehouse.com", address: "Biratnagar, Nepal"},
     {id:3, name: "Maya Lama", category: "Poultry", company: "Maya Fresh Poultry", contact: "9856677889", address: "Lalitpur, Nepal"}
     ]);

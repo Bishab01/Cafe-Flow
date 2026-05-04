@@ -57,7 +57,7 @@ function TableReservations({ tableReservations, deleteTableReservation, formatTi
                         Arrival time
                     </th>
                     <th className="px-6 py-5 text-left text-gray-600 font-medium text-sm ">
-                        Contact No.
+                        Contact
                     </th>
                     <th className="px-6 py-5 text-left text-gray-600 font-medium text-sm ">
                         Proceed
