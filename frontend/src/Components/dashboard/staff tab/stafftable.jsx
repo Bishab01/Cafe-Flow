@@ -26,22 +26,22 @@ function StaffTable({
         <table className="min-w-full table-auto">
           <thead>
             <tr className="bg-gray-50 border-b border-gray-200">
-              <th className="px-6 py-3 text-left text-gray-600 font-medium text-sm md:text-lg">
+              <th className="px-6 py-3 text-left text-gray-600 font-medium text-[15px]">
                 #
               </th>
-              <th className="px-6 py-3 text-left text-gray-600 font-medium text-sm md:text-lg">
+              <th className="px-6 py-3 text-left text-gray-600 font-medium text-[15px]">
                 Name
               </th>
-              <th className="px-6 py-3 text-left text-gray-600 font-medium text-sm md:text-lg">
+              <th className="px-6 py-3 text-left text-gray-600 font-medium text-[15px]">
                 Job title
               </th>
-              <th className="px-6 py-3 text-left text-gray-600 font-medium text-sm md:text-lg">
+              <th className="px-6 py-3 text-left text-gray-600 font-medium text-[15px]">
                 Contact
               </th>
-              <th className="px-6 py-3 text-left text-gray-600 font-medium text-sm md:text-lg ">
+              <th className="px-6 py-3 text-left text-gray-600 font-medium text-[15px] ">
                 Salary
               </th>
-              <th className="px-6 py-3 text-left text-gray-600 font-medium text-sm md:text-lg">
+              <th className="px-6 py-3 text-left text-gray-600 font-medium text-[15px]">
                 Action
               </th>
             </tr>
@@ -50,19 +50,19 @@ function StaffTable({
           <tbody>
             {staff.map((member,index)=>(
               <tr key={member.id} className="border-b border-gray-100 hover:bg-gray-50">
-                <td  className="px-6 py-3 text-gray-600 text-sm md:text-lg">
+                <td  className="px-6 py-3 text-gray-600 text-[15px]">
                   {index + 1}
                 </td>
-                <td className="px-6 py-3 text-gray-600 text-sm md:text-lg">
+                <td className="px-6 py-3 text-gray-600 text-[15px]">
                   {member.name}
                 </td>
-                <td className="px-6 py-3 text-gray-600 text-sm md:text-lg">
+                <td className="px-6 py-3 text-gray-600 text-[15px]">
                   {member.jobTitle}
                 </td>
-                <td className="px-6 py-3 text-gray-600 text-sm md:text-lg">
+                <td className="px-6 py-3 text-gray-600 text-[15px]">
                   {member.contact}
                 </td>
-                <td className="px-6 py-3 flex justify-between items-center text-gray-600 text-sm md:text-lg"> 
+                <td className="px-6 py-3 flex justify-between items-center text-gray-600 text-[15px]"> 
                   <p>Rs {member.salary.toLocaleString()}</p>
                   <SquarePen 
                    onClick={() => {

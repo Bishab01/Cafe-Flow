@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 function Signup() {
   const navigate = useNavigate();
 
-  const titles = ["Manager", "Barista", "Waiter", "Chef"];
+  const titles = ["Manager", "Reception", "Kitchen", "Waiter"];
 
   const [fullname, setFullname] = useState("");
   const [username, setUsername] = useState("");
@@ -16,6 +16,17 @@ function Signup() {
   const [showConfirmPassword, setShowConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [msg, setMsg] = useState("");
+
+  const resetForm = () => {
+    setMsg("");
+    setFullname("");
+    setUsername("");
+    setContact("");
+    setTitle("");
+    setPassword("");
+    setConfirmPassword("");
+    navigate("/");
+  };
 
   const handleSignup = () => {
     // Trim inputs
@@ -30,48 +41,52 @@ function Signup() {
     // Required field check
     if (!name || !user || !title || !password || !confirmPassword || !contact) {
       setMsg("All fields are required*");
+      return;
     }
 
     // Full name validation (only alphabets + spaces)
-    else if (!nameRegex.test(name)) {
+    if (!nameRegex.test(name)) {
       setMsg("Full name can only contain letters and spaces");
+      return;
     }
 
     // Username validation (no spaces, only letters, numbers, . and _)
-    else if (!usernameRegex.test(user)) {
+    if (!usernameRegex.test(user)) {
       setMsg("Username can only contain letters, numbers, . and _");
+      return;
     }
 
     // Contact number validation
-    else if (!contactRegex.test(contact)) {
+    if (!contactRegex.test(contact)) {
       setMsg("Invalid contact number");
+      return;
     }
 
     // Password length validation
-    else if (password.length < 6) {
+    if (password.length < 6) {
       setMsg("Password must be at least 6 characters long");
+      return;
     }
 
     // Password match validation
-    else if (password !== confirmPassword) {
+    if (password !== confirmPassword) {
       setMsg("Passwords do not match");
+      return;
     } 
-    
-    else {
-      setMsg("");
-      navigate("/");
-    }
+     
+    //send data to backend
+    resetForm();
   };
+
   return (
-    <div className="bg-[#F5E6D3] h-screen flex items-center justify-end">
+    <div className="bg-[#F5E6D3] min-h-screen flex items-center justify-center overflow-hidden">
       <img
         src="./src/assets/images/piqsels.jpg"
         alt="image"
-        className="w-full
-        h-full
-        object-cover absolute inset-0 blur-xs"
+        className="w-full h-full object-cover absolute inset-0 blur-xs"
       />
-      <div className="backdrop-blur-3xl bg-white/10 border border-white/20 p-8 rounded-2xl shadow-lg w-100 text-center mr-50">
+      <div className="backdrop-blur-3xl bg-white/10 border border-white/20 p-8 rounded-2xl 
+      overflow-y-auto max-h-screen shadow-lg w-100 text-center">
         <div className=" w-full text-start ">
           <div className="flex items-center justify-start gap-3 mb-5">
             <UserRoundPlus className="w-5 h-5 text-white" />
@@ -164,6 +179,15 @@ function Signup() {
           <p className="mb-5 font-medium text-sm text-black">{msg}</p>
 
           <div className="flex justify-between items-center">
+
+            <button
+              onClick={resetForm}
+              className="inline-flex w-20 h-9 px-4 py-3 text-[15px] font-medium items-center justify-center bg-transparent 
+            text-white rounded-lg border-2 border-white hover:bg-[#ccc0be] hover:text-[#4B2E2A] hover:border-[#4B2E2A]"
+            >
+              Cancel
+            </button>
+
             <button
               onClick={handleSignup}
               className="inline-flex w-20 h-9 px-4 py-3 text-[15px] font-medium items-center justify-center 
@@ -172,13 +196,6 @@ function Signup() {
               Register
             </button>
 
-            <button
-              onClick={() => navigate("/")}
-              className="inline-flex w-20 h-9 px-4 py-3 text-[15px] font-medium items-center justify-center bg-transparent 
-            text-white rounded-lg border-2 border-white hover:bg-[#ccc0be] hover:text-[#4B2E2A] hover:border-[#4B2E2A]"
-            >
-              Cancel
-            </button>
           </div>
         </div>
       </div>

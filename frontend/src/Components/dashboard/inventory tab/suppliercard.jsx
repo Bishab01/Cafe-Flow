@@ -19,34 +19,34 @@ function SupplierCard({suppliers, deleteSupplier}){
             <div key={supplier.id} className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
                 <div className="flex items-start justify-between">
                     <div className="flex flex-col">
-                        <div className="flex items-center gap-3 mb-3">
-                            <h3 className="text-lg md:text-xl font-semibold text-slate-900">
+                        <div className="flex items-center gap-3 mb-4">
+                            <h3 className="text-[18px] font-semibold text-slate-900">
                                 {supplier.name}
                             </h3>
-                            <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-medium text-xs md:text-sm">
+                            <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-medium text-[13.5px] ">
                                 {supplier.category}
                             </span>
                         </div>
 
-                        <p className="text-slate-600 font-medium mb-3 text-sm md:text-[17px]">
+                        <p className="text-slate-600 font-medium mb-4 text-[15px]">
                             {supplier.company}
                         </p>
                         
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <div className="flex flex-col gap-4">
                             <div className="flex items-center gap-2 text-slate-600">
-                            <Phone size={16} />
+                            <Phone className="w-4 h-4" />
                             <span className="text-sm">{supplier.contact}</span>
                             </div>
 
                             {supplier.email && (
                                 <div className="flex items-center gap-2 text-slate-600">
-                                <Mail size={16} />
+                                <Mail className="w-4 h-4" />
                                 <span className="text-sm">{supplier.email}</span>
                                 </div>
                             )}
                         
                             <div className="flex items-center gap-2 text-slate-600">
-                            <MapPin size={16} />
+                            <MapPin className="w-4 h-4" />
                             <span className="text-sm">{supplier.address}</span>
                             </div>
                         </div>
@@ -56,8 +56,8 @@ function SupplierCard({suppliers, deleteSupplier}){
                             setSelectedSupplier(supplier);
                         }}
                         className="text-red-600 hover:bg-red-50 p-2 rounded-lg transition-colors"
-                        title="Delete supplier">
-                        <Trash2 className='w-4.5 h-4.5 md:w-5.5 md:h-5.5'/>
+                        title="Delete supplier details">
+                        <Trash2 className='w-4.5 h-4.5 md:w-5 md:h-5'/>
                     </button>
                 </div>
             </div>

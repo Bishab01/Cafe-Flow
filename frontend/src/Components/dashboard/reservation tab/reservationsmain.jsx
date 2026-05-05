@@ -57,6 +57,18 @@ function Reservations(){
         return `${h}:${minutes} ${ampm}`;
     };
 
+    const resetForm = () => {
+        setMsg("");
+        setContactNumber("");
+        setCustomerName("");
+        setRoomNumber("");
+        setTableNumber("");
+        setArrivalDate("");
+        setArrivalTime("");
+        setReservationType("");
+        setReservationForm(false);
+    };
+
     const validateReservationForm = () => {
         if (!reservationType) {
             setMsg("Must select reservation type first");
@@ -94,15 +106,8 @@ function Reservations(){
             }
         }
 
-        setMsg("");
-        setContactNumber("");
-        setCustomerName("");
-        setRoomNumber("");
-        setTableNumber("");
-        setArrivalDate("");
-        setArrivalTime("");
-        setReservationType("");
-        setReservationForm(false);
+        //send data to backend here
+        resetForm();
     };
 
 return(
@@ -169,7 +174,7 @@ return(
         {reservationForm && (
             <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
 
-                <div className="bg-white p-6 rounded-2xl w-90">
+                <div className="bg-white p-6 rounded-2xl w-90 overflow-y-auto max-h-screen">
                     <h2 className="text-xl font-bold mb-4">Add Resevation</h2>
                     
                     {/* Reservation type */}
@@ -272,9 +277,7 @@ return(
 
                     <div className="flex justify-between items-center">
                         <button
-                            onClick={()=>{setReservationForm(false);
-                                setReservationType("");
-                            }}
+                            onClick={resetForm}
                             className="bg-red-400 text-white font-medium rounded-xl 
                             px-3 py-2 hover:bg-red-500">
                             Cancel
