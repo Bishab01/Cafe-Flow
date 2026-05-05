@@ -15,17 +15,17 @@ function LoginScreen() {
     // admin validation
     if (username === "admin" && password.toLowerCase().trim() === "password") {
       navigate("/dashboard");
+      return;
     }
 
     // user validation
-    else if (username === "user" && password === "456") {
+    if (username === "user" && password === "456") {
       navigate("/dashboard");
+      return;
     }
 
     // invalid
-    else {
-      setMsg("Invalid credentials");
-    }
+    setMsg("Invalid credentials");
   };
 
   return (
@@ -77,7 +77,7 @@ function LoginScreen() {
           </button>
         </div>
 
-        <p className="mb-5 font-medium text-sm text-red-600">{msg}</p>
+        <p className="mb-5 font-medium text-[16px] text-red-700">{msg}</p>
 
         <button
           onClick={handleLogin}

@@ -6,6 +6,7 @@ import KitchenOrderTicket from "./kitchenorderticket";
 
 function MenuView() {
 
+  /* For the order slip check the table Number, it should be one of the existing tables and the guest name should appear corredponding to the table number if occupied */
   const [menuItemsData, setMenuItemsData] = useState([
   {id: 1, name: "Espresso", category: "Hot Beverage", price: 120, available: true,},
   {id: 2, name: "Cappuccino", category: "Hot Beverage", price: 150, available: true,},
@@ -17,10 +18,11 @@ function MenuView() {
   
   
   const [selectedCategory, setSelectedCategory] = useState("All");
-  /* const [cart, setCart] = useState([]); */
   const [showAddModal, setShowAddModal] = useState(false);
 
   const categories = ["All", "Food", "Dessert", "Hot Beverage", "Drinks"];
+
+  const [orderSlip, setOrderSlip] = useState([]);
 
   const toggleItemAvailability = (id) => {
     setMenuItemsData(
@@ -85,18 +87,21 @@ function MenuView() {
         menuItemsData={filteredItems}
         toggleAvailability={toggleItemAvailability}
         deleteItem={handleDeleteItem}
+        addToOrder={(item)=>setOrderSlip([...orderSlip,item])}
       />
           
 
       {/* Order Placing */}
-      <KitchenOrderTicket />
+      <KitchenOrderTicket 
+        orderSlip={orderSlip}
+        setOrderSlip={setOrderSlip}
+      />
       
 
       {/* Adding new item */}
       {showAddModal &&
         <NewItemForm
-          onCancel={()=>setShowAddModal(false)}
-          onConfirm={()=>setShowAddModal(false)}
+          close={()=>setShowAddModal(false)}
           categories={categories}
         />
       }

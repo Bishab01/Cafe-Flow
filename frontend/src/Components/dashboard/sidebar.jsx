@@ -41,7 +41,7 @@ function AdminDashboard() {
   const menu = isAdmin ? adminMenu : userMenu;
 
   return (
-    <div className="w-45 md:w-64 bg-white h-screen border-r border-gray-200 flex flex-col sticky top-0">
+    <div className="w-50 md:w-64 bg-white h-screen border-r border-gray-200 flex flex-col sticky top-0 overflow-y-auto">
       {/* Header */}
       <div className="flex items-center gap-3 p-4 border-b border-gray-200">
         <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden">
@@ -75,7 +75,7 @@ function AdminDashboard() {
               className={({ isActive }) =>
                 `w-full flex items-center gap-3 p-3 rounded-lg transition ${
                   isActive
-                    ? "bg-red-600 font-medium text-[16px]  text-white"
+                    ? "bg-red-500 font-medium text-[16px]  text-white"
                     : "text-gray-900 font-medium text-[16px]  hover:bg-red-100"
                 }`
               }

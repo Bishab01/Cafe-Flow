@@ -2,8 +2,10 @@ import {Coffee, Plus, Trash2, CircleX, CircleCheck} from "lucide-react"
 import { MdRoomService } from "react-icons/md";
 import { FaUtensilSpoon } from "react-icons/fa";
 import { FaGlassWater } from "react-icons/fa6";
+import { useState } from "react";
 
-function MenuItemCard({menuItemsData, toggleAvailability, deleteItem}) {
+function MenuItemCard({menuItemsData, toggleAvailability, deleteItem, addToOrder}) {
+
     return(
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 
       max-h-150 overflow-y-auto p-3 mb-6 rounded-xl border border-gray-100 ">
@@ -47,7 +49,8 @@ function MenuItemCard({menuItemsData, toggleAvailability, deleteItem}) {
             <div className="flex justify-between">
               
               <button
-                /*disabled={!item.available} */
+                onClick={() => addToOrder(item)}
+                disabled={!item.available}
                 className="bg-red-500 flex items-center justify-center gap-1 
                 rounded-lg px-3 py-1 text-slate-50 font-medium hover:bg-red-600"
               >

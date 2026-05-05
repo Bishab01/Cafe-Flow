@@ -5,13 +5,14 @@ import SupplierCard from "./suppliercard";
 
 function Inventory() {
 
-    const [supplierName,setSupplierName]=useState("");
-    const [category,setCategory]=useState("");
-    const [contactNumber,setContactNumber]=useState("");
-    const [email, setEmail]=useState("");
-    const [location, setLocation]=useState("");
-    const [showForm,setShowForm]=useState(false);
-    const [msg,setMsg]=useState("");
+    const [supplierName, setSupplierName] = useState("");
+    const [category, setCategory] = useState("");
+    const [contactNumber, setContactNumber] = useState("");
+    const [email, setEmail] = useState("");
+    const [address, setAddress] = useState("");
+    const [showForm, setShowForm] = useState(false);
+    const [company, setCompany] = useState("");
+    const [msg, setMsg] = useState("");
 
     const [suppliers, setSuppliers] = useState([
     {id:1, name: "Rajesh Sharma", category: "Electronics", company: "Himalayan Tech Supplies", contact: "9812345678", email: "rajesh.sharma@hts.com", address: "Kathmandu, Nepal"},
@@ -29,8 +30,19 @@ function Inventory() {
     const nameRegx = /^[a-zA-Z\s]+$/;
     const emailRegx = /^[^\s@]+@[^\s@]+(\.[^\s@]+)+$/;
 
+    const resetForm = () => {
+        setSupplierName('');
+        setCategory('');
+        setEmail('');
+        setAddress('');
+        setContactNumber('');
+        setCompany('');
+        setMsg('');
+        setShowForm(false);
+    }
+
     const validateSupplierDetails = () => {
-        if(!supplierName.trim() || !category.trim() || !contactNumber || !location.trim())
+        if(!supplierName.trim() || !category.trim() || !contactNumber || !address.trim() || !company.trim())
         {
             setMsg("Must fill all the fields with *");
             return;
@@ -53,14 +65,8 @@ function Inventory() {
             setMsg("Invalid email address");
             return;
         }
-
-        setMsg('');
-        setSupplierName('');
-        setCategory('');
-        setEmail('');
-        setLocation('');
-        setContactNumber('');
-        setShowForm(false);
+        //send data to backend
+        resetForm();
     }
 
     return(
@@ -98,15 +104,15 @@ function Inventory() {
             {showForm && (
                  <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
 
-                    <div className="bg-white p-6 rounded-2xl w-90">
-                        <h2 className="text-xl font-bold mb-4">Add Supplier</h2>
+                    <div className="bg-white py-4 px-6 rounded-2xl w-90 overflow-y-auto max-h-screen">
+                        <h2 className="text-[19px] font-bold mb-3">Add Supplier</h2>
 
                         <div>
                             <p className="font-medium ">*Supplier Name:</p>
                             <input
                             type="text"
                             placeholder="Eg: Ram Bahadur"
-                            className="border-2 p-2 mt-2 mb-3 rounded-lg w-full"
+                            className="border-2 p-2 mt-1 mb-2 rounded-lg w-full"
                             value={supplierName}
                             onChange={(e) => setSupplierName(e.target.value)}
                             />
@@ -115,16 +121,25 @@ function Inventory() {
                             <input
                             type="text"
                             placeholder="Eg: Fruits/ Meat/ Poultry..."
-                            className="border-2 p-2 mt-2 mb-3 rounded-lg w-full"
+                            className="border-2 p-2 mt-1 mb-2 rounded-lg w-full"
                             value={category}
                             onChange={(e) => setCategory(e.target.value)}
+                            />
+
+                            <p className="font-medium ">*Company:</p>
+                            <input
+                            type="text"
+                            placeholder="Eg: Abc pvt. ltd."
+                            className="border-2 p-2 mt-1 mb-2 rounded-lg w-full"
+                            value={company}
+                            onChange={(e) => setCompany(e.target.value)}
                             />
 
                             <p className="font-medium ">*Contact Number:</p>
                             <input
                             type="tel"
                             placeholder="9XXXXXXXXX"
-                            className="border-2 p-2 mt-2 mb-3 rounded-lg w-full"
+                            className="border-2 p-2 mt-1 mb-2 rounded-lg w-full"
                             value={contactNumber}
                             onChange={(e) => setContactNumber(e.target.value)}
                             />
@@ -133,28 +148,28 @@ function Inventory() {
                             <input
                             type="email"
                             placeholder="example@email.com"
-                            className="border-2 p-2 mt-2 mb-3 rounded-lg w-full"
+                            className="border-2 p-2 mt-1 mb-2 rounded-lg w-full"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             />
 
-                            <p className="font-medium ">*Location:</p>
+                            <p className="font-medium ">*Address:</p>
                             <input
                             type="text"
                             placeholder="street, city"
-                            className="border-2 p-2 mt-2 mb-3 rounded-lg w-full"
-                            value={location}
-                            onChange={(e) => setLocation(e.target.value)}
+                            className="border-2 p-2 mt-1 mb-2 rounded-lg w-full"
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
                             />
                         </div>
 
-                        <p className="text-gray-500 font-medium text-sm mt-2 mb-3">Note: All the fields with * are required.</p>
+                        <p className="text-gray-500 font-medium text-sm mt-1 mb-2">Note: All the fields with * are required.</p>
 
-                        <p className="text-red-500 font-medium text-sm mt-2 mb-5">{msg}</p>
+                        <p className="text-red-500 font-medium text-sm mt-1 mb-4">{msg}</p>
 
                         <div className="flex justify-between items-center">
                             <button
-                                onClick={()=>setShowForm(false)}
+                                onClick={resetForm}
                                 className="bg-red-400 text-white font-medium rounded-xl 
                                 px-3 py-2 hover:bg-red-500">
                                 Cancel
