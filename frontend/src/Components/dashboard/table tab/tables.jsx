@@ -12,6 +12,7 @@ function Tables() {
     { id: 1, tableNo: 4, capacity: 2, status: "Available"},
     { id: 2, tableNo: 2, capacity: 4, status: "Available"},
     { id: 3, tableNo: 3, capacity: 4, status: "Available"},
+    { id: 4, tableNo: 1, capacity: 1, status: "Available"},
   ]);
   
   return (

@@ -35,11 +35,11 @@ export const revenueData = [
   { name: "Sat", date: "2026-04-25", Revenue: 4050 },
 ];
 
-export const orderData = [
+export const menuPopularity = [
   { name: 'Food', value: 425 },
   { name: 'Dessert', value: 185 },
   { name: 'Hot Beverage', value: 252 },
   { name: 'Drinks', value: 100 },
 ];
 
-export const COLORS = ['#F59E0B', '#FACC15', '#EAB676','#F6AD55'];
+export const colors = ['#F59E0B', '#FACC15', '#EAB676','#F6AD55'];

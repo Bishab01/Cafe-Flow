@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ChefHat, XCircle, X, Percent, QrCode, Banknote, CircleCheck } from "lucide-react";
-import { useCafe } from "../../context/cafeContext";
+import { useCafe } from "../../../context/cafeContext";
 
 function OrdersView() {
   const { orders, completeOrder, cancelOrder, updateOrderStatus} = useCafe();
