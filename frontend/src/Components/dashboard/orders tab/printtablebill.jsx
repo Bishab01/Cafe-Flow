@@ -1,4 +1,4 @@
-function PrintBill() {
+function PrintTableBill() {
   return (
     <div
       id="print-area"
@@ -89,4 +89,4 @@ function PrintBill() {
   );
 }
 
-export default PrintBill;
+export default PrintTableBill

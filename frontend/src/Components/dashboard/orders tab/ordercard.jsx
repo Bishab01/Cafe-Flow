@@ -1,6 +1,11 @@
-import { ChefHat, XCircle, X, Percent, QrCode, Banknote, CircleCheck } from "lucide-react";
+import { ChefHat, X, Percent, QrCode, Banknote, CircleCheck } from "lucide-react";
+import TableOrderBill from "./tableorderbill";
+import { useState } from "react";
 
 function OrderCard({ order, view, onCancel, changeStatus }) {
+
+  const [billModal, setBillModal] = useState(null);
+
   return (
     <div key={order.id} className="bg-white rounded-xl shadow-sm overflow-hidden">
       
@@ -58,7 +63,8 @@ function OrderCard({ order, view, onCancel, changeStatus }) {
               <ChefHat className="w-4 h-4" />
               Preparing
             </span>
-          ) : (
+          ) : 
+          (
             <span className="px-3 py-1 rounded-full text-sm bg-green-100 text-green-700 flex items-center gap-1">
               <CircleCheck className="w-4 h-4" />
               Prepared
@@ -81,7 +87,7 @@ function OrderCard({ order, view, onCancel, changeStatus }) {
               <>
                 {order.locationType === "table" && (
                   <button
-                    onClick={() => changeStatus( order.id, "completed" )}
+                    onClick={() => setBillModal(order)}
                     className="bg-purple-600 text-white px-4 py-1 rounded text-sm hover:bg-purple-700"
                   >
                     Pay
@@ -115,6 +121,15 @@ function OrderCard({ order, view, onCancel, changeStatus }) {
             <p className="p-2 text-gray-600 pt-1">{order.customization}</p>
           </>
         )}
+
+        {/* Table bill */}
+        {billModal && 
+          <TableOrderBill
+            selectedOrder = {billModal}
+            changeStatus = {changeStatus}
+            close= {()=>setBillModal(null)}
+          />
+        }
       </div>
     </div>
   )

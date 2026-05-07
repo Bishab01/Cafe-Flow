@@ -78,26 +78,27 @@ function OrdersView() {
         </p>
       </div>
 
-      {/* Stats */}
-       <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
-            <div className="bg-white p-4 rounded-lg font-medium shadow-sm">
-            <p className="text-gray-700 text-[17px] mb-1">Pending orders</p>
-            <p className="text-gray-900 text-[17px]">{kitchenOrders.length}</p>
-            </div>
-
-            <div className="bg-red-50 p-4 rounded-lg font-medium shadow-sm">
-            <p className="text-red-700 text-[17px] mb-1">Cancelled orders</p>
-            <p className="text-red-900 text-[17px]">{cancelledOrders}</p>
-            </div>
-            
-            <div className="bg-green-50 p-4 rounded-lg font-medium shadow-sm">
-            <p className="text-green-700 text-[17px] mb-1">Completed orders</p>
-            <p className="text-green-900 text-[17px]">{completedOrders.length}</p>
-            </div>
-        </div>
-
       {/* View Selection */}
       {role==="admin" && (
+      <div>
+        {/* Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+              <div className="bg-white p-4 rounded-lg font-medium shadow-sm">
+              <p className="text-gray-700 text-[17px] mb-1">Pending orders</p>
+              <p className="text-gray-900 text-[17px]">{kitchenOrders.length}</p>
+              </div>
+
+              <div className="bg-red-50 p-4 rounded-lg font-medium shadow-sm">
+              <p className="text-red-700 text-[17px] mb-1">Cancelled orders</p>
+              <p className="text-red-900 text-[17px]">{cancelledOrders}</p>
+              </div>
+              
+              <div className="bg-green-50 p-4 rounded-lg font-medium shadow-sm">
+              <p className="text-green-700 text-[17px] mb-1">Completed orders</p>
+              <p className="text-green-900 text-[17px]">{completedOrders.length}</p>
+              </div>
+        </div>
+
         <div className="flex items-center gap-5 w-50 md:w-100 mb-6">
           <button 
             onClick={()=>setView("kitchen")}
@@ -115,6 +116,7 @@ function OrdersView() {
             Waiter
           </button>
         </div>
+      </div>
       )}
 
       {/* kitchen View */}
