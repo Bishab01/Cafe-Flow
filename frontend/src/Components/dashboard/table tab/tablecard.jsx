@@ -1,7 +1,7 @@
 import { X, UtensilsCrossed} from "lucide-react";
 import { useState } from "react";
 
-function TableCard({ tables, selectedTable }) {
+function TableCard({ tables, deleteTable, selectedTable }) {
 
     const [deletePopup, setDeletePopup] = useState(null);
 
@@ -103,9 +103,10 @@ function TableCard({ tables, selectedTable }) {
                     </button>
 
                     <button
-                        /* onClick={() => {setShowPopUp(false);
-                        onDelete(table.id);
-                        }} */
+                        onClick={() => {
+                            deleteTable(deletePopup.id);
+                            setDeletePopup(null);
+                        }}
                         className="bg-red-500 text-white text-sm mt-1 font-medium px-4 py-2 rounded-lg hover:bg-red-600"
                     >
                         Confirm

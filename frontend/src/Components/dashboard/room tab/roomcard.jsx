@@ -2,11 +2,11 @@ import { X, DoorClosed, DoorClosedLocked, DoorOpen} from "lucide-react";
 import { useState } from "react";
 import Bill from "./roombillmodel";
 
-function RoomCard({ rooms, selectedRoom}) {
+function RoomCard({ rooms, deleteRoom, selectedRoom}) {
 
   const [deletePopUp, setDeletePopUp] = useState(null);
   const [confirmation,setConfirmation]=useState(null);
-  const [showBillModal,setShowBillModal]=useState(false);
+  const [billModal,setBillModal]=useState(null);
 
   return (
     <div className="flex flex-wrap gap-5">
@@ -124,9 +124,10 @@ function RoomCard({ rooms, selectedRoom}) {
               </button>
 
               <button
-                /* onClick={() => {setDeletePopUp(null);
-                  onDelete(deletePopUp.id);
-                }} */
+                onClick={() => {
+                  deleteRoom(deletePopUp.id);
+                  setDeletePopUp(null);
+                }}
                 className="bg-red-500 text-white text-sm mt-1 font-medium px-4 py-2 rounded-lg hover:bg-red-600"  
               >
                 Confirm
@@ -145,7 +146,7 @@ function RoomCard({ rooms, selectedRoom}) {
 
             <div className="flex items-center gap-6"> 
               <button
-                onClick={() => {setShowBillModal(true);
+                onClick={() => {setBillModal(confirmation);
                   setConfirmation(null);
                 }}
                 className="bg-red-500 text-white text-sm mt-1 font-medium px-4 py-2 rounded-lg hover:bg-red-600"
@@ -164,11 +165,11 @@ function RoomCard({ rooms, selectedRoom}) {
         </div>
       )}
 
-      {showBillModal &&
-      <Bill
-        close={()=>setShowBillModal(false)}
-      />
-      }
+      {billModal && (
+        <Bill
+          close={() => setBillModal(null)}
+        />
+      )}
     </div>
   );
 }

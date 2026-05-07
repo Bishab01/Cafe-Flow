@@ -2,7 +2,7 @@ import { useState } from "react";
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
-function RoomStatusForm({ room, close }) {
+function RoomStatusForm({ room, changeRoomStatus, close }) {
   const [status, setStatus] = useState(room.status);
   const [customerName, setCustomerName] = useState("");
   const [guestArrivalDate,setGuestArrivalDate]=useState(null);
@@ -45,6 +45,7 @@ function RoomStatusForm({ room, close }) {
         }
     }
     //send data to backend here
+    changeRoomStatus( room.id, status )
     resetForm();
   }
 
