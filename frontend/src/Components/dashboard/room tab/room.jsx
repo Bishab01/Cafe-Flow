@@ -91,10 +91,10 @@ function Rooms() {
         />
       )}
 
-      <div className="bg-white rounded-lg p-4 md:p-6 shadow-sm">
+      <div className="bg-white rounded-lg p-6 shadow-sm">
 
         {/* Title and index */}
-        <div className="flex items-center gap-15 justify-between mb-12">
+        <div className="flex items-center w-full justify-between mb-12">
           <h3 className="font-bold text-[16px] md:text-[19px]">
             All rooms
           </h3>

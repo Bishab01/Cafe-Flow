@@ -82,14 +82,14 @@ function Finance() {
         <div className='flex items-center gap-4 mb-6'>
             <button
               onClick={() => setView("tablePayment")}
-              className={`px-8 py-3 rounded-2xl shadow-sm border border-slate-200 text-lg font-medium
+              className={`px-8 py-3 rounded-2xl shadow-sm border border-slate-200 text-[15px] md:text-lg font-medium
               ${view === "tablePayment" ? "bg-blue-100 border-blue-200" : "bg-white hover:bg-gray-200"}`}
             >
               Table Finance
             </button>
             <button 
               onClick={()=>setView("roomPayment")}
-              className={`px-8 py-3 rounded-2xl shadow-sm border border-slate-200 text-lg font-medium
+              className={`px-8 py-3 rounded-2xl shadow-sm border border-slate-200 text-[15px] md:text-lg font-medium
               ${view === "roomPayment" ? "bg-blue-100 border-blue-200" : "bg-white hover:bg-gray-200"}`}
             >
                 Room Finance

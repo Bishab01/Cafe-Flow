@@ -35,14 +35,14 @@ function History(){
         <div className='flex items-center gap-4 mb-6'>
             <button
               onClick={() => setView("financialHistory")}
-              className={`px-8 py-3 rounded-2xl shadow-sm border border-slate-200 text-lg font-medium
+              className={`px-8 py-3 rounded-2xl shadow-sm border border-slate-200 text-[15px] md:text-lg font-medium
               ${view === "financialHistory" ? "bg-blue-100 border-blue-200" : "bg-white hover:bg-gray-200"}`}
             >
               Financial History
             </button>
             <button 
               onClick={()=>setView("menuHistory")}
-              className={`px-8 py-3 rounded-2xl shadow-sm border border-slate-200 text-lg font-medium
+              className={`px-8 py-3 rounded-2xl shadow-sm border border-slate-200 text-[15px] md:text-lg font-medium
               ${view === "menuHistory" ? "bg-blue-100 border-blue-200" : "bg-white hover:bg-gray-200"}`}
             >
                 Menu Popularity History

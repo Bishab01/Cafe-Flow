@@ -1,5 +1,5 @@
 import { X, DoorClosed, DoorClosedLocked, DoorOpen} from "lucide-react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Bill from "./roombillmodel";
 
 function RoomCard({ rooms, deleteRoom, selectedRoom}) {
@@ -7,6 +7,9 @@ function RoomCard({ rooms, deleteRoom, selectedRoom}) {
   const [deletePopUp, setDeletePopUp] = useState(null);
   const [confirmation,setConfirmation]=useState(null);
   const [billModal,setBillModal]=useState(null);
+  const [activeInfo, setActiveInfo] = useState(null);
+  const pressTimer = useRef(null);
+  const hideTimer = useRef(null);
 
   return (
     <div className="flex flex-wrap gap-5">
@@ -28,10 +31,15 @@ function RoomCard({ rooms, deleteRoom, selectedRoom}) {
               e.stopPropagation();
               setDeletePopUp(room);
             }}
-            className="absolute -top-2.5 -right-2.5 z-10 
+            className={`absolute -top-2.5 -right-2.5 z-10 
             w-6 h-6 rounded-full bg-gray-700 hover:bg-red-500 text-white
-            opacity-0 group-hover:opacity-100 transition-opacity shadow-md
-            grid place-items-center"
+            transition-opacity shadow-md grid place-items-center
+            ${
+              activeInfo === room.id
+                ? "opacity-100 pointer-events-auto"
+                : "opacity-0 md:group-hover:opacity-100 pointer-events-none"
+            }
+            `}
           >
             <X className="w-3 h-3" />
           </button>
@@ -39,7 +47,28 @@ function RoomCard({ rooms, deleteRoom, selectedRoom}) {
           {/* Card */}
           <div 
             onClick={() => selectedRoom(room)}
-            className={`w-32 h-44 aspect-square rounded-lg flex flex-col items-center 
+            onTouchStart={() => {
+              hideTimer.current && clearTimeout(hideTimer.current);
+
+              pressTimer.current = setTimeout(() => {
+                  setActiveInfo(room.id);
+              }, 300);
+            }}
+
+            onTouchEnd={() => {
+              clearTimeout(pressTimer.current);
+
+              // hide AFTER short delay
+              hideTimer.current = setTimeout(() => {
+                  setActiveInfo(null);
+              }, 2000);
+            }}
+
+            onTouchMove={() => {
+              clearTimeout(pressTimer.current);
+            }}
+
+            className={`w-32 h-44 aspect-square select-none rounded-lg flex flex-col items-center 
             justify-center p-4 hover:scale-103 transition-all shadow-sm
               ${room.status === "Available" 
               ? "bg-green-400" 
@@ -85,8 +114,14 @@ function RoomCard({ rooms, deleteRoom, selectedRoom}) {
 
           </div>
 
-          <div class="absolute top-25 -left-6 opacity-0 z-50 group-hover:opacity-90 transition-opacity 
-          duration-600 border border-gray-200 shadow-sm font-medium bg-gray-100 text-gray-800 text-sm p-2 rounded-lg">
+          <div className={`absolute top-25 -left-6 select-none z-50 transition-opacity 
+          duration-600 border border-gray-200 shadow-sm font-medium bg-gray-100 text-gray-800 text-sm p-2 rounded-lg
+          ${
+              activeInfo === room.id
+                ? "opacity-90 pointer-events-auto"
+                : "opacity-0 pointer-events-none md:group-hover:opacity-90"
+            }
+          `}>
               {room.status ==="Available" && (
                 <p>This room is available to be assigned to guests.</p>
               )}
@@ -167,6 +202,7 @@ function RoomCard({ rooms, deleteRoom, selectedRoom}) {
 
       {billModal && (
         <Bill
+          checkedOutRoom={billModal}
           close={() => setBillModal(null)}
         />
       )}

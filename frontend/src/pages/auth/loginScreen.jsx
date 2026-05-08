@@ -29,7 +29,7 @@ function LoginScreen() {
   };
 
   return (
-    <div className="bg-white h-screen flex items-center justify-center">
+    <div className="bg-white min-h-screen flex items-center justify-center">
       <img
         src="./src/assets/images/piqsels.jpg"
         alt="image"

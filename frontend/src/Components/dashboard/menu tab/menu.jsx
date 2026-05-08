@@ -12,14 +12,15 @@ function MenuView() {
   {id: 3, name: "Club Sandwich", category: "Food", price: 280, available: true,},
   {id: 4, name: "Pasta Carbonara", category: "Food", price: 320, available: true,},
   {id: 5, name: "Burger", category: "Food", price: 300, available: true },
-  {id: 6, name: "Sprite", category: "Drinks", price: 100, available: true },
-  {id: 7, name: "Cheesecake", category: "Dessert", price: 200, available: true,}]);
+  {id: 6, name: "Sprite", category: "Soft Drinks", price: 100, available: true },
+  {id: 7, name: "Cheesecake", category: "Dessert", price: 200, available: true,},
+  {id: 8, name: "Whisky", category: "Hard Drinks", price: 200, available: true,}]);
   
   
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [showAddModal, setShowAddModal] = useState(false);
 
-  const categories = ["All", "Food", "Dessert", "Hot Beverage", "Drinks"];
+  const categories = ["All", "Food", "Dessert", "Hot Beverage", "Soft Drinks", "Hard Drinks"];
 
   const [orderSlip, setOrderSlip] = useState([]);
 
@@ -66,7 +67,7 @@ function MenuView() {
         </div>
       </div>
 
-      <div className="mb-6 flex gap-3 w-full overflow-x-auto">
+      <div className="mb-6 flex gap-3 w-full overflow-x-auto scrollbar-hide p-1">
         {/* Menu item categories */}
         {categories.map((category) => (
           <button key={category}

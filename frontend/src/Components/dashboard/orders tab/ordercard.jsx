@@ -96,7 +96,7 @@ function OrderCard({ order, view, onCancel, changeStatus }) {
 
                 {order.locationType === "room" && (
                   <button
-                    onClick={() => changeStatus( order.id, "completed" )}
+                    onClick={() => changeStatus( order.id, "delivered" )}
                     className="bg-blue-500 text-white px-4 py-1 rounded text-sm hover:bg-blue-600"
                   >
                     Room Service

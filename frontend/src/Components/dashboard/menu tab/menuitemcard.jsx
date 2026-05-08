@@ -1,7 +1,7 @@
 import {Coffee, Plus, Trash2, CircleX, CircleCheck} from "lucide-react"
 import { MdRoomService } from "react-icons/md";
-import { FaUtensilSpoon } from "react-icons/fa";
-import { FaGlassWater } from "react-icons/fa6";
+import { FaUtensilSpoon, FaGlassCheers } from "react-icons/fa";
+import { FaGlassWater} from "react-icons/fa6";
 import { useState } from "react";
 
 function MenuItemCard({menuItemsData, toggleAvailability, deleteItem, addToOrder}) {
@@ -9,8 +9,8 @@ function MenuItemCard({menuItemsData, toggleAvailability, deleteItem, addToOrder
   const [deletePopup, setDeletePopup] = useState(null);
 
   return(
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 
-    max-h-150 overflow-y-auto p-3 mb-6 rounded-xl border border-gray-100 ">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 max-h-150 
+    overflow-y-auto p-3 mb-6 rounded-xl border scrollbar-hide border-gray-100 ">
       {menuItemsData.map((item) => (
         <div key={item.id} className="bg-white rounded-xl h-fit p-5 shadow-sm">
           
@@ -25,9 +25,12 @@ function MenuItemCard({menuItemsData, toggleAvailability, deleteItem, addToOrder
                 item.category === "Food" ? (
                   <MdRoomService className="w-5 h-5 text-red-500" />
                 ) : 
-                item.category === "Drinks"? (
+                item.category === "Soft Drinks"? (
                   <FaGlassWater className="w-5 h-5 text-red-500" />
                 ) : 
+                item.category === "Hard Drinks"? (
+                  <FaGlassCheers className="w-5 h-5 text-red-500" />
+                ):
                 (
                   <FaUtensilSpoon className="w-5 h-5 text-red-500" />
                 )}

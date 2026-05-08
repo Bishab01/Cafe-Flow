@@ -15,7 +15,7 @@ function WaiterOrders({ waiterOrders, onCancel, changeStatus }) {
     });
 
     return(
-    <div className="flex-1 min-h-screen bg-gray-50 p-8">
+    <div className="flex-1 min-h-screen bg-gray-50 p-4 lg:p-6">
 
         {waiterOrders.length === 0 ? 
         (

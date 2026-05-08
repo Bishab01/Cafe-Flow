@@ -18,7 +18,9 @@ import { Navigate } from "react-router-dom";
 function App() {
   return (
       <Routes>
-        <Route path="/" element={<LoginScreen />} />
+        <Route path="/" element={<Navigate to="/login" />} />
+
+        <Route path="/login" element={<LoginScreen />} />
         <Route path="/signup" element={<Signup />} />
 
         <Route path="/dashboard" element={<DashboardLayout />}>
