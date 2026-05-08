@@ -1,0 +1,65 @@
+import jwt from "jsonwebtoken";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
+export const authenticateToken = async (req, res, next) => {
+  try {
+    const token = req.cookies?.token;
+
+    if (!token) {
+      return res.status(401).json({
+        status: false,
+        message: "Please login to continue",
+      });
+    }
+
+    const decoded = jwt.verify(token, process.env.KEY);
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: decoded.id,
+      },
+      select: {
+        id: true,
+        email: true,
+        role: true,
+      },
+    });
+
+    if (!user) {
+      return res.status(401).json({
+        status: false,
+        message: "User not found",
+      });
+    }
+
+    req.user = user;
+    next();
+  } catch (error) {
+    return res.status(401).json({
+      status: false,
+      message: "Unauthorized",
+    });
+  }
+};
+
+export const checkRole = (...allowedRoles) => {
+  return (req, res, next) => {
+    if (!req.user) {
+      return res.status(401).json({
+        status: false,
+        message: "Unauthorized",
+      });
+    }
+
+    if (!allowedRoles.includes(req.user.role)) {
+      return res.status(403).json({
+        status: false,
+        message: "Access denied",
+      });
+    }
+
+    next();
+  };
+};

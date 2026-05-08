@@ -1,1 +1,48 @@
 @import "tailwindcss";
+
+/* PRINT STYLES */
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+
+  #print-area,
+  #print-area * {
+    visibility: visible !important;
+  }
+
+  #print-area {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+
+    width: 80mm;
+
+    padding-left: 10px;
+    padding-right: 6px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+    box-sizing: border-box;
+
+    font-family: monospace;
+    font-size: 12px;
+
+    background: white;
+  }
+
+  @page {
+    size: 80mm auto;
+    margin: 0;
+  }
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
