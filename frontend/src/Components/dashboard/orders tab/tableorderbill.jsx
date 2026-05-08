@@ -190,7 +190,11 @@ function TableOrderBill({selectedOrder, changeStatus, close}) {
           </div>
         )}
 
-        <PrintTableBill/>
+        <PrintTableBill
+          selectedOrder={selectedOrder}
+          discount={discount}
+          paymentMethod={paymentMethod}
+        />
       </div>
     )
 }

@@ -73,7 +73,7 @@ function KitchenOrderTicket({orderSlip, setOrderSlip}) {
     };
 
     return(
-    <div className='grid grid-cols-1 md:grid-cols-3'>
+    <div className='grid grid-cols-1 md:grid-cols-2'>
         <div className='bg-white rounded-2xl shadow-sm p-6'>
             <div className='flex flex-col'>
             

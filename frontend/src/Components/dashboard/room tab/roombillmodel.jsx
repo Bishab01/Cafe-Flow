@@ -3,8 +3,9 @@ import { useState } from "react";
 import PrintBill from "./printablebill";
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import { useOrders } from "../../../hooks/useorder";
 
-function Bill({close})
+function Bill({checkedOutRoom, close})
 {
     const [discount, setDiscount]=useState(0);
     const [paymentMethod, setPaymentMethod]=useState("");
@@ -15,7 +16,30 @@ function Bill({close})
     const [editDate,setEditDate]=useState(false);
     const [editNights,setEditNights]=useState(false);
     const [editRate,setEditRate]=useState(false);
-    
+    const { ordersData } = useOrders();
+
+    const roomOrders = ordersData.filter(
+      o => o.locationType === "room" && o.roomNumber === checkedOutRoom.roomNo
+    );
+
+    const getOrderTotal = (order) => {
+      return order.items.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+      );
+    };
+
+    const ordersTotal = roomOrders.reduce(
+      (sum, order) => sum + getOrderTotal(order),
+      0
+    );
+
+    const roomCost = nights * rate;
+    const subtotal = ordersTotal + roomCost;
+
+    const discountAmount = (subtotal * discount) / 100;
+    const finalAmount = subtotal - discountAmount;
+
     const handlePrint = () => {
       window.print();
     };
@@ -48,10 +72,10 @@ function Bill({close})
               {/* Room Cost Summary */}
               <div className="bg-gray-50 rounded-lg p-4">
                 <p className="text-gray-500 text-sm border-b border-gray-200 pb-2 mb-1">
-                  Guest - Name
+                  Guest - guestName here
                 </p>
                 <p className="text-gray-900 mb-3">
-                  Room 1
+                  Room {checkedOutRoom.roomNo}
                 </p>
 
                 {/* date and time */}
@@ -98,7 +122,7 @@ function Bill({close})
                       </div>
                     </div>
 
-
+                    {/* Number of Nights */}
                     <div
                       className="flex items-center justify-between text-[15.5px]"
                     >
@@ -128,6 +152,7 @@ function Bill({close})
                         )}
                     </div>
 
+                    {/* Per night rate */}
                     <div
                       className="flex items-center justify-between text-[15.5px]"
                     >
@@ -159,33 +184,25 @@ function Bill({close})
                     </div>
                 </div>
 
-                {/* Room service details if used */}
+                {/* orders details gotten any */}
                 <div className="border-t border-gray-200 pt-3 mb-3 space-y-2">
                   <span className="text-gray-700">
-                      Guest Orders (x orders)
-                    </span>
-
+                      Guest Orders ({roomOrders.length} order(s))
+                  </span>
+                  
+                  {roomOrders.map((order) => (
                   <div
+                    key={order.id}
                     className="flex items-center justify-between m-1 text-[15.5px]"
                   >
                     <span className="text-gray-700">
-                      - 2062/05/04
+                      - Order #{order.id}
                     </span>
                     <span className="text-gray-900">
-                      Rs 900
+                      Rs {getOrderTotal(order)}
                     </span>
                   </div>
-
-                  <div
-                    className="flex items-center justify-between m-1 text-[15.5px]"
-                  >
-                    <span className="text-gray-700">
-                      - 2062/05/04
-                    </span>
-                    <span className="text-gray-900">
-                      Rs 100
-                    </span>
-                  </div>
+                  ))}
                 </div>
 
                 {/* total calculation */}
@@ -193,7 +210,7 @@ function Bill({close})
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600 text-sm">Subtotal</span>
                     <span className="text-gray-900">
-                      Rs 2000
+                      Rs {subtotal}
                     </span>
                   </div>
 
@@ -219,8 +236,7 @@ function Bill({close})
                     <div className="flex items-center justify-between text-sm text-slate-600">
                       <span>Discount ({discount}%)</span>
                       <span>
-                        Rs{" "}
-                        {Math.round((2000 * discount) / 100)}
+                        - Rs {discountAmount}
                       </span>
                     </div>
                   )}
@@ -228,7 +244,7 @@ function Bill({close})
                   <div className="flex items-center justify-between border-t border-gray-200 pt-2">
                     <span className="text-gray-900">Final Amount</span>
                     <span className="text-red-500">
-                      Rs 2000
+                      Rs {finalAmount}
                     </span>
                   </div>
                 </div>
@@ -285,7 +301,7 @@ function Bill({close})
                     <p className="text-purple-700 text-sm">
                       Amount to collect: {" "}
                       <span className="text-purple-900">
-                        Rs 2000
+                        Rs {finalAmount}
                       </span>
                     </p>
                   </div>
@@ -323,7 +339,18 @@ function Bill({close})
             </div>
           )}
 
-          <PrintBill/>
+          <PrintBill
+            room={checkedOutRoom}
+            roomOrders={roomOrders}
+            getOrderTotal={getOrderTotal}
+            nights={nights}
+            rate={rate}
+            subtotal={subtotal}
+            discountAmount={discountAmount}
+            finalAmount={finalAmount}
+            paymentMethod={paymentMethod}
+            checkOutDate={checkOutDate}
+          />
         </div>
 )}
 

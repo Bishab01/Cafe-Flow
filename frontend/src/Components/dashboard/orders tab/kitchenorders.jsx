@@ -5,7 +5,7 @@ import OrderCard from "./ordercard";
 function KitchenOrders({ kitchenOrders, onCancel, changeStatus }) {
     
     return(
-        <div className="flex-1 min-h-screen bg-gray-50 p-8">
+        <div className="flex-1 min-h-screen bg-gray-50 p-4 lg:p-6">
 
             {kitchenOrders.length === 0 ? 
             (

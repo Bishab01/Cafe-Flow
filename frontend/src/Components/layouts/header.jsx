@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { LogOut, Sun, CloudSun, SunMoon, Moon } from "lucide-react";
+import { LogOut, Sun, CloudSun, SunMoon, Moon, Menu } from "lucide-react";
 import { useEffect, useState } from "react";
 
-function Header() {
+function Header({onMenuClick}) {
   const navigate = useNavigate();
   const [hour, setHour] = useState(new Date().getHours());
 
@@ -40,15 +40,21 @@ function Header() {
   }
 
   return (
-    <div className="flex-1">
-      <div className="bg-white border-b border-gray-200 h-full px-8 py-6 flex 
+    <div className="flex">
+      <div className="bg-white border-b border-gray-200 w-full p-6 flex 
       items-center justify-between transition-normal">
-        <div className=" w-50 md:w-80">
-          <div className="flex gap-2.5 mb-1 items-center">
-            <h2 className="font-bold text-xl md:text-2xl">{greeting}</h2>
-            <Icon className="w-5.5 h-5.5 md:w-7 md:h-7 text-orange-600"/>
+        <div className="flex gap-2 items-center">
+          {/* Mobile hamburger */}
+          <button onClick={onMenuClick} className="md:hidden mr-2">
+            <Menu className="w-5 h-5" />
+          </button>
+          <div>
+            <div className="flex gap-2.5 mb-1 items-center">
+              <h2 className="font-bold text-xl md:text-2xl">{greeting}</h2>
+              <Icon className="w-5.5 h-5.5 md:w-7 md:h-7 text-orange-600"/>
+            </div>
+            <p className="text-gray-500 font-medium text-xs md:text-sm">{message}</p>
           </div>
-          <p className="text-gray-500 font-medium text-xs md:text-sm">{message}</p>
         </div>
         <button
           onClick={() => navigate("/")}

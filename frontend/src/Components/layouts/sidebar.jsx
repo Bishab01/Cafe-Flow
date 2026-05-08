@@ -8,12 +8,13 @@ import {
   UserCog,
   BookMarked,
   History,
+  X,
 } from "lucide-react";
 import { MdTableRestaurant } from "react-icons/md";
 import logo from "../../assets/images/kitchen_pulse.png";
 import { NavLink } from "react-router-dom";
 
-function AdminDashboard() {
+function AdminDashboard({open, setOpen}) {
   const isAdmin = "admin";
 
   const adminMenu = [
@@ -41,24 +42,38 @@ function AdminDashboard() {
   const menu = isAdmin ? adminMenu : userMenu;
 
   return (
-    <div className="w-50 md:w-64 bg-white h-screen border-r border-gray-200 flex flex-col sticky top-0 overflow-y-auto">
+    <div
+      className={`fixed md:static z-40 top-0 left-0 h-screen w-64 bg-white border-r border-gray-200 flex flex-col
+      transform transition-transform duration-300 overflow-y-auto scrollbar-hide
+      ${open ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
+    >
+
       {/* Header */}
-      <div className="flex items-center gap-3 p-4 border-b border-gray-200">
-        <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden">
-          <img
-            src={logo}
-            alt="cafe logo"
-            className="object-cover w-full h-full"
-          />
+      <div className="sticky top-0 z-50 flex border-b bg-white border-gray-200 p-4 justify-between">
+        <div className="flex items-center gap-3 ">
+          <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden">
+            <img
+              src={logo}
+              alt="cafe logo"
+              className="object-cover w-full h-full"
+            />
+          </div>
+
+          <div>
+            <h2 className="text-gray-900 text-[17px] md:text-xl font-semibold">
+              Manager
+            </h2>
+            <p className="text-gray-600 text-xs md:text-sm p-0.5 font-medium">
+              Welcome back
+            </p>
+          </div>
         </div>
 
-        <div>
-          <h2 className="text-gray-900 text-[17px] md:text-xl font-semibold">
-            Manager
-          </h2>
-          <p className="text-gray-600 text-xs md:text-sm p-0.5 font-medium">
-            Welcome back
-          </p>
+        {/* Close button (mobile only) */}
+        <div className="md:hidden flex justify-end p-3">
+          <button onClick={() => setOpen(false)}>
+            <X className="w-5 h-5"/>
+          </button>
         </div>
       </div>
 
@@ -70,6 +85,7 @@ function AdminDashboard() {
           return (
             <NavLink
               key={item.id}
+              onClick={() => setOpen(false)}
               to={`/dashboard/${item.id.toLowerCase().trim()}`}
               end={item.id === ""} // for dashboard root
               className={({ isActive }) =>
@@ -90,4 +106,4 @@ function AdminDashboard() {
   );
 }
 
-export default AdminDashboard;
+export default AdminDashboard

@@ -1,9 +1,12 @@
 import { X, UtensilsCrossed} from "lucide-react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 function TableCard({ tables, deleteTable, selectedTable }) {
 
     const [deletePopup, setDeletePopup] = useState(null);
+    const [activeInfo, setActiveInfo] = useState(null);
+    const pressTimer = useRef(null);
+    const hideTimer = useRef(null);
 
   return (
     <div className="flex flex-wrap gap-5">
@@ -25,10 +28,16 @@ function TableCard({ tables, deleteTable, selectedTable }) {
                         e.stopPropagation();
                         setDeletePopup(table);
                     }}
-                    className="absolute -top-2.5 -right-2.5 z-10 
+                    className={`absolute -top-2.5 -right-2.5 z-10 
                     w-6 h-6 rounded-full bg-gray-700 hover:bg-red-500 text-white
-                    opacity-0 group-hover:opacity-100 transition-opacity shadow-md
-                    grid place-items-center"
+                    transition-opacity shadow-md
+                    grid place-items-center 
+                    ${
+                    activeInfo === table.id
+                        ? "opacity-100 pointer-events-auto"
+                        : "opacity-0 md:group-hover:opacity-100 pointer-events-none"
+                    }
+                    `}
                 >
                     <X className="w-3 h-3" />
                 </button>
@@ -36,8 +45,29 @@ function TableCard({ tables, deleteTable, selectedTable }) {
                 {/* table Card */}
                 <div 
                     onClick={() => selectedTable(table)}
-                    className={`w-30 h-40 aspect-square rounded-lg flex flex-col items-center 
-                    justify-center p-4 hover:scale-103 transition-all shadow-sm
+                    onTouchStart={() => {
+                        hideTimer.current && clearTimeout(hideTimer.current);
+
+                        pressTimer.current = setTimeout(() => {
+                            setActiveInfo(table.id);
+                        }, 300);
+                    }}
+
+                    onTouchEnd={() => {
+                        clearTimeout(pressTimer.current);
+
+                        // hide AFTER short delay
+                        hideTimer.current = setTimeout(() => {
+                            setActiveInfo(null);
+                        }, 2000);
+                    }}
+
+                    onTouchMove={() => {
+                        clearTimeout(pressTimer.current);
+                    }}
+
+                    className={`w-30 h-40 select-none aspect-square rounded-lg 
+                    flex flex-col items-center justify-center p-4 hover:scale-103 transition-all shadow-sm
                     ${table.status === "Available" 
                     ? "bg-green-400" 
                     : table.status === "Reserved" 
@@ -60,8 +90,15 @@ function TableCard({ tables, deleteTable, selectedTable }) {
 
                 </div>
 
-                <div className="absolute top-25 -left-6 opacity-0 z-50 group-hover:opacity-90 transition-opacity 
-                duration-600 border border-gray-200 shadow-sm font-medium bg-gray-100 text-gray-800 text-sm p-2 rounded-lg">
+                <div className={`absolute top-25 -left-6 select-none z-50
+                transition-opacity duration-600 border border-gray-200 shadow-sm font-medium bg-gray-100 
+                text-gray-800 text-sm p-2 rounded-lg
+                ${
+                activeInfo === table.id
+                    ? "opacity-90 pointer-events-auto"
+                    : "opacity-0 md:group-hover:opacity-90 pointer-events-none"
+                }
+                `}>
                     {table.status ==="Available" && (
                     <p>This table is available to be assigned to customers.</p>
                     )}
