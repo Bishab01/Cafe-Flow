@@ -34,7 +34,7 @@ model User {
 
   must_change_password Boolean @default(true)
   temp_password Boolean @default(false)
-  refresh_token String?
+  refresh_token String? @db.Text
 
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
