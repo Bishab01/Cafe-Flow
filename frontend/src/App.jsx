@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import LoginScreen from "./Components/shared/loginScreen.jsx";
+import LoginScreen from "./pages/auth/loginScreen.jsx";
 import Signup from "./Components/shared/signup.jsx";
 import Staff from "./Components/dashboard/staff tab/staffmain.jsx";
 import AdminDashboard from "./Components/layouts/sidebar.jsx";

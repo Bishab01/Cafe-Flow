@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { publicAPI } from "../../auth/config/api";
 
 function LoginScreen() {
+  console.log("LoginScreen MOUNTED");
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -16,6 +17,7 @@ function LoginScreen() {
 
   // admin validation
   const handleLogin = async (e) => {
+    console.log("Handle Login called");
     e.preventDefault();
 
     try {
@@ -24,7 +26,16 @@ function LoginScreen() {
         password,
       });
 
+      // if (res.data.message === "Password change required") {
+      //   toast.info("Password change required. Redirecting...");
+      //   setTimeout(() => {
+      //     navigate(`/change-password/${res.data.userId}`);
+      //   }, 2000);
+      //   return;
+      // }
+
       const user = res.data.data;
+      console.log("Login response:", user);
 
       Cookies.set("user", JSON.stringify(user));
       Cookies.set("token", res.data.accessToken);
@@ -33,7 +44,10 @@ function LoginScreen() {
 
       setMsg("");
 
-      if (user.role.role_name === "admin") {
+      console.log(res.data);
+      console.log(user);
+
+      if (user?.role?.role_name === "admin") {
         navigate("/dashboard");
       } else {
         navigate(-1);
@@ -56,11 +70,11 @@ function LoginScreen() {
       />
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
 
-      {/* Login Card */}
-      <div className="relative z-10 w-[90%] max-w-md rounded-3xl border border-white/20 bg-white/10 backdrop-blur-2xl shadow-2xl p-8">
-        {/* Logo */}
+      {/* Card */}
+      <div className="relative z-10 w-[92%] max-w-md rounded-3xl border border-white/20 bg-white/10 backdrop-blur-2xl shadow-2xl p-10">
+        {/* Logo + Header */}
         <div className="flex flex-col items-center mb-8">
           <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white/30 shadow-lg">
             <img src={logo} alt="logo" className="w-full h-full object-cover" />
@@ -68,28 +82,30 @@ function LoginScreen() {
 
           <h1 className="text-3xl font-bold text-white mt-4">Kitchen Pulse</h1>
 
-          <p className="text-white/80 mt-1 text-sm">
+          <p className="text-white/70 mt-1 text-sm">
             Welcome back! Please login
           </p>
         </div>
 
         {/* Form */}
-        <div className="space-y-5">
+        <form className="space-y-6">
           {/* Email */}
           <div>
-            <label className="block text-white mb-2 font-medium">Email</label>
+            <label className="block text-white/90 mb-2 text-sm font-medium">
+              Email
+            </label>
 
             <input
               type="email"
               placeholder="Enter your email"
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full h-12 rounded-xl bg-white/20 border border-white/20 px-4 text-white placeholder:text-white/60 outline-none focus:ring-2 focus:ring-[#D4A373]"
+              className="w-full h-12 rounded-xl bg-white/15 border border-white/20 px-4 text-white placeholder:text-white/50 outline-none focus:ring-2 focus:ring-[#D4A373] transition"
             />
           </div>
 
           {/* Password */}
           <div>
-            <label className="block text-white mb-2 font-medium">
+            <label className="block text-white/90 mb-2 text-sm font-medium">
               Password
             </label>
 
@@ -98,7 +114,7 @@ function LoginScreen() {
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full h-12 rounded-xl bg-white/20 border border-white/20 px-4 pr-12 text-white placeholder:text-white/60 outline-none focus:ring-2 focus:ring-[#D4A373]"
+                className="w-full h-12 rounded-xl bg-white/15 border border-white/20 px-4 pr-12 text-white placeholder:text-white/50 outline-none focus:ring-2 focus:ring-[#D4A373] transition"
               />
 
               <button
@@ -111,21 +127,22 @@ function LoginScreen() {
             </div>
           </div>
 
-          {/* Error */}
+          {/* Error Message */}
           {msg && (
-            <p className="text-red-300 text-sm font-medium text-center">
-              {msg}
-            </p>
+            <div className="text-center">
+              <p className="text-red-300 text-sm font-medium">{msg}</p>
+            </div>
           )}
 
-          {/* Login Button */}
+          {/* Button */}
           <button
+            type="button"
             onClick={handleLogin}
-            className="w-full h-12 rounded-xl bg-[#D4A373] hover:bg-[#c8925e] transition-all duration-300 text-white font-semibold text-lg shadow-lg"
+            className="w-full h-12 rounded-xl bg-[#D4A373] hover:bg-[#c8925e] active:scale-[0.99] transition-all duration-300 text-white font-semibold shadow-lg"
           >
             Login
           </button>
-        </div>
+        </form>
       </div>
     </div>
   );

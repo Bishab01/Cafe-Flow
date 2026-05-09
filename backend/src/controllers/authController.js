@@ -95,12 +95,16 @@ export const login = async (req, res, next) => {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    if (user.must_change_password) {
-      return res.status(200).json({
-        message: "Password change required",
-        userId: user.user_id,
-      });
-    }
+    // if (user.must_change_password) {
+    //   return res.status(200).json({
+    //     message: "Password change required",
+    //     data: {
+    //       userId: user.user_id,
+    //       email: user.email,
+    //       role_name: user.role.role_name,
+    //     },
+    //   });
+    // }
 
     const payload = {
       user_id: user.user_id,
