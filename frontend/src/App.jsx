@@ -10,33 +10,32 @@ import Tables from "./Components/dashboard/table tab/tables.jsx";
 import Rooms from "./Components/dashboard/room tab/room.jsx";
 import Inventory from "./Components/dashboard/inventory tab/inventory.jsx";
 import Finance from "./Components/dashboard/finance tab/finance.jsx";
-import MenuView from "./Components/dashboard/menu tab/menu.jsx"
+import MenuView from "./Components/dashboard/menu tab/menu.jsx";
 import Reservations from "./Components/dashboard/reservation tab/reservationsmain.jsx";
 import History from "./Components/dashboard/history tab/mainhistory.jsx";
 import { Navigate } from "react-router-dom";
 
 function App() {
   return (
-      <Routes>
-        <Route path="/" element={<Navigate to="/login" />} />
+    <Routes>
+      <Route path="/" element={<Navigate to="/login" />} />
 
-        <Route path="/login" element={<LoginScreen />} />
-        <Route path="/signup" element={<Signup />} />
+      <Route path="/login" element={<LoginScreen />} />
 
-        <Route path="/dashboard" element={<DashboardLayout />}>
-          <Route index element={<Navigate to="overview" replace />} />
-          <Route path="overview" element={<Overview />} />
-          <Route path="orders" element={<OrdersView />} />
-          <Route path="menu" element={<MenuView />} />
-          <Route path="tables" element={<Tables />} />
-          <Route path="rooms" element={<Rooms />} />
-          <Route path="staff" element={<Staff />} />
-          <Route path="inventory" element={<Inventory />} />
-          <Route path="finance" element={<Finance />} />
-          <Route path="reservations" element={<Reservations />}/>
-          <Route path="history" element={<History />}/>
-        </Route>
-      </Routes>
+      <Route path="/dashboard" element={<DashboardLayout />}>
+        <Route index element={<Navigate to="overview" replace />} />
+        <Route path="overview" element={<Overview />} />
+        <Route path="orders" element={<OrdersView />} />
+        <Route path="menu" element={<MenuView />} />
+        <Route path="tables" element={<Tables />} />
+        <Route path="rooms" element={<Rooms />} />
+        <Route path="staff" element={<Staff />} />
+        <Route path="inventory" element={<Inventory />} />
+        <Route path="finance" element={<Finance />} />
+        <Route path="reservations" element={<Reservations />} />
+        <Route path="history" element={<History />} />
+      </Route>
+    </Routes>
   );
 }
 
