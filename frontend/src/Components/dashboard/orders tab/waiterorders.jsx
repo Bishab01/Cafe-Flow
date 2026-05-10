@@ -15,16 +15,18 @@ function WaiterOrders({ waiterOrders, setOrdersData, onCancel, changeStatus }) {
     return priority(o1.status) - priority(o2.status);
     });
 
-   const openTableBill = (tableNumber) => {
+   const openTableBill = (tableNumber, customerName) => {
     const tableOrders = waiterOrders.filter(
         o =>
         o.locationType === "table" &&
         o.tableNumber === tableNumber &&
+        o.customerName === customerName &&
         o.status === "prepared"
     );
 
     setBillModal({
         tableNumber,
+        customerName,
         orders: tableOrders,
     });
     };

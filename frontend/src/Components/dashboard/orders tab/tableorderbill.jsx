@@ -7,6 +7,7 @@ function TableOrderBill({selectedOrder, close, completeTableOrders}) {
     const [showQR, setShowQR] = useState(false);
     const [paymentMethod, setPaymentMethod] = useState(null);
     const [discount, setDiscount] = useState(0);
+    const [confirmPayment, setConfirmPayment] = useState(false);
 
     //MERGE ITEMS
     const merged = {};
@@ -34,13 +35,12 @@ function TableOrderBill({selectedOrder, close, completeTableOrders}) {
       (subtotal - discountAmount);
 
     const handlePayment = () => {
-      completeTableOrders(selectedOrder.tableNumber);
       window.print();
-      close();
+      setConfirmPayment(true);
     };
     
     return(
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
         <div className="bg-white rounded-xl w-full max-w-md shadow-2xl max-h-[90vh] overflow-y-auto">
           {/* Header */}
           <div className="flex items-center justify-between p-5 border-b border-gray-100">
@@ -62,9 +62,9 @@ function TableOrderBill({selectedOrder, close, completeTableOrders}) {
               </p>
 
               <div className="space-y-2 mb-3">
-                <span className="text-gray-700">
+                <p className="text-gray-700 ">
                   Ordered Items:
-                </span>
+                </p>
                 {items.map((item, i) => (
                 <div key={i} className="flex items-center justify-between text-[15.5px]">
                   <span className="text-gray-700">
@@ -210,6 +210,36 @@ function TableOrderBill({selectedOrder, close, completeTableOrders}) {
               </div>
           </div>
         )}
+
+        {confirmPayment && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <p className="mb-4 font-medium">
+                Was the payment successful?
+              </p>
+
+              <div className="flex items-center justify-center gap-4">
+                <button
+                  onClick={() => setConfirmPayment(false)}
+                  className="px-4 py-1.5 text-[15px] font-medium border rounded-lg bg-red-500 text-white"
+                >
+                  No
+                </button>
+
+                <button
+                  onClick={() => {
+                    completeTableOrders(selectedOrder.orders);
+                    setConfirmPayment(false);
+                    close();
+                  }}
+                  className="px-4 py-1.5 text-[15px] font-medium bg-green-500 text-white rounded-lg"
+                >
+                  Yes
+                </button>
+              </div>
+            </div>
+          </div>
+          )}
 
         <PrintTableBill
           items={items}
