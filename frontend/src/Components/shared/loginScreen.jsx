@@ -36,10 +36,6 @@ function LoginScreen() {
 
       setUser(user);
 
-      console.log(res.data);
-      console.log(user);
-      console.log(user.role);
-
       toast.success("Logged in Successfully");
 
       setMsg("");
