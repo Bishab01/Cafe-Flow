@@ -12,10 +12,12 @@ import MetricCard from "../../layouts/metric.jsx";
 import { MdTableRestaurant } from "react-icons/md";
 import { useOrders } from "../../../hooks/useorder.jsx";
 import { useFinance } from "../../../hooks/useFinance.jsx";
+import { useRooms } from "../../../hooks/useroom.jsx";
 
 function Overview() {
   const { kitchenOrders, completedOrders } = useOrders();
   const { todayRevenue, revenueChange, last6Days } = useFinance();
+  const { checkInCount } = useRooms();
 
   const formattedChange = revenueChange.toFixed(1);
 
@@ -49,8 +51,8 @@ function Overview() {
           color="orange"
         />
         <MetricCard
-          title="Total Check-outs"
-          value="0"
+          title="Check-ins Today"
+          value={checkInCount}
           msg=""
           change=""
           icon={KeySquare}
